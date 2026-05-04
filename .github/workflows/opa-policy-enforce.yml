@@ -1,0 +1,97 @@
+# GitHub Actions workflow for OPA policy enforcement with email notification
+name: OPA Policy Enforcement
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  policy-enforce:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install OPA
+        run: |
+          curl -L -o opa https://openpolicyagent.org/downloads/latest/opa_linux_amd64_static
+          chmod +x opa
+          sudo mv opa /usr/local/bin/
+
+      - name: Terraform Plan
+        run: |
+          terraform init
+          terraform plan -out=tfplan
+          terraform show -json tfplan > tfplan.json
+
+
+      - name: OPA Security Check
+        id: opa_check
+        run: |
+          opa eval --input tfplan.json --data policies/ --format pretty "data.terraform.analysis.deny" > violations.txt
+          if [ -s violations.txt ]; then
+            echo "Policy violations found:"
+            cat violations.txt
+            echo "violation=true" >> $GITHUB_OUTPUT
+          else
+            echo "violation=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Check notification secrets
+        id: notify_check
+        env:
+          SMTP_SERVER: ${{ secrets.SMTP_SERVER }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+          SMTP_USERNAME: ${{ secrets.SMTP_USERNAME }}
+          SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+          NOTIFY_EMAIL: ${{ secrets.NOTIFY_EMAIL }}
+          SMTP_FROM: ${{ secrets.SMTP_FROM }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          if [ -n "$SMTP_SERVER" ] && [ -n "$SMTP_PORT" ] && [ -n "$SMTP_USERNAME" ] && [ -n "$SMTP_PASSWORD" ] && [ -n "$NOTIFY_EMAIL" ] && [ -n "$SMTP_FROM" ]; then
+            echo "email_ready=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "email_ready=false" >> "$GITHUB_OUTPUT"
+          fi
+          if [ -n "$TELEGRAM_BOT_TOKEN" ] && [ -n "$TELEGRAM_CHAT_ID" ]; then
+            echo "telegram_ready=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "telegram_ready=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Send Email Notification
+        if: steps.opa_check.outputs.violation == 'true' && steps.notify_check.outputs.email_ready == 'true'
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: ${{ secrets.SMTP_SERVER }}
+          server_port: ${{ secrets.SMTP_PORT }}
+          username: ${{ secrets.SMTP_USERNAME }}
+          password: ${{ secrets.SMTP_PASSWORD }}
+          subject: "OPA Policy Violations Detected"
+          to: ${{ secrets.NOTIFY_EMAIL }}
+          from: ${{ secrets.SMTP_FROM }}
+          body: |
+            OPA Policy violations detected in CI/CD. See attached violations.txt.
+          attachments: violations.txt
+
+      - name: Send Telegram Notification
+        if: steps.opa_check.outputs.violation == 'true' && steps.notify_check.outputs.telegram_ready == 'true'
+        run: |
+          curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" \
+            -d chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" \
+            -d text="OPA Policy violations detected in CI/CD. See GitHub Actions run for details."
+
+      - name: Upload OPA Violation Report (if failed)
+        if: steps.opa_check.outputs.violation == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: opa-violations
+          path: violations.txt

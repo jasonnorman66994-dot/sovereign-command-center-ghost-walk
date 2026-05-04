@@ -1,0 +1,11 @@
+{
+  "alertType": "⚠️ [DRILL] ⚠️ [DRILL] ⚠️ [DRILL] ⚠️ [DRILL] ⚠️ [DRILL] ⚠️ [DRILL] ⚠️ [DRILL] ⚠️ [DRILL] PHISHING SIMULATION: Credential Entry",
+  "severity": "HIGH",
+  "username": "m.ross@alphamechanical.com",
+  "remoteAddress": "95.217.20.144",
+  "landingUrl": "https://m365-verify-access.com/login",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
+  "timestamp": "2026-04-26T14:00:00Z",
+  "isSimulation": true,
+  "description": "User clicked simulation link and provided credentials on a non-corporate domain."
+}

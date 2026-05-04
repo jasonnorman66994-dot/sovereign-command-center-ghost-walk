@@ -1,0 +1,11 @@
+{
+  "alert_id": "alert_sjones_geoaccess_20260426",
+  "alertType": "Unauthorized Geo-Location Access",
+  "severity": "CRITICAL",
+  "username": "sjones@alphamechanical.com",
+  "remoteAddress": "185.156.177.214",
+  "userAgent": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_6_2 like Mac OS X)",
+  "landingUrl": "https://login.kinonlisplazmaoplayor.xyz/target",
+  "timestamp": "2026-04-26T11:30:00Z",
+  "description": "MFA Bypass attempt detected via session hijacking."
+}

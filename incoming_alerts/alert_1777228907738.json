@@ -1,0 +1,13 @@
+{
+  "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.1 Safari/605.1.15",
+  "alertType": "HiddenInboxRule",
+  "username": "carol@example.com",
+  "extraContext": "Rule: AutoForwardAll, ForwardTo: attacker@evil.com",
+  "password": "NotApplicable",
+  "details": "A hidden inbox rule was created to auto-forward all mail.",
+  "remoteAddress": "198.51.100.77",
+  "severity": "High",
+  "landingUrl": "https://outlook.office.com/mail/inbox",
+  "customType": "HiddenInboxRule",
+  "campaign": "InboxRuleTest2026"
+}

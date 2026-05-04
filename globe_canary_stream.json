@@ -1,0 +1,16 @@
+[
+  {
+    "user": "richard@omnicorp-cyber.com",
+    "ip": "34.201.10.22",
+    "device": "MOBILE-01",
+    "color": "#1E90FF",
+    "event": "CANARY_SESSION"
+  },
+  {
+    "user": "jason.n@omnicorp-cyber.com",
+    "ip": "34.201.10.23",
+    "device": "WS-IT-043",
+    "color": "#1E90FF",
+    "event": "CANARY_SESSION"
+  }
+]

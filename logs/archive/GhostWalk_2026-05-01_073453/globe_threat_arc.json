@@ -1,0 +1,17 @@
+[
+  {
+    "from": {
+      "city": "Los Angeles",
+      "lat": 34.0522,
+      "lon": -118.2437
+    },
+    "to": {
+      "city": "London",
+      "lat": 51.5074,
+      "lon": -0.1278
+    },
+    "event": "Impossible Travel: TOKEN_REVOCATION",
+    "ip": "51.140.12.99",
+    "user": "jason.n@omnicorp-cyber.com"
+  }
+]

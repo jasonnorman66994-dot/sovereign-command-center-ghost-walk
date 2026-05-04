@@ -1,0 +1,38 @@
+{
+  "alert_id": "ALRT-2026-04-25-RW001",
+  "timestamp": "2026-04-25T20:32:00Z",
+  "severity": "critical",
+  "category": "Ransomware Precursor Activity",
+  "user": {
+    "email": "david.nguyen@examplecorp.com",
+    "display_name": "David Nguyen",
+    "user_id": "USR-77219",
+    "role": "Operations Analyst",
+    "privilege_level": "medium"
+  },
+  "event": {
+    "initial_vector": "Malicious Document Download",
+    "macro_execution": true,
+    "payload_type": "Loader",
+    "command_and_control": {
+      "ip": "185.77.19.44",
+      "domain": "sync-update-secure.net",
+      "connection_attempts": 4
+    },
+    "lateral_movement_prep": {
+      "credential_dumping": true,
+      "shadow_copy_enumeration": true,
+      "file_share_scanning": true
+    }
+  },
+  "enrichment": {
+    "virustotal": {
+      "ip_reputation": "malicious",
+      "detections": 14
+    }
+  },
+  "recommendation": {
+    "action": "Isolate device, block C2 domain, initiate ransomware containment playbook",
+    "urgency": "critical"
+  }
+}

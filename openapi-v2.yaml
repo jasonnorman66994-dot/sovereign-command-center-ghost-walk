@@ -1,0 +1,25 @@
+openapi: 3.0.3
+info:
+  title: SOC Alert API
+  version: 2.0.0
+  description: |
+    API for ingesting and documenting SOC alert payloads (v2).
+servers:
+  - url: http://localhost:3000
+paths:
+  /alerts:
+    post:
+      summary: Ingest a SOC alert
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SOCAlertPayload'
+      responses:
+        '200':
+          description: Alert received
+components:
+  schemas:
+    SOCAlertPayload:
+      $ref: './alert-v2-schema.json'

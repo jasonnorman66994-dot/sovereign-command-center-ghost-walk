@@ -1,0 +1,17 @@
+name: Deploy Identity Threat Pipeline
+on:
+  push:
+    branches: [ main ]
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Hardening & Linting
+        run: |
+          pwsh -Command "Test-Path ./auto_format_and_send_alerts.ps1"
+      - name: Deploy to Command Center
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SOC_SERVER_KEY }}
+        run: |
+          scp -o StrictHostKeyChecking=no ./auto_format_and_send_alerts.ps1 user@soc-node:/opt/security/scripts/

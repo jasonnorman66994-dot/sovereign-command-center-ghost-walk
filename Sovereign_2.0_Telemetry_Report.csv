@@ -1,0 +1,6 @@
+TargetID,Email,DeviceID,SIEM_Status,Timestamp
+TID-0038,user5021@company.com,QA-WS-554,Success,2026-04-28T13:11:28.443Z
+DEBUG-001,testuser@company.com,WS-DEBUG,Success,2026-04-28T13:18:14.469Z
+TID-0041,user3977@company.com,FIN-WS-166,Success,2026-04-28T13:21:53.294Z
+TID-0049,user2621@company.com,ADM-WS-411,Success,2026-04-28T13:52:18.940Z
+TID-0010,user5526@company.com,MKT-WS-431,Success,2026-04-28T13:58:44.393Z

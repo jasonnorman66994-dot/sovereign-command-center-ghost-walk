@@ -1,0 +1,324 @@
+2026-04-26 03:16:51	[INFO]	[Startup] Script started and watcher registered.
+2026-04-26 03:23:36	[INFO]	[Startup] Processing existing alert: alert_vip_impossible_travel.json
+2026-04-26 03:23:38	[INFO]	[Startup] Formatted and sent: alert_vip_impossible_travel.json
+2026-04-26 03:23:38	[INFO]	[Startup] Archived: alert_vip_impossible_travel.json
+2026-04-26 03:23:38	[ERROR]	[Startup] Unhandled error for alert_vip_impossible_travel.json: The term 'Send-Webhook' is not recognized as a name of a cmdlet, function, script file, or executable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+2026-04-26 03:23:39	[INFO]	[Startup] Processing existing alert: alert_device_risk.json
+2026-04-26 03:23:41	[INFO]	[Startup] Formatted and sent: alert_device_risk.json
+2026-04-26 03:23:41	[INFO]	[Startup] Archived: alert_device_risk.json
+2026-04-26 03:23:41	[ERROR]	[Startup] Unhandled error for alert_device_risk.json: The term 'Send-Webhook' is not recognized as a name of a cmdlet, function, script file, or executable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+2026-04-26 03:23:41	[INFO]	[Startup] Processing existing alert: alert_legacy_protocol.json
+2026-04-26 03:23:42	[INFO]	[Startup] Formatted and sent: alert_legacy_protocol.json
+2026-04-26 03:23:42	[INFO]	[Startup] Archived: alert_legacy_protocol.json
+2026-04-26 03:23:43	[ERROR]	[Startup] Unhandled error for alert_legacy_protocol.json: The term 'Send-Webhook' is not recognized as a name of a cmdlet, function, script file, or executable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+2026-04-26 03:23:43	[INFO]	[Startup] Processing existing alert: alert_aitm_phishing.json
+2026-04-26 03:23:44	[INFO]	[Startup] Formatted and sent: alert_aitm_phishing.json
+2026-04-26 03:23:44	[INFO]	[Startup] Archived: alert_aitm_phishing.json
+2026-04-26 03:23:44	[ERROR]	[Startup] Unhandled error for alert_aitm_phishing.json: The term 'Send-Webhook' is not recognized as a name of a cmdlet, function, script file, or executable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+2026-04-26 03:23:45	[INFO]	[Startup] Processing existing alert: alert_user2_infostealer.json
+2026-04-26 03:23:46	[INFO]	[Startup] Formatted and sent: alert_user2_infostealer.json
+2026-04-26 03:23:46	[INFO]	[Startup] Archived: alert_user2_infostealer.json
+2026-04-26 03:23:46	[ERROR]	[Startup] Unhandled error for alert_user2_infostealer.json: The term 'Send-Webhook' is not recognized as a name of a cmdlet, function, script file, or executable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+2026-04-26 03:23:47	[INFO]	[Startup] Processing existing alert: alert_user1_spam_phishing.json
+2026-04-26 03:23:48	[INFO]	[Startup] Formatted and sent: alert_user1_spam_phishing.json
+2026-04-26 03:23:48	[INFO]	[Startup] Archived: alert_user1_spam_phishing.json
+2026-04-26 03:23:48	[ERROR]	[Startup] Unhandled error for alert_user1_spam_phishing.json: The term 'Send-Webhook' is not recognized as a name of a cmdlet, function, script file, or executable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+2026-04-26 03:23:48	[INFO]	[Startup] Processing existing alert: alert_user3_mfa_fatigue.json
+2026-04-26 03:23:50	[INFO]	[Startup] Formatted and sent: alert_user3_mfa_fatigue.json
+2026-04-26 03:23:50	[INFO]	[Startup] Archived: alert_user3_mfa_fatigue.json
+2026-04-26 03:23:50	[ERROR]	[Startup] Unhandled error for alert_user3_mfa_fatigue.json: The term 'Send-Webhook' is not recognized as a name of a cmdlet, function, script file, or executable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+2026-04-26 03:23:50	[INFO]	[Startup] Processing existing alert: alert_charlie_legacy_protocol.json
+2026-04-26 03:23:52	[INFO]	[Startup] Formatted and sent: alert_charlie_legacy_protocol.json
+2026-04-26 03:23:52	[INFO]	[Startup] Archived: alert_charlie_legacy_protocol.json
+2026-04-26 03:23:52	[ERROR]	[Startup] Unhandled error for alert_charlie_legacy_protocol.json: The term 'Send-Webhook' is not recognized as a name of a cmdlet, function, script file, or executable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+2026-04-26 03:23:52	[INFO]	[Startup] Processing existing alert: alert_bob_infostealer.json
+2026-04-26 03:23:54	[INFO]	[Startup] Formatted and sent: alert_bob_infostealer.json
+2026-04-26 03:23:54	[INFO]	[Startup] Archived: alert_bob_infostealer.json
+2026-04-26 03:23:54	[ERROR]	[Startup] Unhandled error for alert_bob_infostealer.json: The term 'Send-Webhook' is not recognized as a name of a cmdlet, function, script file, or executable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+2026-04-26 03:23:54	[INFO]	[Startup] Processing existing alert: alert_alice_aitm_phishing.json
+2026-04-26 03:23:56	[INFO]	[Startup] Formatted and sent: alert_alice_aitm_phishing.json
+2026-04-26 03:23:56	[INFO]	[Startup] Archived: alert_alice_aitm_phishing.json
+2026-04-26 03:23:56	[ERROR]	[Startup] Unhandled error for alert_alice_aitm_phishing.json: The term 'Send-Webhook' is not recognized as a name of a cmdlet, function, script file, or executable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+2026-04-26 03:23:56	[INFO]	[Startup] Processing existing alert: alert_alice_oauth_abuse.json
+2026-04-26 03:23:58	[INFO]	[Startup] Formatted and sent: alert_alice_oauth_abuse.json
+2026-04-26 03:23:58	[INFO]	[Startup] Archived: alert_alice_oauth_abuse.json
+2026-04-26 03:23:58	[ERROR]	[Startup] Unhandled error for alert_alice_oauth_abuse.json: The term 'Send-Webhook' is not recognized as a name of a cmdlet, function, script file, or executable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+2026-04-26 03:23:58	[INFO]	[Startup] Processing existing alert: alert_charlie_social_engineering.json
+2026-04-26 03:23:59	[INFO]	[Startup] Formatted and sent: alert_charlie_social_engineering.json
+2026-04-26 03:23:59	[INFO]	[Startup] Archived: alert_charlie_social_engineering.json
+2026-04-26 03:24:00	[ERROR]	[Startup] Unhandled error for alert_charlie_social_engineering.json: The term 'Send-Webhook' is not recognized as a name of a cmdlet, function, script file, or executable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+2026-04-26 03:24:00	[INFO]	[Startup] Processing existing alert: alert_bob_hidden_inbox_rules.json
+2026-04-26 03:24:01	[INFO]	[Startup] Formatted and sent: alert_bob_hidden_inbox_rules.json
+2026-04-26 03:24:01	[INFO]	[Startup] Archived: alert_bob_hidden_inbox_rules.json
+2026-04-26 03:24:01	[ERROR]	[Startup] Unhandled error for alert_bob_hidden_inbox_rules.json: The term 'Send-Webhook' is not recognized as a name of a cmdlet, function, script file, or executable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+2026-04-26 03:24:01	[INFO]	[Startup] Processing existing alert: alert_alice_mfa_fatigue.json
+2026-04-26 03:24:02	[INFO]	[Startup] Formatted and sent: alert_alice_mfa_fatigue.json
+2026-04-26 03:24:02	[INFO]	[Startup] Archived: alert_alice_mfa_fatigue.json
+2026-04-26 03:24:03	[ERROR]	[Startup] Unhandled error for alert_alice_mfa_fatigue.json: The term 'Send-Webhook' is not recognized as a name of a cmdlet, function, script file, or executable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+2026-04-26 03:24:03	[INFO]	[Startup] Processing existing alert: alert_bob_token_replay.json
+2026-04-26 03:24:04	[INFO]	[Startup] Formatted and sent: alert_bob_token_replay.json
+2026-04-26 03:24:05	[INFO]	[Startup] Archived: alert_bob_token_replay.json
+2026-04-26 03:24:05	[ERROR]	[Startup] Unhandled error for alert_bob_token_replay.json: The term 'Send-Webhook' is not recognized as a name of a cmdlet, function, script file, or executable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+2026-04-26 03:24:05	[INFO]	[Startup] Processing existing alert: alert_bob_proxy_blocked.json
+2026-04-26 03:24:07	[INFO]	[Startup] Formatted and sent: alert_bob_proxy_blocked.json
+2026-04-26 03:24:07	[INFO]	[Startup] Archived: alert_bob_proxy_blocked.json
+2026-04-26 03:24:07	[ERROR]	[Startup] Unhandled error for alert_bob_proxy_blocked.json: The term 'Send-Webhook' is not recognized as a name of a cmdlet, function, script file, or executable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+2026-04-26 03:24:07	[INFO]	[Startup] Processing existing alert: alert_hr_payroll_password_spray.json
+2026-04-26 03:24:09	[INFO]	[Startup] Formatted and sent: alert_hr_payroll_password_spray.json
+2026-04-26 03:24:09	[INFO]	[Startup] Archived: alert_hr_payroll_password_spray.json
+2026-04-26 03:24:09	[ERROR]	[Startup] Unhandled error for alert_hr_payroll_password_spray.json: The term 'Send-Webhook' is not recognized as a name of a cmdlet, function, script file, or executable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+2026-04-26 03:24:09	[INFO]	[Startup] Processing existing alert: alert_ceo_password_spray.json
+2026-04-26 03:24:11	[INFO]	[Startup] Formatted and sent: alert_ceo_password_spray.json
+2026-04-26 03:24:11	[INFO]	[Startup] Archived: alert_ceo_password_spray.json
+2026-04-26 03:24:11	[ERROR]	[Startup] Unhandled error for alert_ceo_password_spray.json: The term 'Send-Webhook' is not recognized as a name of a cmdlet, function, script file, or executable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+2026-04-26 03:24:12	[INFO]	[Startup] Processing existing alert: alert_cfo_mfa_fatigue.json
+2026-04-26 03:24:13	[INFO]	[Startup] Formatted and sent: alert_cfo_mfa_fatigue.json
+2026-04-26 03:24:13	[INFO]	[Startup] Archived: alert_cfo_mfa_fatigue.json
+2026-04-26 03:24:14	[ERROR]	[Startup] Unhandled error for alert_cfo_mfa_fatigue.json: The term 'Send-Webhook' is not recognized as a name of a cmdlet, function, script file, or executable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+2026-04-26 03:24:14	[INFO]	[Startup] Processing existing alert: alert_it_support_mfa_fatigue.json
+2026-04-26 03:24:15	[INFO]	[Startup] Formatted and sent: alert_it_support_mfa_fatigue.json
+2026-04-26 03:24:15	[INFO]	[Startup] Archived: alert_it_support_mfa_fatigue.json
+2026-04-26 03:24:16	[ERROR]	[Startup] Unhandled error for alert_it_support_mfa_fatigue.json: The term 'Send-Webhook' is not recognized as a name of a cmdlet, function, script file, or executable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+2026-04-26 03:24:16	[INFO]	[Startup] Processing existing alert: alert_global_admin_01_password_spray.json
+2026-04-26 03:24:17	[INFO]	[Startup] Formatted and sent: alert_global_admin_01_password_spray.json
+2026-04-26 03:24:17	[INFO]	[Startup] Archived: alert_global_admin_01_password_spray.json
+2026-04-26 03:24:17	[ERROR]	[Startup] Unhandled error for alert_global_admin_01_password_spray.json: The term 'Send-Webhook' is not recognized as a name of a cmdlet, function, script file, or executable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+2026-04-26 03:24:18	[INFO]	[Startup] Processing existing alert: alert_test_telegram.json
+2026-04-26 03:24:19	[INFO]	[Startup] Formatted and sent: alert_test_telegram.json
+2026-04-26 03:24:19	[INFO]	[Startup] Archived: alert_test_telegram.json
+2026-04-26 03:24:19	[ERROR]	[Startup] Unhandled error for alert_test_telegram.json: The term 'Send-Webhook' is not recognized as a name of a cmdlet, function, script file, or executable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+2026-04-26 03:24:19	[INFO]	[Startup] Processing existing alert: alert_cfo_mfa_bypass_20260426.json
+2026-04-26 03:24:21	[INFO]	[Startup] Formatted and sent: alert_cfo_mfa_bypass_20260426.json
+2026-04-26 03:24:21	[INFO]	[Startup] Archived: alert_cfo_mfa_bypass_20260426.json
+2026-04-26 03:24:21	[ERROR]	[Startup] Unhandled error for alert_cfo_mfa_bypass_20260426.json: The term 'Send-Webhook' is not recognized as a name of a cmdlet, function, script file, or executable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+2026-04-26 03:24:21	[INFO]	[Startup] Script started and watcher registered.
+2 0 2 6 - 0 4 - 2 6   1 0 : 2 0 : 3 7   [ I N F O ]   D e t e c t e d   n e w   a l e r t   f i l e :   C : \ U s e r s \ H o m e P C \ O n e D r i v e \ m i n e 2 0 2 6 \ a l e r t _ 1 . j s o n  
+ 2 0 2 6 - 0 4 - 2 6   1 0 : 2 6 : 3 8   [ I N F O ]   D e t e c t e d   n e w   a l e r t   f i l e :   C : \ U s e r s \ H o m e P C \ O n e D r i v e \ m i n e 2 0 2 6 \ a l e r t _ 2 . j s o n  
+ 2 0 2 6 - 0 4 - 2 6   1 0 : 2 6 : 3 8   [ I N F O ]   D e t e c t e d   n e w   a l e r t   f i l e :   C : \ U s e r s \ H o m e P C \ O n e D r i v e \ m i n e 2 0 2 6 \ a l e r t _ 2 . j s o n  
+ 2 0 2 6 - 0 4 - 2 6   1 0 : 2 6 : 3 8   [ I N F O ]   H a n d l e - A l e r t F i l e   c a l l e d   f o r :   a l e r t _ 2 . j s o n  
+ 2 0 2 6 - 0 4 - 2 6   1 0 : 2 7 : 2 4   [ I N F O ]   D e t e c t e d   n e w   a l e r t   f i l e :   C : \ U s e r s \ H o m e P C \ O n e D r i v e \ m i n e 2 0 2 6 \ a l e r t _ 3 . j s o n  
+ 2 0 2 6 - 0 4 - 2 6   1 0 : 2 7 : 2 4   [ I N F O ]   H a n d l e - A l e r t F i l e   c a l l e d   f o r :   a l e r t _ 3 . j s o n  
+ 2 0 2 6 - 0 4 - 2 6   1 0 : 2 7 : 2 8   [ I N F O ]   D e t e c t e d   n e w   a l e r t   f i l e :   C : \ U s e r s \ H o m e P C \ O n e D r i v e \ m i n e 2 0 2 6 \ a l e r t _ 3 . j s o n  
+ 2 0 2 6 - 0 4 - 2 6   1 0 : 2 8 : 2 0   [ I N F O ]   D e t e c t e d   n e w   a l e r t   f i l e :   C : \ U s e r s \ H o m e P C \ O n e D r i v e \ m i n e 2 0 2 6 \ a l e r t _ 4 . j s o n  
+ 2 0 2 6 - 0 4 - 2 6   1 0 : 2 8 : 2 1   [ E R R O R ]   F o r m a t t i n g   f a i l e d :     -   U s a g e :   n o d e   t e l e g r a m - f o r m a t t e r - 9 w o l f . j s   < p a y l o a d . j s o n >  
+ 2 0 2 6 - 0 4 - 2 6   1 0 : 2 8 : 2 3   [ I N F O ]   D e t e c t e d   n e w   a l e r t   f i l e :   C : \ U s e r s \ H o m e P C \ O n e D r i v e \ m i n e 2 0 2 6 \ a l e r t _ 4 . j s o n  
+ 2 0 2 6 - 0 4 - 2 6   1 0 : 2 9 : 0 5   [ I N F O ]   D e t e c t e d   n e w   a l e r t   f i l e :   C : \ U s e r s \ H o m e P C \ O n e D r i v e \ m i n e 2 0 2 6 \ a l e r t _ 5 . j s o n  
+ 2 0 2 6 - 0 4 - 2 6   1 0 : 2 9 : 0 6   [ E R R O R ]   [ E R R O R ]   A r c h i v i n g   f a i l e d   f o r :     -   C a n n o t   b i n d   a r g u m e n t   t o   p a r a m e t e r   ' P a t h '   b e c a u s e   i t   i s   n u l l .  
+ 2 0 2 6 - 0 4 - 2 6   1 0 : 2 9 : 0 8   [ I N F O ]   D e t e c t e d   n e w   a l e r t   f i l e :   C : \ U s e r s \ H o m e P C \ O n e D r i v e \ m i n e 2 0 2 6 \ a l e r t _ 5 . j s o n  
+ 2 0 2 6 - 0 4 - 2 6   1 0 : 3 2 : 5 4   [ I N F O ]   D e t e c t e d   n e w   a l e r t   f i l e :   C : \ U s e r s \ H o m e P C \ O n e D r i v e \ m i n e 2 0 2 6 \ a l e r t _ 7 . j s o n  
+ 2 0 2 6 - 0 4 - 2 6   1 0 : 3 2 : 5 4   [ E R R O R ]   [ E R R O R ]   A r c h i v i n g   f a i l e d   f o r :     -   C a n n o t   b i n d   a r g u m e n t   t o   p a r a m e t e r   ' P a t h '   b e c a u s e   i t   i s   n u l l .  
+ 2 0 2 6 - 0 4 - 2 6   1 0 : 3 2 : 5 9   [ I N F O ]   D e t e c t e d   n e w   a l e r t   f i l e :   C : \ U s e r s \ H o m e P C \ O n e D r i v e \ m i n e 2 0 2 6 \ a l e r t _ 7 . j s o n  
+ 2 0 2 6 - 0 4 - 2 6   1 0 : 3 3 : 5 4   [ I N F O ]   D e t e c t e d   n e w   a l e r t   f i l e :   C : \ U s e r s \ H o m e P C \ O n e D r i v e \ m i n e 2 0 2 6 \ a l e r t _ 8 . j s o n  
+ 2 0 2 6 - 0 4 - 2 6   1 0 : 3 3 : 5 4   [ E R R O R ]   [ E R R O R ]   A r c h i v i n g   f a i l e d   f o r :     -   C a n n o t   b i n d   a r g u m e n t   t o   p a r a m e t e r   ' P a t h '   b e c a u s e   i t   i s   n u l l .  
+ 2 0 2 6 - 0 4 - 2 6   1 0 : 3 3 : 5 4   [ I N F O ]   D e t e c t e d   n e w   a l e r t   f i l e :   C : \ U s e r s \ H o m e P C \ O n e D r i v e \ m i n e 2 0 2 6 \ a l e r t _ 8 . j s o n  
+ 2 0 2 6 - 0 4 - 2 6   1 0 : 3 4 : 5 7   [ I N F O ]   D e t e c t e d   n e w   a l e r t   f i l e :   C : \ U s e r s \ H o m e P C \ O n e D r i v e \ m i n e 2 0 2 6 \ a l e r t _ 9 . j s o n  
+ 2 0 2 6 - 0 4 - 2 6   1 0 : 3 4 : 5 7   [ E R R O R ]   [ E R R O R ]   A r c h i v i n g   f a i l e d   f o r :     -   C a n n o t   b i n d   a r g u m e n t   t o   p a r a m e t e r   ' P a t h '   b e c a u s e   i t   i s   n u l l .  
+ 2 0 2 6 - 0 4 - 2 6   1 0 : 3 4 : 5 9   [ I N F O ]   D e t e c t e d   n e w   a l e r t   f i l e :   C : \ U s e r s \ H o m e P C \ O n e D r i v e \ m i n e 2 0 2 6 \ a l e r t _ 9 . j s o n  
+ 2 0 2 6 - 0 4 - 2 6   1 0 : 3 5 : 3 8   [ I N F O ]   D e t e c t e d   n e w   a l e r t   f i l e :   C : \ U s e r s \ H o m e P C \ O n e D r i v e \ m i n e 2 0 2 6 \ a l e r t _ 1 0 . j s o n  
+ 2 0 2 6 - 0 4 - 2 6   1 0 : 3 5 : 3 8   [ E R R O R ]   [ E R R O R ]   A r c h i v i n g   f a i l e d   f o r :     -   C a n n o t   b i n d   a r g u m e n t   t o   p a r a m e t e r   ' P a t h '   b e c a u s e   i t   i s   n u l l .  
+ 2 0 2 6 - 0 4 - 2 6   1 0 : 3 5 : 3 9   [ I N F O ]   D e t e c t e d   n e w   a l e r t   f i l e :   C : \ U s e r s \ H o m e P C \ O n e D r i v e \ m i n e 2 0 2 6 \ a l e r t _ 1 0 . j s o n  
+ 2 0 2 6 - 0 4 - 2 6   1 0 : 3 7 : 4 9   [ I N F O ]   D e t e c t e d   n e w   a l e r t   f i l e :   C : \ U s e r s \ H o m e P C \ O n e D r i v e \ m i n e 2 0 2 6 \ a l e r t _ 1 1 . j s o n  
+ 2 0 2 6 - 0 4 - 2 6   1 0 : 3 7 : 4 9   [ E R R O R ]   [ E R R O R ]   A r c h i v i n g   f a i l e d   f o r :     -   C a n n o t   b i n d   a r g u m e n t   t o   p a r a m e t e r   ' P a t h '   b e c a u s e   i t   i s   n u l l .  
+ 2 0 2 6 - 0 4 - 2 6   1 0 : 3 7 : 5 4   [ I N F O ]   D e t e c t e d   n e w   a l e r t   f i l e :   C : \ U s e r s \ H o m e P C \ O n e D r i v e \ m i n e 2 0 2 6 \ a l e r t _ 1 1 . j s o n  
+ 2 0 2 6 - 0 4 - 2 6   1 0 : 4 0 : 1 4   [ I N F O ]   D e t e c t e d   n e w   a l e r t   f i l e :   C : \ U s e r s \ H o m e P C \ O n e D r i v e \ m i n e 2 0 2 6 \ a l e r t _ 8 . j s o n  
+ 2 0 2 6 - 0 4 - 2 6   1 0 : 4 0 : 1 4   [ I N F O ]   H a n d l e - A l e r t F i l e   c a l l e d   f o r :   a l e r t _ 8 . j s o n  
+ 2026-04-26 10:43:57 [INFO] [Startup] Processing existing alert: alert_sjones_geoaccess_20260426.json
+2026-04-26 10:43:58 [INFO] Handle-AlertFile called for: alertPath=C:\Users\HomePC\OneDrive\mine2026\alert_sjones_geoaccess_20260426.json, alertName=alert_sjones_geoaccess_20260426.json
+2026-04-26 10:43:58 [INFO] Formatted alert: alert_sjones_geoaccess_20260426.json
+2026-04-26 10:43:59 [INFO] Sent alert to Telegram: alert_sjones_geoaccess_20260426.json
+2026-04-26 10:43:59 [INFO] [DEBUG] About to archive. alertPath=C:\Users\HomePC\OneDrive\mine2026\alert_sjones_geoaccess_20260426.json, alertName=alert_sjones_geoaccess_20260426.json
+2026-04-26 10:43:59 [INFO] Archived alert: alert_sjones_geoaccess_20260426.json
+2026-04-26 10:44:00 [ERROR] [ERROR] Webhook failed for: alert_sjones_geoaccess_20260426.json - The requested name is valid, but no data of the requested type was found. (your-siem-or-soar-endpoint.example.com:443)
+2026-04-26 10:44:00 [INFO] [Startup] Processing existing alert: alert_sjones_login_20260426.json
+2026-04-26 10:44:00 [INFO] Handle-AlertFile called for: alertPath=C:\Users\HomePC\OneDrive\mine2026\alert_sjones_login_20260426.json, alertName=alert_sjones_login_20260426.json
+2026-04-26 10:44:00 [INFO] Formatted alert: alert_sjones_login_20260426.json
+2026-04-26 10:44:01 [INFO] Sent alert to Telegram: alert_sjones_login_20260426.json
+2026-04-26 10:44:01 [INFO] [DEBUG] About to archive. alertPath=C:\Users\HomePC\OneDrive\mine2026\alert_sjones_login_20260426.json, alertName=alert_sjones_login_20260426.json
+2026-04-26 10:44:02 [INFO] Archived alert: alert_sjones_login_20260426.json
+2026-04-26 10:44:02 [ERROR] [ERROR] Webhook failed for: alert_sjones_login_20260426.json - The requested name is valid, but no data of the requested type was found. (your-siem-or-soar-endpoint.example.com:443)
+2026-04-26 10:44:02 [INFO] [Startup] Processing existing alert: alert_sjones_impossible_travel_20260426.json
+2026-04-26 10:44:02 [INFO] Handle-AlertFile called for: alertPath=C:\Users\HomePC\OneDrive\mine2026\alert_sjones_impossible_travel_20260426.json, alertName=alert_sjones_impossible_travel_20260426.json
+2026-04-26 10:44:02 [INFO] Formatted alert: alert_sjones_impossible_travel_20260426.json
+2026-04-26 10:44:03 [INFO] Sent alert to Telegram: alert_sjones_impossible_travel_20260426.json
+2026-04-26 10:44:03 [INFO] [DEBUG] About to archive. alertPath=C:\Users\HomePC\OneDrive\mine2026\alert_sjones_impossible_travel_20260426.json, alertName=alert_sjones_impossible_travel_20260426.json
+2026-04-26 10:44:03 [INFO] Archived alert: alert_sjones_impossible_travel_20260426.json
+2026-04-26 10:44:03 [ERROR] [ERROR] Webhook failed for: alert_sjones_impossible_travel_20260426.json - The requested name is valid, but no data of the requested type was found. (your-siem-or-soar-endpoint.example.com:443)
+2026-04-26 10:44:03 [INFO] [Startup] Processing existing alert: alert_mross_phishingsim_20260426.json
+2026-04-26 10:44:03 [INFO] Handle-AlertFile called for: alertPath=C:\Users\HomePC\OneDrive\mine2026\alert_mross_phishingsim_20260426.json, alertName=alert_mross_phishingsim_20260426.json
+2026-04-26 10:44:04 [INFO] Simulation detected and enriched for: alert_mross_phishingsim_20260426.json
+2026-04-26 10:44:04 [INFO] Formatted alert: alert_mross_phishingsim_20260426.json
+2026-04-26 10:44:05 [INFO] Sent alert to Telegram: alert_mross_phishingsim_20260426.json
+2026-04-26 10:44:05 [INFO] [DEBUG] About to archive. alertPath=C:\Users\HomePC\OneDrive\mine2026\alert_mross_phishingsim_20260426.json, alertName=alert_mross_phishingsim_20260426.json
+2026-04-26 10:44:05 [INFO] Archived alert: alert_mross_phishingsim_20260426.json
+2026-04-26 10:44:06 [ERROR] [ERROR] Webhook failed for: alert_mross_phishingsim_20260426.json - The requested name is valid, but no data of the requested type was found. (your-siem-or-soar-endpoint.example.com:443)
+2026-04-26 10:44:06 [INFO] [Startup] Processing existing alert: alert_1.json
+2026-04-26 10:44:06 [INFO] Handle-AlertFile called for: alertPath=C:\Users\HomePC\OneDrive\mine2026\alert_1.json, alertName=alert_1.json
+2026-04-26 10:44:06 [ERROR] Formatting failed: alert_1.json - Error: Unexpected token '∩╗┐', "∩╗┐{"alert":"... is not valid JSON
+2026-04-26 10:44:06 [INFO] [Startup] Processing existing alert: alert_2.json
+2026-04-26 10:44:06 [INFO] Handle-AlertFile called for: alertPath=C:\Users\HomePC\OneDrive\mine2026\alert_2.json, alertName=alert_2.json
+2026-04-26 10:44:06 [INFO] Formatted alert: alert_2.json
+2026-04-26 10:44:07 [INFO] Sent alert to Telegram: alert_2.json
+2026-04-26 10:44:07 [INFO] [DEBUG] About to archive. alertPath=C:\Users\HomePC\OneDrive\mine2026\alert_2.json, alertName=alert_2.json
+2026-04-26 10:44:07 [INFO] Archived alert: alert_2.json
+2026-04-26 10:44:07 [ERROR] [ERROR] Webhook failed for: alert_2.json - The requested name is valid, but no data of the requested type was found. (your-siem-or-soar-endpoint.example.com:443)
+2026-04-26 10:44:07 [INFO] [Startup] Processing existing alert: alert_3.json
+2026-04-26 10:44:07 [INFO] Handle-AlertFile called for: alertPath=C:\Users\HomePC\OneDrive\mine2026\alert_3.json, alertName=alert_3.json
+2026-04-26 10:44:08 [INFO] Formatted alert: alert_3.json
+2026-04-26 10:44:09 [INFO] Sent alert to Telegram: alert_3.json
+2026-04-26 10:44:09 [INFO] [DEBUG] About to archive. alertPath=C:\Users\HomePC\OneDrive\mine2026\alert_3.json, alertName=alert_3.json
+2026-04-26 10:44:09 [INFO] Archived alert: alert_3.json
+2026-04-26 10:44:09 [ERROR] [ERROR] Webhook failed for: alert_3.json - The requested name is valid, but no data of the requested type was found. (your-siem-or-soar-endpoint.example.com:443)
+2026-04-26 10:44:09 [INFO] [Startup] Processing existing alert: alert_4.json
+2026-04-26 10:44:09 [INFO] Handle-AlertFile called for: alertPath=C:\Users\HomePC\OneDrive\mine2026\alert_4.json, alertName=alert_4.json
+2026-04-26 10:44:09 [INFO] Formatted alert: alert_4.json
+2026-04-26 10:44:11 [INFO] Sent alert to Telegram: alert_4.json
+2026-04-26 10:44:11 [INFO] [DEBUG] About to archive. alertPath=C:\Users\HomePC\OneDrive\mine2026\alert_4.json, alertName=alert_4.json
+2026-04-26 10:44:11 [INFO] Archived alert: alert_4.json
+2026-04-26 10:44:12 [ERROR] [ERROR] Webhook failed for: alert_4.json - The requested name is valid, but no data of the requested type was found. (your-siem-or-soar-endpoint.example.com:443)
+2026-04-26 10:44:12 [INFO] [Startup] Processing existing alert: alert_5.json
+2026-04-26 10:44:13 [INFO] Handle-AlertFile called for: alertPath=C:\Users\HomePC\OneDrive\mine2026\alert_5.json, alertName=alert_5.json
+2026-04-26 10:44:14 [INFO] Formatted alert: alert_5.json
+2026-04-26 10:51:45 [INFO] [Startup] Processing existing alert: alert_1.json
+2026-04-26 10:51:45 [INFO] Handle-AlertFile called for: alertPath=C:\Users\HomePC\OneDrive\mine2026\alert_1.json, alertName=alert_1.json
+2026-04-26 10:51:45 [ERROR] Formatting failed: alert_1.json - Error: Unexpected token '∩╗┐', "∩╗┐{"alert":"... is not valid JSON
+2026-04-26 10:51:45 [INFO] [Startup] Processing existing alert: alert_5.json
+2026-04-26 10:51:45 [INFO] Handle-AlertFile called for: alertPath=C:\Users\HomePC\OneDrive\mine2026\alert_5.json, alertName=alert_5.json
+2026-04-26 10:51:45 [INFO] Formatted alert: alert_5.json
+2026-04-26 10:51:47 [INFO] Sent alert to Telegram: alert_5.json
+2026-04-26 10:51:47 [INFO] [DEBUG] About to archive. alertPath=C:\Users\HomePC\OneDrive\mine2026\alert_5.json, alertName=alert_5.json
+2026-04-26 10:51:47 [INFO] Archived alert: alert_5.json
+2026-04-26 10:51:47 [ERROR] [ERROR] Webhook failed for: alert_5.json - The requested name is valid, but no data of the requested type was found. (your-siem-or-soar-endpoint.example.com:443)
+2026-04-26 10:51:47 [INFO] [Startup] Processing existing alert: alert_7.json
+2026-04-26 10:51:47 [INFO] Handle-AlertFile called for: alertPath=C:\Users\HomePC\OneDrive\mine2026\alert_7.json, alertName=alert_7.json
+2026-04-26 10:51:47 [INFO] Formatted alert: alert_7.json
+2026-04-26 10:51:49 [INFO] Sent alert to Telegram: alert_7.json
+2026-04-26 10:51:49 [INFO] [DEBUG] About to archive. alertPath=C:\Users\HomePC\OneDrive\mine2026\alert_7.json, alertName=alert_7.json
+2026-04-26 10:51:49 [INFO] Archived alert: alert_7.json
+2026-04-26 10:51:49 [ERROR] [ERROR] Webhook failed for: alert_7.json - The requested name is valid, but no data of the requested type was found. (your-siem-or-soar-endpoint.example.com:443)
+2026-04-26 10:51:49 [INFO] [Startup] Processing existing alert: alert_8.json
+2026-04-26 10:51:49 [INFO] Handle-AlertFile called for: alertPath=C:\Users\HomePC\OneDrive\mine2026\alert_8.json, alertName=alert_8.json
+2026-04-26 10:51:49 [INFO] Formatted alert: alert_8.json
+2026-04-26 10:51:51 [INFO] Sent alert to Telegram: alert_8.json
+2026-04-26 10:51:51 [INFO] [DEBUG] About to archive. alertPath=C:\Users\HomePC\OneDrive\mine2026\alert_8.json, alertName=alert_8.json
+2026-04-26 10:51:51 [INFO] Archived alert: alert_8.json
+2026-04-26 10:51:51 [ERROR] [ERROR] Webhook failed for: alert_8.json - The requested name is valid, but no data of the requested type was found. (your-siem-or-soar-endpoint.example.com:443)
+2026-04-26 10:51:51 [INFO] [Startup] Processing existing alert: alert_9.json
+2026-04-26 10:51:51 [INFO] Handle-AlertFile called for: alertPath=C:\Users\HomePC\OneDrive\mine2026\alert_9.json, alertName=alert_9.json
+2026-04-26 10:51:51 [INFO] Formatted alert: alert_9.json
+2026-04-26 10:51:52 [INFO] Sent alert to Telegram: alert_9.json
+2026-04-26 10:51:52 [INFO] [DEBUG] About to archive. alertPath=C:\Users\HomePC\OneDrive\mine2026\alert_9.json, alertName=alert_9.json
+2026-04-26 10:51:52 [INFO] Archived alert: alert_9.json
+2026-04-26 10:51:53 [ERROR] [ERROR] Webhook failed for: alert_9.json - The requested name is valid, but no data of the requested type was found. (your-siem-or-soar-endpoint.example.com:443)
+2026-04-26 10:51:53 [INFO] [Startup] Processing existing alert: alert_10.json
+2026-04-26 10:51:53 [INFO] Handle-AlertFile called for: alertPath=C:\Users\HomePC\OneDrive\mine2026\alert_10.json, alertName=alert_10.json
+2026-04-26 10:51:53 [INFO] Formatted alert: alert_10.json
+2026-04-26 10:51:54 [INFO] Sent alert to Telegram: alert_10.json
+2026-04-26 10:51:54 [INFO] [DEBUG] About to archive. alertPath=C:\Users\HomePC\OneDrive\mine2026\alert_10.json, alertName=alert_10.json
+2026-04-26 10:51:54 [INFO] Archived alert: alert_10.json
+2026-04-26 10:51:54 [ERROR] [ERROR] Webhook failed for: alert_10.json - The requested name is valid, but no data of the requested type was found. (your-siem-or-soar-endpoint.example.com:443)
+2026-04-26 10:51:54 [INFO] [Startup] Processing existing alert: alert_11.json
+2026-04-26 10:51:54 [INFO] Handle-AlertFile called for: alertPath=C:\Users\HomePC\OneDrive\mine2026\alert_11.json, alertName=alert_11.json
+2026-04-26 10:51:54 [INFO] Formatted alert: alert_11.json
+2026-04-26 10:51:56 [INFO] Sent alert to Telegram: alert_11.json
+2026-04-26 10:51:56 [INFO] [DEBUG] About to archive. alertPath=C:\Users\HomePC\OneDrive\mine2026\alert_11.json, alertName=alert_11.json
+2026-04-26 10:51:56 [INFO] Archived alert: alert_11.json
+2026-04-26 10:51:56 [ERROR] [ERROR] Webhook failed for: alert_11.json - The requested name is valid, but no data of the requested type was found. (your-siem-or-soar-endpoint.example.com:443)
+2026-04-26 10:51:56 [INFO] [Startup] Processing existing alert: alert_12.json
+2026-04-26 10:51:56 [INFO] Handle-AlertFile called for: alertPath=C:\Users\HomePC\OneDrive\mine2026\alert_12.json, alertName=alert_12.json
+2026-04-26 10:51:56 [INFO] Formatted alert: alert_12.json
+2026-04-26 10:51:58 [INFO] Sent alert to Telegram: alert_12.json
+2026-04-26 10:51:58 [INFO] [DEBUG] About to archive. alertPath=C:\Users\HomePC\OneDrive\mine2026\alert_12.json, alertName=alert_12.json
+2026-04-26 10:51:58 [INFO] Archived alert: alert_12.json
+2026-04-26 10:51:58 [ERROR] [ERROR] Webhook failed for: alert_12.json - The requested name is valid, but no data of the requested type was found. (your-siem-or-soar-endpoint.example.com:443)
+2026-04-26 10:51:58 [INFO] [Startup] Processing existing alert: alert_13.json
+2026-04-26 10:51:58 [INFO] Handle-AlertFile called for: alertPath=C:\Users\HomePC\OneDrive\mine2026\alert_13.json, alertName=alert_13.json
+2026-04-26 10:51:58 [INFO] Formatted alert: alert_13.json
+2026-04-26 10:52:00 [INFO] Sent alert to Telegram: alert_13.json
+2026-04-26 10:52:00 [INFO] [DEBUG] About to archive. alertPath=C:\Users\HomePC\OneDrive\mine2026\alert_13.json, alertName=alert_13.json
+2026-04-26 10:52:00 [INFO] Archived alert: alert_13.json
+2026-04-26 10:52:00 [ERROR] [ERROR] Webhook failed for: alert_13.json - The requested name is valid, but no data of the requested type was found. (your-siem-or-soar-endpoint.example.com:443)
+2026-04-26 10:52:00 [INFO] [Startup] Processing existing alert: alert_14.json
+2026-04-26 10:52:00 [INFO] Handle-AlertFile called for: alertPath=C:\Users\HomePC\OneDrive\mine2026\alert_14.json, alertName=alert_14.json
+2026-04-26 10:52:00 [INFO] Formatted alert: alert_14.json
+2026-04-26 10:52:01 [INFO] Sent alert to Telegram: alert_14.json
+2026-04-26 10:52:01 [INFO] [DEBUG] About to archive. alertPath=C:\Users\HomePC\OneDrive\mine2026\alert_14.json, alertName=alert_14.json
+2026-04-26 10:52:01 [INFO] Archived alert: alert_14.json
+2026-04-26 10:52:01 [ERROR] [ERROR] Webhook failed for: alert_14.json - The requested name is valid, but no data of the requested type was found. (your-siem-or-soar-endpoint.example.com:443)
+2026-04-26 10:52:01 [INFO] [Startup] Processing existing alert: alert_15.json
+2026-04-26 10:52:01 [INFO] Handle-AlertFile called for: alertPath=C:\Users\HomePC\OneDrive\mine2026\alert_15.json, alertName=alert_15.json
+2026-04-26 10:52:01 [INFO] Formatted alert: alert_15.json
+2026-04-26 10:52:03 [INFO] Sent alert to Telegram: alert_15.json
+2026-04-26 10:52:03 [INFO] [DEBUG] About to archive. alertPath=C:\Users\HomePC\OneDrive\mine2026\alert_15.json, alertName=alert_15.json
+2026-04-26 10:52:03 [INFO] Archived alert: alert_15.json
+2026-04-26 10:52:03 [ERROR] [ERROR] Webhook failed for: alert_15.json - The requested name is valid, but no data of the requested type was found. (your-siem-or-soar-endpoint.example.com:443)
+2026-04-26 10:52:03 [INFO] [Startup] Processing existing alert: alert_16.json
+2026-04-26 10:52:03 [INFO] Handle-AlertFile called for: alertPath=C:\Users\HomePC\OneDrive\mine2026\alert_16.json, alertName=alert_16.json
+2026-04-26 10:52:04 [INFO] Formatted alert: alert_16.json
+2026-04-26 10:52:05 [INFO] Sent alert to Telegram: alert_16.json
+2026-04-26 10:52:05 [INFO] [DEBUG] About to archive. alertPath=C:\Users\HomePC\OneDrive\mine2026\alert_16.json, alertName=alert_16.json
+2026-04-26 10:52:05 [INFO] Archived alert: alert_16.json
+2026-04-26 10:52:05 [ERROR] [ERROR] Webhook failed for: alert_16.json - The requested name is valid, but no data of the requested type was found. (your-siem-or-soar-endpoint.example.com:443)
+2026-04-26 10:54:48 [INFO] [Startup] Processing existing alert: alert_1.json
+2026-04-26 10:54:48 [INFO] Handle-AlertFile called for: alertPath=C:\Users\HomePC\OneDrive\mine2026\alert_1.json, alertName=alert_1.json
+2026-04-26 10:54:48 [ERROR] Formatting failed: alert_1.json - Error: Unexpected token '∩╗┐', "∩╗┐{"alert":"... is not valid JSON
+2026-04-26 10:54:48 [INFO] [Startup] Processing existing alert: alert_17.json
+2026-04-26 10:54:48 [INFO] Handle-AlertFile called for: alertPath=C:\Users\HomePC\OneDrive\mine2026\alert_17.json, alertName=alert_17.json
+2026-04-26 10:54:48 [INFO] Formatted alert: alert_17.json
+2026-04-26 10:54:50 [INFO] Sent alert to Telegram: alert_17.json
+2026-04-26 10:54:50 [INFO] [DEBUG] About to archive. alertPath=C:\Users\HomePC\OneDrive\mine2026\alert_17.json, alertName=alert_17.json
+2026-04-26 10:54:50 [INFO] Archived alert: alert_17.json
+2026-04-26 10:54:50 [ERROR] [ERROR] Webhook failed for: alert_17.json - The requested name is valid, but no data of the requested type was found. (your-siem-or-soar-endpoint.example.com:443)
+2026-04-26 10:56:29 [INFO] [Startup] Processing existing alert: alert_1.json
+2026-04-26 10:56:29 [INFO] Handle-AlertFile called for: alertPath=C:\Users\HomePC\OneDrive\mine2026\alert_1.json, alertName=alert_1.json
+2026-04-26 10:56:29 [ERROR] Formatting failed: alert_1.json - Error: Unexpected token '∩╗┐', "∩╗┐{"alert":"... is not valid JSON
+2026-04-26 10:56:29 [INFO] [Startup] Processing existing alert: alert_18.json
+2026-04-26 10:56:29 [INFO] Handle-AlertFile called for: alertPath=C:\Users\HomePC\OneDrive\mine2026\alert_18.json, alertName=alert_18.json
+2026-04-26 10:56:29 [INFO] Formatted alert: alert_18.json
+2026-04-26 10:56:31 [INFO] Sent alert to Telegram: alert_18.json
+2026-04-26 10:56:31 [INFO] [DEBUG] About to archive. alertPath=C:\Users\HomePC\OneDrive\mine2026\alert_18.json, alertName=alert_18.json
+2026-04-26 10:56:31 [INFO] Archived alert: alert_18.json
+2026-04-26 10:56:31 [ERROR] [ERROR] Webhook failed for: alert_18.json - The requested name is valid, but no data of the requested type was found. (your-siem-or-soar-endpoint.example.com:443)
+2026-04-26 10:56:31 [INFO] [DEBUG] Minimal watcher baseline started
+2026-04-26 10:56:31 [INFO] [DEBUG] Minimal watcher baseline running. Press Ctrl+C to exit.
+2026-04-26 10:58:02 [INFO] [Startup] Processing existing alert: alert_1.json
+2026-04-26 10:58:02 [INFO] Handle-AlertFile called for: alertPath=C:\Users\HomePC\OneDrive\mine2026\alert_1.json, alertName=alert_1.json
+2026-04-26 10:58:02 [ERROR] Formatting failed: alert_1.json - Error: Unexpected token '∩╗┐', "∩╗┐{"alert":"... is not valid JSON
+2026-04-26 10:58:02 [INFO] [Startup] Processing existing alert: alert_19.json
+2026-04-26 10:58:02 [INFO] Handle-AlertFile called for: alertPath=C:\Users\HomePC\OneDrive\mine2026\alert_19.json, alertName=alert_19.json
+2026-04-26 10:58:02 [INFO] Formatted alert: alert_19.json
+2026-04-26 10:58:04 [INFO] Sent alert to Telegram: alert_19.json
+2026-04-26 10:58:04 [INFO] [DEBUG] About to archive. alertPath=C:\Users\HomePC\OneDrive\mine2026\alert_19.json, alertName=alert_19.json
+2026-04-26 10:58:04 [INFO] Archived alert: alert_19.json
+2026-04-26 10:58:04 [ERROR] [ERROR] Webhook failed for: alert_19.json - The requested name is valid, but no data of the requested type was found. (your-siem-or-soar-endpoint.example.com:443)
+2026-04-26 10:58:04 [INFO] [DEBUG] Minimal watcher baseline started
+2026-04-26 10:58:04 [INFO] [DEBUG] Minimal watcher baseline running. Press Ctrl+C to exit.
+2 0 2 6 - 0 4 - 2 6   1 5 : 4 9 : 3 1   [ I N F O ]   I n v o k e - A l e r t F i l e   c a l l e d   f o r :   a l e r t P a t h = ,   a l e r t N a m e =  
+ 2 0 2 6 - 0 4 - 2 6   1 5 : 4 9 : 3 1   [ E R R O R ]   [ E R R O R ]   S i m u l a t i o n   d e t e c t i o n   f a i l e d   f o r :     -   C a n n o t   b i n d   a r g u m e n t   t o   p a r a m e t e r   ' P a t h '   b e c a u s e   i t   i s   n u l l .  
+ 2 0 2 6 - 0 4 - 2 6   1 5 : 4 9 : 3 2   [ E R R O R ]   F o r m a t t i n g   f a i l e d :     -   C : \ U s e r s \ H o m e P C \ O n e D r i v e \ m i n e 2 0 2 6 \ t e l e g r a m - f o r m a t t e r - 9 w o l f . j s : 4 1       i f   ( u s e r . r e d a c t e d _ p a s s w o r d )   l o g . p u s h ( ` a"�� �   * P W D * :   \ \ ` $ { u s e r . r e d a c t e d _ p a s s w o r d } \ \ ` ` ) ;                                                                                 ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^   S y s t e m . M a n a g e m e n t . A u t o m a t i o n . R e m o t e E x c e p t i o n   S y n t a x E r r o r :   m i s s i n g   )   a f t e r   a r g u m e n t   l i s t           a t   w r a p S a f e   ( n o d e : i n t e r n a l / m o d u l e s / c j s / l o a d e r : 1 7 4 3 : 1 8 )           a t   M o d u l e . _ c o m p i l e   ( n o d e : i n t e r n a l / m o d u l e s / c j s / l o a d e r : 1 7 8 6 : 2 0 )           a t   O b j e c t . . j s   ( n o d e : i n t e r n a l / m o d u l e s / c j s / l o a d e r : 1 9 4 3 : 1 0 )           a t   M o d u l e . l o a d   ( n o d e : i n t e r n a l / m o d u l e s / c j s / l o a d e r : 1 5 3 3 : 3 2 )           a t   M o d u l e . _ l o a d   ( n o d e : i n t e r n a l / m o d u l e s / c j s / l o a d e r : 1 3 3 5 : 1 2 )           a t   w r a p M o d u l e L o a d   ( n o d e : i n t e r n a l / m o d u l e s / c j s / l o a d e r : 2 5 5 : 1 9 )           a t   M o d u l e . e x e c u t e U s e r E n t r y P o i n t   [ a s   r u n M a i n ]   ( n o d e : i n t e r n a l / m o d u l e s / r u n _ m a i n : 1 5 4 : 5 )           a t   n o d e : i n t e r n a l / m a i n / r u n _ m a i n _ m o d u l e : 3 3 : 4 7   S y s t e m . M a n a g e m e n t . A u t o m a t i o n . R e m o t e E x c e p t i o n   N o d e . j s   v 2 4 . 1 4 . 1  
+ 2 0 2 6 - 0 4 - 2 6   1 5 : 5 0 : 1 0   [ I N F O ]   I n v o k e - A l e r t F i l e   c a l l e d   f o r :   a l e r t P a t h = ,   a l e r t N a m e =  
+ 2 0 2 6 - 0 4 - 2 6   1 5 : 5 0 : 1 0   [ E R R O R ]   [ E R R O R ]   S i m u l a t i o n   d e t e c t i o n   f a i l e d   f o r :     -   C a n n o t   b i n d   a r g u m e n t   t o   p a r a m e t e r   ' P a t h '   b e c a u s e   i t   i s   n u l l .  
+ 2 0 2 6 - 0 4 - 2 6   1 5 : 5 0 : 1 2   [ E R R O R ]   F o r m a t t i n g   f a i l e d :     -   C : \ U s e r s \ H o m e P C \ O n e D r i v e \ m i n e 2 0 2 6 \ t e l e g r a m - f o r m a t t e r - 9 w o l f . j s : 4 1       i f   ( u s e r . r e d a c t e d _ p a s s w o r d )   l o g . p u s h ( ` a"�� �   * P W D * :   \ \ ` $ { u s e r . r e d a c t e d _ p a s s w o r d } \ \ ` ` ) ;                                                                                 ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^   S y s t e m . M a n a g e m e n t . A u t o m a t i o n . R e m o t e E x c e p t i o n   S y n t a x E r r o r :   m i s s i n g   )   a f t e r   a r g u m e n t   l i s t           a t   w r a p S a f e   ( n o d e : i n t e r n a l / m o d u l e s / c j s / l o a d e r : 1 7 4 3 : 1 8 )           a t   M o d u l e . _ c o m p i l e   ( n o d e : i n t e r n a l / m o d u l e s / c j s / l o a d e r : 1 7 8 6 : 2 0 )           a t   O b j e c t . . j s   ( n o d e : i n t e r n a l / m o d u l e s / c j s / l o a d e r : 1 9 4 3 : 1 0 )           a t   M o d u l e . l o a d   ( n o d e : i n t e r n a l / m o d u l e s / c j s / l o a d e r : 1 5 3 3 : 3 2 )           a t   M o d u l e . _ l o a d   ( n o d e : i n t e r n a l / m o d u l e s / c j s / l o a d e r : 1 3 3 5 : 1 2 )           a t   w r a p M o d u l e L o a d   ( n o d e : i n t e r n a l / m o d u l e s / c j s / l o a d e r : 2 5 5 : 1 9 )           a t   M o d u l e . e x e c u t e U s e r E n t r y P o i n t   [ a s   r u n M a i n ]   ( n o d e : i n t e r n a l / m o d u l e s / r u n _ m a i n : 1 5 4 : 5 )           a t   n o d e : i n t e r n a l / m a i n / r u n _ m a i n _ m o d u l e : 3 3 : 4 7   S y s t e m . M a n a g e m e n t . A u t o m a t i o n . R e m o t e E x c e p t i o n   N o d e . j s   v 2 4 . 1 4 . 1  
+ 

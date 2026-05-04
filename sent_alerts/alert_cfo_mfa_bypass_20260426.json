@@ -1,0 +1,30 @@
+{
+  "alert_id": "alert_cfo_mfa_bypass_20260426",
+  "timestamp": "2026-04-26T14:32:00Z",
+  "user": {
+    "username": "cfo@company.com",
+    "display_name": "CFO, Company Inc.",
+    "role": "Chief Financial Officer"
+  },
+  "event": {
+    "type": "MFA-bypass-attempt",
+    "method": "legacy authentication",
+    "location": "Moscow, Russia",
+    "ip": "185.13.112.99",
+    "device": "Windows 10, Chrome 123.0",
+    "details": "MFA bypass attempt detected via legacy protocol. User's session token was accepted without second factor."
+  },
+  "risk": {
+    "level": "high",
+    "score": 9.5,
+    "reason": "MFA bypass from foreign location, high-value user, legacy protocol."
+  },
+  "actions": [
+    "Alerted security team",
+    "Session revoked",
+    "User forced password reset"
+  ],
+  "correlation_id": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
+  "source": "AzureAD",
+  "notes": "Confirmed by SIEM. No user response yet."
+}

@@ -1,0 +1,41 @@
+{
+  "alert_id": "ALRT-2026-04-25-ADM001",
+  "timestamp": "2026-04-25T20:35:00Z",
+  "severity": "critical",
+  "category": "Privileged Account Compromise",
+  "user": {
+    "email": "admin.service@examplecorp.com",
+    "display_name": "Service Admin",
+    "user_id": "USR-90001",
+    "role": "Global Administrator",
+    "privilege_level": "high"
+  },
+  "event": {
+    "suspicious_login": {
+      "ip": "91.221.77.19",
+      "geo": "Poland",
+      "device": "Unknown Browser",
+      "mfa_result": "not_challenged"
+    },
+    "admin_actions": [
+      "Directory role enumeration",
+      "Conditional access policy viewing",
+      "App registration creation attempt"
+    ],
+    "escalation_attempt": {
+      "method": "OAuth Consent Grant Abuse",
+      "result": "blocked"
+    }
+  },
+  "enrichment": {
+    "entra_id": {
+      "risk_level": "high",
+      "risk_events": ["Admin role anomaly", "Suspicious sign-in"],
+      "user_risk_score": 0.96
+    }
+  },
+  "recommendation": {
+    "action": "Immediate admin lockout, revoke sessions, initiate privileged IR workflow",
+    "urgency": "critical"
+  }
+}

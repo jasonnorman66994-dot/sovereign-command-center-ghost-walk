@@ -1,0 +1,17 @@
+version: '3.8'
+services:
+  cron:
+    image: alpine:latest
+    container_name: security-cron
+    volumes:
+      - ./security_monitor.sh:/security_monitor.sh:ro
+    entrypoint: ["/bin/sh", "-c", "echo '* * * * * /security_monitor.sh' | crontab - && crond -f"]
+    depends_on:
+      - db
+    environment:
+      - MYSQL_PWD=authpass
+    networks:
+      - default
+networks:
+  default:
+    external: false

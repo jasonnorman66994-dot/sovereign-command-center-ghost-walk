@@ -1,0 +1,47 @@
+{
+  "alert_type": "identity_compromise",
+  "severity": "high",
+  "timestamp_utc": "2026-04-25T22:15:00Z",
+  "user": {
+    "email": "alice@company.com",
+    "user_id": "alice-001",
+    "display_name": "Alice Smith",
+    "department": "Legal",
+    "role": "Legal Counsel",
+    "privileged_access": true
+  },
+  "event": {
+    "event_type": "oauth_token_abuse",
+    "description": "Suspicious OAuth app granted Mail.ReadWrite and offline_access. Possible consent phishing.",
+    "source_ip": "104.28.10.1",
+    "asn": "AS13335",
+    "geo_location": "London, UK",
+    "client_app": "OAuth App - 'MailSyncer'",
+    "auth_method": "OAuth Consent",
+    "risk_level": "high",
+    "risk_detections": ["OAuth risky scopes", "Consent phishing", "Unknown publisher"],
+    "correlation_id": "oauth-alice-001",
+    "session_id": "sess-oauth-alice-001"
+  },
+  "technical_indicators": {
+    "mfa_fatigue_count": 0,
+    "legacy_protocol_used": false,
+    "oauth_app_detected": true,
+    "oauth_app_scopes": ["Mail.ReadWrite", "offline_access"],
+    "hidden_inbox_rules_detected": false,
+    "impossible_travel_detected": false,
+    "token_replay_detected": false,
+    "new_device_registration": false,
+    "unfamiliar_signin_properties": true
+  },
+  "recommended_actions": ["Revoke OAuth grant", "Review app publisher", "Flag for Phishing-Resistant MFA (FIDO2) enrollment"],
+  "investigation_links": {
+    "signin_logs": "https://entra.microsoft.com/#view/signin",
+    "oauth_apps": "https://entra.microsoft.com/#view/apps",
+    "inbox_rules": "https://admin.exchange.microsoft.com/#/mailboxes",
+    "sentinel_query": "https://portal.azure.com/#blade/sentinel",
+    "user_profile": "https://entra.microsoft.com/#view/profile"
+  },
+  "assigned_to": {"analyst": "@oauth_team", "team": "Security Operations Center"},
+  "metadata": {"pipeline_version": "1.0.0", "source_system": "Sentinel", "environment": "test"}
+}

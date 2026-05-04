@@ -1,0 +1,16 @@
+[
+  {
+    "user": "richard@omnicorp-cyber.com",
+    "timestamp": "2026-05-01_0743",
+    "ip": "34.201.10.22",
+    "device": "MOBILE-01",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Edge/18.19041"
+  },
+  {
+    "user": "jason.n@omnicorp-cyber.com",
+    "timestamp": "2026-05-01_0743",
+    "ip": "34.201.10.23",
+    "device": "WS-IT-043",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Edge/18.19041"
+  }
+]

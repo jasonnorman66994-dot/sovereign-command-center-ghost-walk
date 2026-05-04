@@ -1,0 +1,38 @@
+version: '3.8'
+services:
+  db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: auth_db
+      MYSQL_USER: authuser
+      MYSQL_PASSWORD: authpass
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+  php:
+    build:
+      context: .
+      dockerfile: Dockerfile-php
+    restart: always
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+  cron:
+    image: python:3.11-slim
+    container_name: security-cron
+    volumes:
+      - ./security_monitor.sh:/security_monitor.sh:ro
+      - ./alert_rule_evaluator.py:/alert_rule_evaluator.py:ro
+      - ./cron-logs:/var/log/cron:rw
+    entrypoint: ["/bin/sh", "-c", "apt-get update && apt-get install -y cron && echo '* * * * * /security_monitor.sh >> /var/log/cron/security_monitor.log 2>&1\n*/5 * * * * python3 /alert_rule_evaluator.py >> /var/log/cron/alert_rule_eval.log 2>&1' | crontab - && cron -f"]
+    depends_on:
+      - db
+    environment:
+      - MYSQL_PWD=authpass
+
+volumes:
+  db_data:

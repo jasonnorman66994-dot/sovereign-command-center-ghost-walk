@@ -1,0 +1,49 @@
+{
+  "alert_type": "identity_endpoint_compromise",
+  "severity": "high",
+  "timestamp_utc": "2026-04-24T10:15:00Z",
+  "user": {
+    "email": "admin@company.com",
+    "user_id": "99123",
+    "display_name": "Admin User",
+    "department": "IT",
+    "role": "Administrator",
+    "privileged_access": true
+  },
+  "event": {
+    "event_type": "token_replay",
+    "description": "Same token used from multiple locations.",
+    "source_ip": "203.0.113.10",
+    "asn": "AS12345",
+    "geo_location": "London, UK",
+    "client_app": "PowerShell",
+    "auth_method": "Password",
+    "risk_level": "critical",
+    "risk_detections": [
+      "Token replay detected",
+      "Impossible travel"
+    ],
+    "correlation_id": "deadbeef-1234-5678-90ab-cafe12345678",
+    "session_id": "session-112233"
+  },
+  "technical_indicators": {
+    "token_replay_detected": true,
+    "impossible_travel_detected": true
+  },
+  "recommended_actions": [
+    "Block the account",
+    "Reset password"
+  ],
+  "investigation_links": {
+    "signin_logs": "https://entra.microsoft.com/#view/Microsoft_AAD_IAM/UsersSignIns"
+  },
+  "assigned_to": {
+    "analyst": "@secops1",
+    "team": "Security Operations Center"
+  },
+  "metadata": {
+    "pipeline_version": "1.2.3",
+    "source_system": "Sentinel",
+    "environment": "production"
+  }
+}

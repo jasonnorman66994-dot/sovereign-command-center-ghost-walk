@@ -1,0 +1,14 @@
+{
+  "timestamp": "2026-04-26T12:34:56Z",
+  "alertType": "MFABypassAttempt",
+  "severity": "High",
+  "user": "alice@example.com",
+  "customType": "ImpossibleTravel",
+  "extraContext": {
+    "ip": "203.0.113.42",
+    "country": "Brazil",
+    "previousCountry": "Germany",
+    "travelTimeMinutes": 15
+  },
+  "details": "User logged in from Brazil 15 minutes after logging in from Germany."
+}

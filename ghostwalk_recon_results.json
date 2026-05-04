@@ -1,0 +1,26 @@
+{
+  "timestamp": "2026-05-01T14:14:25.436483",
+  "access_paths": [
+    {
+      "user": "jackson.m@omnicorp-defense.com",
+      "paths": [
+        "VPN",
+        "AzureAD",
+        "JumpHost"
+      ]
+    },
+    {
+      "user": "jason.n@omnicorp-cyber.com",
+      "paths": [
+        "VPN",
+        "Okta",
+        "AWS Console"
+      ]
+    }
+  ],
+  "high_value_targets": [
+    "CEO Mailbox",
+    "Finance SharePoint",
+    "Privileged Vault"
+  ]
+}

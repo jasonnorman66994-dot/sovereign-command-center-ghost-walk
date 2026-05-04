@@ -1,0 +1,56 @@
+{
+  "alert_type": "identity_compromise",
+  "severity": "critical",
+  "timestamp_utc": "2026-04-25T23:10:00Z",
+  "user": {
+    "email": "priya@finstack.dev",
+    "user_id": "U003",
+    "display_name": "Priya Nalawade",
+    "department": "Engineering",
+    "role": "Lead Engineer",
+    "privileged_access": true
+  },
+  "event": {
+    "event_type": "device_risk",
+    "description": "Malware detected on managed device. Infostealer (RedLine) exfiltrated session cookies.",
+    "source_ip": "49.205.88.14",
+    "asn": "AS24560",
+    "geo_location": "Bangalore, IN",
+    "client_app": "Chrome 124",
+    "auth_method": "Device Compliance",
+    "risk_level": "critical",
+    "risk_detections": [
+      "Infostealer malware detected",
+      "Session cookies exfiltrated",
+      "Device marked high risk"
+    ],
+    "correlation_id": "device-risk-2026-04-25",
+    "session_id": "session-device-003"
+  },
+  "technical_indicators": {
+    "token_replay_detected": true,
+    "new_device_registration": false,
+    "unfamiliar_signin_properties": true
+  },
+  "recommended_actions": [
+    "Isolate device from network",
+    "Revoke all active sessions",
+    "Reset user credentials"
+  ],
+  "investigation_links": {
+    "signin_logs": "https://entra.microsoft.com/#view/signin",
+    "oauth_apps": "https://entra.microsoft.com/#view/apps",
+    "inbox_rules": "https://admin.exchange.microsoft.com/#/mailboxes",
+    "sentinel_query": "https://portal.azure.com/#blade/sentinel",
+    "user_profile": "https://entra.microsoft.com/#view/profile"
+  },
+  "assigned_to": {
+    "analyst": "@soc_device_team",
+    "team": "Device Response"
+  },
+  "metadata": {
+    "pipeline_version": "1.0.0",
+    "source_system": "Sentinel",
+    "environment": "prod"
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "alert_type": "identity_compromise",
+  "severity": "high",
+  "timestamp_utc": "2026-04-25T23:20:00Z",
+  "user": {
+    "email": "d.volkov@cloudbase.de",
+    "user_id": "U005",
+    "display_name": "Dmitri Volkov",
+    "department": "Architecture",
+    "role": "Solutions Architect",
+    "privileged_access": false
+  },
+  "event": {
+    "event_type": "legacy_protocol_exploitation",
+    "description": "IMAP4 login detected for privileged user. Legacy protocol lacks MFA support.",
+    "source_ip": "178.62.33.91",
+    "asn": "AS24940",
+    "geo_location": "Berlin, DE",
+    "client_app": "IMAP4",
+    "auth_method": "Password Only",
+    "risk_level": "high",
+    "risk_detections": [
+      "Legacy protocol login",
+      "No MFA enforced",
+      "Password spraying risk"
+    ],
+    "correlation_id": "legacy-protocol-2026-04-25",
+    "session_id": "session-legacy-005"
+  },
+  "technical_indicators": {
+    "legacy_protocol_used": true,
+    "token_replay_detected": false,
+    "impossible_travel_detected": false
+  },
+  "recommended_actions": [
+    "Disable legacy protocols",
+    "Enforce MFA",
+    "Review sign-in logs"
+  ],
+  "investigation_links": {
+    "signin_logs": "https://entra.microsoft.com/#view/signin",
+    "oauth_apps": "https://entra.microsoft.com/#view/apps",
+    "inbox_rules": "https://admin.exchange.microsoft.com/#/mailboxes",
+    "sentinel_query": "https://portal.azure.com/#blade/sentinel",
+    "user_profile": "https://entra.microsoft.com/#view/profile"
+  },
+  "assigned_to": {
+    "analyst": "@soc_legacy_team",
+    "team": "Legacy Protocol Response"
+  },
+  "metadata": {
+    "pipeline_version": "1.0.0",
+    "source_system": "Sentinel",
+    "environment": "prod"
+  }
+}

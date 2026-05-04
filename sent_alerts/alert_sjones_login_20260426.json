@@ -1,0 +1,11 @@
+{
+  "alert_id": "alert_sjones_login_20260426",
+  "alertType": "Standard User Login",
+  "severity": "LOW",
+  "username": "sjones@alphamechanical.com",
+  "remoteAddress": "104.28.214.55",
+  "location": "Los Angeles, CA",
+  "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)",
+  "timestamp": "2026-04-26T11:20:00Z",
+  "status": "Success"
+}

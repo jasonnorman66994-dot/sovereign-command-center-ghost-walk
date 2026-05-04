@@ -1,0 +1,12 @@
+{
+  "alert_id": "alert_sjones_impossible_travel_20260426",
+  "alertType": "CRITICAL: Impossible Travel Detected",
+  "severity": "CRITICAL",
+  "username": "sjones@alphamechanical.com",
+  "remoteAddress": "62.252.74.120",
+  "location": "London, UK",
+  "userAgent": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_6_2 like Mac OS X)",
+  "landingUrl": "https://login.kinonlisplazmaoplayor.xyz/bypass",
+  "timestamp": "2026-04-26T11:25:00Z",
+  "description": "Session detected in London 5 minutes after LA login. Potential Token Theft."
+}

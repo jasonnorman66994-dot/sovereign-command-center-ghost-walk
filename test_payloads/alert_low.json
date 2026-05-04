@@ -1,0 +1,44 @@
+{
+  "alert_type": "identity_compromise",
+  "severity": "low",
+  "timestamp_utc": "2026-04-26T14:30:00Z",
+  "user": {
+    "email": "intern@company.com",
+    "user_id": "77777",
+    "display_name": "Intern User",
+    "department": "HR",
+    "role": "Intern",
+    "privileged_access": false
+  },
+  "event": {
+    "event_type": "unusual_login",
+    "description": "Login from new device, but no other risk detected.",
+    "source_ip": "192.0.2.55",
+    "asn": "AS67890",
+    "geo_location": "Paris, France",
+    "client_app": "Browser",
+    "auth_method": "Password",
+    "risk_level": "low",
+    "risk_detections": [],
+    "correlation_id": "feedbead-1234-5678-90ab-cafe12345678",
+    "session_id": "session-778899"
+  },
+  "technical_indicators": {
+    "new_device_registration": true
+  },
+  "recommended_actions": [
+    "Monitor account activity"
+  ],
+  "investigation_links": {
+    "signin_logs": "https://entra.microsoft.com/#view/Microsoft_AAD_IAM/UsersSignIns"
+  },
+  "assigned_to": {
+    "analyst": "@secops3",
+    "team": "Security Operations Center"
+  },
+  "metadata": {
+    "pipeline_version": "1.2.3",
+    "source_system": "Sentinel",
+    "environment": "production"
+  }
+}

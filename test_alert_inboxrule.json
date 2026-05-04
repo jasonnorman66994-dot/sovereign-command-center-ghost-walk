@@ -1,0 +1,13 @@
+{
+  "timestamp": "2026-04-26T13:05:00Z",
+  "alertType": "HiddenInboxRule",
+  "severity": "Medium",
+  "user": "carol@example.com",
+  "customType": "StealthRule",
+  "extraContext": {
+    "ruleName": "AutoForwardAll",
+    "forwardTo": "attacker@evil.com",
+    "createdBy": "carol@example.com"
+  },
+  "details": "A hidden inbox rule was created to auto-forward all mail."
+}

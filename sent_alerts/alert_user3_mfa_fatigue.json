@@ -1,0 +1,47 @@
+{
+  "alert_type": "identity_compromise",
+  "severity": "critical",
+  "timestamp_utc": "2026-04-25T21:55:00Z",
+  "user": {
+    "email": "user3@company.com",
+    "user_id": "u3-003",
+    "display_name": "User Three",
+    "department": "IT",
+    "role": "IT Admin",
+    "privileged_access": true
+  },
+  "event": {
+    "event_type": "mfa_fatigue_attack",
+    "description": "User received 42 MFA push prompts in 10 minutes. MFA fatigue suspected.",
+    "source_ip": "8.8.8.8",
+    "asn": "AS15169",
+    "geo_location": "Mountain View, USA",
+    "client_app": "Authenticator",
+    "auth_method": "MFA Push",
+    "risk_level": "critical",
+    "risk_detections": ["Repeated MFA prompts", "Privileged account targeted", "Unusual time of day"],
+    "correlation_id": "mfa-003",
+    "session_id": "sess-003"
+  },
+  "technical_indicators": {
+    "mfa_fatigue_count": 42,
+    "legacy_protocol_used": false,
+    "oauth_app_detected": false,
+    "oauth_app_scopes": [],
+    "hidden_inbox_rules_detected": false,
+    "impossible_travel_detected": false,
+    "token_replay_detected": false,
+    "new_device_registration": false,
+    "unfamiliar_signin_properties": true
+  },
+  "recommended_actions": ["Reset MFA bindings", "Block account", "Review sign-in logs"],
+  "investigation_links": {
+    "signin_logs": "https://entra.microsoft.com/#view/signin",
+    "oauth_apps": "https://entra.microsoft.com/#view/apps",
+    "inbox_rules": "https://admin.exchange.microsoft.com/#/mailboxes",
+    "sentinel_query": "https://portal.azure.com/#blade/sentinel",
+    "user_profile": "https://entra.microsoft.com/#view/profile"
+  },
+  "assigned_to": {"analyst": "@mfa_team", "team": "Security Operations Center"},
+  "metadata": {"pipeline_version": "1.0.0", "source_system": "Sentinel", "environment": "test"}
+}

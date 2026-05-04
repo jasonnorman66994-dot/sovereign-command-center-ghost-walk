@@ -1,0 +1,2 @@
+# Run alert_rule_evaluator.py every 5 minutes
+*/5 * * * * /usr/bin/python3 /path/to/alert_rule_evaluator.py >> /var/log/alert_rule_eval.log 2>&1

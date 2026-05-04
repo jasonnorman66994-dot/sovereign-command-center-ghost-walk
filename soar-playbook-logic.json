@@ -1,0 +1,269 @@
+{
+  "name": "Identity Threat Alert - Telegram Notification Playbook",
+  "description": "SOAR playbook that receives correlated identity threat alerts from Sentinel and posts them to Telegram for SOC triage",
+  "trigger": "Sentinel Analytics Rule fires and emits customDetails",
+  "version": "1.0",
+  "steps": [
+    {
+      "step": 1,
+      "name": "When Sentinel incident created",
+      "type": "trigger",
+      "action": "Sentinel Analytics Rule fire",
+      "config": {
+        "condition": "customDetails is not empty",
+        "inputType": "alert_data"
+      },
+      "output": "incident_data, customDetails"
+    },
+    {
+      "step": 2,
+      "name": "Parse JSON payload",
+      "type": "action",
+      "action": "Parse JSON",
+      "config": {
+        "schema": "reference: schema.json",
+        "input": "@{triggerBody()?['customDetails']}",
+        "strict": true
+      },
+      "output": "parsed_alert",
+      "errorHandling": "If parse fails, log error and skip to Step 10"
+    },
+    {
+      "step": 3,
+      "name": "Extract risk level",
+      "type": "decision",
+      "condition": "severity == 'critical' OR severity == 'high'",
+      "ifTrue": "Continue to Step 4 (Enrich)",
+      "ifFalse": "Jump to Step 8 (Log only, no Telegram)"
+    },
+    {
+      "step": 4,
+      "name": "Enrich IP reputation (VirusTotal)",
+      "type": "action",
+      "action": "HTTP GET",
+      "config": {
+        "url": "https://www.virustotal.com/api/v3/ip_addresses/@{body('Parse_JSON')?['event']['source_ip']}",
+        "method": "GET",
+        "headers": {
+          "x-apikey": "@{json(decodeUriComponent(json(string(variables('vt_api_key')))))}"
+        },
+        "timeout": 10
+      },
+      "output": "vt_reputation",
+      "errorHandling": "If API fails, set default values and continue"
+    },
+    {
+      "step": 5,
+      "name": "Enrich IP reputation (AbuseIPDB)",
+      "type": "action",
+      "action": "HTTP GET",
+      "config": {
+        "url": "https://api.abuseipdb.com/api/v2/check?ipAddress=@{body('Parse_JSON')?['event']['source_ip']}&maxAgeInDays=90",
+        "method": "GET",
+        "headers": {
+          "Key": "@{json(decodeUriComponent(json(string(variables('abuseipdb_key')))))}"
+        },
+        "timeout": 10
+      },
+      "output": "abuseipdb_reputation",
+      "errorHandling": "If API fails, set default values and continue"
+    },
+    {
+      "step": 6,
+      "name": "Enrich user data (Entra ID)",
+      "type": "action",
+      "action": "HTTP GET",
+      "config": {
+        "url": "https://graph.microsoft.com/v1.0/users/@{body('Parse_JSON')?['user']['email']}?$select=displayName,department,jobTitle,lastPasswordChangeDateTime,riskLevel",
+        "method": "GET",
+        "headers": {
+          "Authorization": "Bearer @{json(decodeUriComponent(json(string(variables('graph_token'))))))"
+        },
+        "timeout": 10
+      },
+      "output": "entra_user_data",
+      "errorHandling": "If not found, continue with existing data"
+    },
+    {
+      "step": 7,
+      "name": "Build enriched message",
+      "type": "action",
+      "action": "Compose (call telegram-formatter.js)",
+      "config": {
+        "function": "formatTelegramAlert",
+        "input": {
+          "payload": "@{body('Parse_JSON')}",
+          "enrichment": {
+            "vt_malicious_count": "@{body('VirusTotal')?['data']?['last_analysis_stats']?['malicious']}",
+            "abuseipdb_score": "@{body('AbuseIPDB')?['data']?['abuseConfidenceScore']}",
+            "entra_risk_level": "@{body('Entra_User')?['riskLevel']}"
+          }
+        },
+        "parse_mode": "MarkdownV2"
+      },
+      "output": "telegram_message",
+      "errorHandling": "If formatting fails, use fallback plain text message"
+    },
+    {
+      "step": 8,
+      "name": "Send to Telegram",
+      "type": "action",
+      "action": "HTTP POST",
+      "config": {
+        "url": "https://api.telegram.org/bot@{variables('telegram_bot_token')}/sendMessage",
+        "method": "POST",
+        "body": {
+          "chat_id": "@{variables('telegram_chat_id')}",
+          "text": "@{outputs('Compose')}",
+          "parse_mode": "MarkdownV2",
+          "disable_web_page_preview": true
+        },
+        "timeout": 15
+      },
+      "output": "telegram_response",
+      "errorHandling": "Retry 3 times with exponential backoff (1s, 3s, 9s)"
+    },
+    {
+      "step": 9,
+      "name": "Log alert to Storage",
+      "type": "action",
+      "action": "Send data to Log Analytics",
+      "config": {
+        "workspace_id": "@{variables('log_analytics_workspace_id')}",
+        "shared_key": "@{variables('log_analytics_key')}",
+        "log_type": "IdentityThreatAlert",
+        "json_payload": "@{body('Parse_JSON')}"
+      },
+      "output": "logging_result",
+      "errorHandling": "If logging fails, continue (non-blocking)"
+    },
+    {
+      "step": 10,
+      "name": "Create incident in ticketing system",
+      "type": "action",
+      "action": "HTTP POST (ServiceNow / Jira / etc.)",
+      "config": {
+        "url": "https://servicenow.company.com/api/incident",
+        "method": "POST",
+        "auth": "basic",
+        "body": {
+          "short_description": "@{concat('CRITICAL: Identity threat - ', body('Parse_JSON')?['event']['event_type'])}",
+          "description": "@{outputs('Compose')}",
+          "priority": "1",
+          "assignment_group": "Security Incident Response",
+          "assigned_to": "@{body('Parse_JSON')?['assigned_to']?['analyst']}"
+        }
+      },
+      "output": "ticket_created",
+      "errorHandling": "If ticketing fails, at least Telegram was notified"
+    },
+    {
+      "step": 11,
+      "name": "Success response",
+      "type": "output",
+      "config": {
+        "status": 200,
+        "body": {
+          "status": "Alert processed successfully",
+          "telegram_sent": "@{if(equals(body('Send_to_Telegram')?['ok'], true), 'yes', 'no')}",
+          "ticket_id": "@{body('ServiceNow')?['result']?['sys_id']}",
+          "enrichment_data": {
+            "vt_malicious": "@{body('VirusTotal')?['data']?['last_analysis_stats']?['malicious']}",
+            "abuseipdb_score": "@{body('AbuseIPDB')?['data']?['abuseConfidenceScore']}"
+          }
+        }
+      }
+    }
+  ],
+  "variables": [
+    {
+      "name": "telegram_bot_token",
+      "type": "string",
+      "source": "Azure Key Vault secret",
+      "secret_name": "telegram-bot-token"
+    },
+    {
+      "name": "telegram_chat_id",
+      "type": "string",
+      "source": "Azure Key Vault secret",
+      "secret_name": "telegram-soc-chat-id"
+    },
+    {
+      "name": "vt_api_key",
+      "type": "string",
+      "source": "Azure Key Vault secret",
+      "secret_name": "virustotal-api-key"
+    },
+    {
+      "name": "abuseipdb_key",
+      "type": "string",
+      "source": "Azure Key Vault secret",
+      "secret_name": "abuseipdb-api-key"
+    },
+    {
+      "name": "graph_token",
+      "type": "string",
+      "source": "Managed Identity (Azure AD)",
+      "scope": "https://graph.microsoft.com/.default"
+    },
+    {
+      "name": "log_analytics_workspace_id",
+      "type": "string",
+      "source": "Azure Key Vault secret",
+      "secret_name": "log-analytics-workspace-id"
+    },
+    {
+      "name": "log_analytics_key",
+      "type": "string",
+      "source": "Azure Key Vault secret",
+      "secret_name": "log-analytics-shared-key"
+    }
+  ],
+  "errorHandling": {
+    "strategy": "Graceful degradation",
+    "priorities": [
+      "1. Always send Telegram notification (highest priority)",
+      "2. Log to compliance store",
+      "3. Create incident ticket",
+      "4. Enrich with external data (best effort)"
+    ]
+  },
+  "retryPolicy": {
+    "type": "exponential",
+    "max_attempts": 3,
+    "initial_interval": 1,
+    "max_interval": 10
+  },
+  "monitoring": {
+    "metrics": [
+      "alert_received_count",
+      "telegram_sent_success_rate",
+      "enrichment_latency_ms",
+      "total_pipeline_latency_ms"
+    ],
+    "alerts": [
+      "If telegram_sent fails 3 times consecutively, page on-call",
+      "If pipeline latency > 60s, warn in logs",
+      "If schema validation fails, increment error counter"
+    ]
+  },
+  "testing": {
+    "test_case_1": {
+      "name": "Critical MFA Fatigue Alert",
+      "input": "example-alert-filled.json",
+      "expected_output": {
+        "telegram_sent": true,
+        "status_code": 200,
+        "response_time_ms": "<5000"
+      }
+    },
+    "test_case_2": {
+      "name": "Low Severity Alert (should skip Telegram)",
+      "input": "Alert with severity=low",
+      "expected_output": {
+        "telegram_sent": false,
+        "logging_only": true
+      }
+    }
+  }
+}
