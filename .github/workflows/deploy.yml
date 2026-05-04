@@ -28,6 +28,7 @@ jobs:
     outputs:
       docker_ready: ${{ steps.check.outputs.docker_ready }}
       k8s_ready: ${{ steps.check.outputs.k8s_ready }}
+      notify_ready: ${{ steps.check.outputs.notify_ready }}
     steps:
       - name: Check required secrets
         id: check
@@ -36,6 +37,9 @@ jobs:
           DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
           DOCKER_IMAGE: ${{ secrets.DOCKER_IMAGE }}
           KUBECONFIG_DATA: ${{ secrets.KUBECONFIG_DATA }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: |
           if [ -n "$DOCKERHUB_USERNAME" ] && [ -n "$DOCKERHUB_TOKEN" ] && [ -n "$DOCKER_IMAGE" ]; then
             echo "docker_ready=true" >> "$GITHUB_OUTPUT"
@@ -48,10 +52,34 @@ jobs:
           else
             echo "k8s_ready=false" >> "$GITHUB_OUTPUT"
           fi
+
+          notify_ready=true
+          if [[ -z "$SLACK_WEBHOOK_URL" || ! "$SLACK_WEBHOOK_URL" =~ ^https://hooks.slack.com/services/ ]]; then
+            echo "::error::SLACK_WEBHOOK_URL is missing or invalid."
+            notify_ready=false
+          fi
+          if [[ -z "$TELEGRAM_BOT_TOKEN" || ! "$TELEGRAM_BOT_TOKEN" =~ ^[0-9]+:[A-Za-z0-9_-]+$ ]]; then
+            echo "::error::TELEGRAM_BOT_TOKEN is missing or invalid."
+            notify_ready=false
+          fi
+          if [[ -z "$TELEGRAM_CHAT_ID" || ! "$TELEGRAM_CHAT_ID" =~ ^-?[0-9]+$ ]]; then
+            echo "::error::TELEGRAM_CHAT_ID is missing or invalid."
+            notify_ready=false
+          fi
+          echo "notify_ready=$notify_ready" >> "$GITHUB_OUTPUT"
+
+      - name: Enforce alerting readiness
+        run: |
+          if [ "${{ steps.check.outputs.notify_ready }}" != "true" ]; then
+            echo "::error::Alerting readiness failed. Deployment is blocked until Slack and Telegram secrets are valid."
+            exit 1
+          fi
+
       - name: Report preflight gate status
         run: |
           echo "docker_ready=${{ steps.check.outputs.docker_ready }}"
           echo "k8s_ready=${{ steps.check.outputs.k8s_ready }}"
+          echo "notify_ready=${{ steps.check.outputs.notify_ready }}"
 
           if [ "${{ steps.check.outputs.docker_ready }}" != "true" ]; then
             echo "::notice::docker-build-push will be skipped (missing one or more of: DOCKERHUB_USERNAME, DOCKERHUB_TOKEN, DOCKER_IMAGE)."
@@ -59,6 +87,10 @@ jobs:
 
           if [ "${{ steps.check.outputs.k8s_ready }}" != "true" ]; then
             echo "::notice::deploy-to-k8s will be skipped (missing KUBECONFIG_DATA)."
+          fi
+
+          if [ "${{ steps.check.outputs.notify_ready }}" != "true" ]; then
+            echo "::error::deploy-to-k8s will be blocked until Slack/Telegram secrets are valid."
           fi
 
   docker-build-pr:
@@ -93,7 +125,7 @@ jobs:
           tags: ${{ secrets.DOCKER_IMAGE }}:latest
 
   deploy-to-k8s:
-    if: ${{ github.event_name == 'push' && needs.preflight.outputs.docker_ready == 'true' && needs.preflight.outputs.k8s_ready == 'true' }}
+    if: ${{ github.event_name == 'push' && needs.preflight.outputs.docker_ready == 'true' && needs.preflight.outputs.k8s_ready == 'true' && needs.preflight.outputs.notify_ready == 'true' }}
     needs: [docker-build-push, preflight]
     runs-on: ubuntu-latest
     steps:

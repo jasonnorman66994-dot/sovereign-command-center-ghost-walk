@@ -19,6 +19,27 @@ jobs:
         with:
           python-version: '3.x'
 
+      - name: Enforce alerting readiness
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          if [[ -z "$SLACK_WEBHOOK_URL" || ! "$SLACK_WEBHOOK_URL" =~ ^https://hooks.slack.com/services/ ]]; then
+            echo "::error::SLACK_WEBHOOK_URL is missing or invalid."
+            exit 1
+          fi
+
+          if [[ -z "$TELEGRAM_BOT_TOKEN" || ! "$TELEGRAM_BOT_TOKEN" =~ ^[0-9]+:[A-Za-z0-9_-]+$ ]]; then
+            echo "::error::TELEGRAM_BOT_TOKEN is missing or invalid."
+            exit 1
+          fi
+
+          if [[ -z "$TELEGRAM_CHAT_ID" || ! "$TELEGRAM_CHAT_ID" =~ ^-?[0-9]+$ ]]; then
+            echo "::error::TELEGRAM_CHAT_ID is missing or invalid."
+            exit 1
+          fi
+
       - name: Install OPA
         run: |
           curl -L -o opa https://openpolicyagent.org/downloads/latest/opa_linux_amd64_static
