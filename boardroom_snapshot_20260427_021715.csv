@@ -1,0 +1,5 @@
+Metric,Value
+MTTD (min),0
+
+Timestamp,Event Type,Email,IP
+1777259852.0,Credential_Harvest,test@demo.com,::1

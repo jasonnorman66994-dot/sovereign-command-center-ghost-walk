@@ -1,0 +1,44 @@
+{
+  "alert_type": "identity_compromise",
+  "severity": "low",
+  "timestamp_utc": "2026-04-25T23:00:00Z",
+  "user": {
+    "email": "testuser@company.com",
+    "user_id": "test-000",
+    "display_name": "Test User",
+    "department": "Test",
+    "role": "Tester",
+    "privileged_access": false
+  },
+  "event": {
+    "event_type": "test_alert",
+    "description": "This is a test alert for Telegram integration.",
+    "source_ip": "127.0.0.1",
+    "asn": "AS00000",
+    "geo_location": "Localhost",
+    "client_app": "TestApp",
+    "auth_method": "None",
+    "risk_level": "low",
+    "risk_detections": ["Test event"],
+    "correlation_id": "test-000",
+    "session_id": "sess-test-000",
+    "status": "TEST"
+  },
+  "technical_indicators": {
+    "mfa_fatigue_count": 0,
+    "legacy_protocol_used": false,
+    "oauth_app_detected": false,
+    "oauth_app_scopes": [],
+    "hidden_inbox_rules_detected": false,
+    "impossible_travel_detected": false,
+    "token_replay_detected": false,
+    "new_device_registration": false,
+    "unfamiliar_signin_properties": false
+  },
+  "recommended_actions": ["No action required - test only"],
+  "investigation_links": {
+    "signin_logs": "https://entra.microsoft.com/#view/signin"
+  },
+  "assigned_to": {"analyst": "@test_team", "team": "Test SOC"},
+  "metadata": {"pipeline_version": "1.0.0", "source_system": "Test", "environment": "test"}
+}

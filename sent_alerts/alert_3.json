@@ -1,0 +1,5 @@
+{
+  "alert_id": "alert_3",
+  "severity": "high",
+  "description": "Test simulation alert for enrichment check."
+}

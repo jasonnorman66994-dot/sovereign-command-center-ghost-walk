@@ -1,0 +1,51 @@
+trigger:
+  branches:
+    include:
+      - main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+stages:
+- stage: Build
+  jobs:
+  - job: Build
+    steps:
+    - checkout: self
+    - task: UsePythonVersion@0
+      inputs:
+        versionSpec: '3.11'
+    - script: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt || true
+      displayName: 'Install dependencies'
+    - script: echo "Add your lint/test commands here"
+      displayName: 'Lint and Test'
+
+- stage: Docker
+  dependsOn: Build
+  jobs:
+  - job: Docker
+    steps:
+    - checkout: self
+    - task: Docker@2
+      inputs:
+        command: buildAndPush
+        repository: $(DOCKER_IMAGE)
+        dockerfile: Dockerfile
+        containerRegistry: $(DOCKER_REGISTRY_SERVICE_CONNECTION)
+        tags: latest
+
+- stage: Deploy
+  dependsOn: Docker
+  jobs:
+  - job: Deploy
+    steps:
+    - checkout: self
+    - task: Kubernetes@1
+      inputs:
+        connectionType: 'KubeConfig'
+        kubeconfig: '$(KUBECONFIG_DATA)'
+        command: apply
+        useConfigurationFile: true
+        configuration: 'k8s/'

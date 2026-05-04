@@ -1,0 +1,11 @@
+Report email sent to jasonnorman66994@gmail.com
+Failed to send to SIEM: HTTPSConnectionPool(host='your-siem-webhook-endpoint.example.com', port=443): Max retries exceeded with url: /ingest (Caused by NameResolutionError("HTTPSConnection(host='your-siem-webhook-endpoint.example.com', port=443): Failed to resolve 'your-siem-webhook-endpoint.example.com' ([Errno 11001] getaddrinfo failed)"))
+Failed to send to SIEM: HTTPSConnectionPool(host='your-siem-webhook-endpoint.example.com', port=443): Max retries exceeded with url: /ingest (Caused by NameResolutionError("HTTPSConnection(host='your-siem-webhook-endpoint.example.com', port=443): Failed to resolve 'your-siem-webhook-endpoint.example.com' ([Errno 11001] getaddrinfo failed)"))
+Failed to send to SIEM: HTTPSConnectionPool(host='your-siem-webhook-endpoint.example.com', port=443): Max retries exceeded with url: /ingest (Caused by NameResolutionError("HTTPSConnection(host='your-siem-webhook-endpoint.example.com', port=443): Failed to resolve 'your-siem-webhook-endpoint.example.com' ([Errno 11001] getaddrinfo failed)"))
+Failed to send to SIEM: HTTPSConnectionPool(host='your-siem-webhook-endpoint.example.com', port=443): Max retries exceeded with url: /ingest (Caused by NameResolutionError("HTTPSConnection(host='your-siem-webhook-endpoint.example.com', port=443): Failed to resolve 'your-siem-webhook-endpoint.example.com' ([Errno 11001] getaddrinfo failed)"))
+Failed to send to SIEM: HTTPSConnectionPool(host='your-siem-webhook-endpoint.example.com', port=443): Max retries exceeded with url: /ingest (Caused by NameResolutionError("HTTPSConnection(host='your-siem-webhook-endpoint.example.com', port=443): Failed to resolve 'your-siem-webhook-endpoint.example.com' ([Errno 11001] getaddrinfo failed)"))
+Telegram alert payload written to telegram-alert-payload.json
+
+Γ£à Alert sent to Telegram!
+
+

@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+
+data:
+  # Example configuration values
+  LOG_LEVEL: "INFO"
+  ALERT_CHANNEL: "telegram"
+  # Add more config values as needed

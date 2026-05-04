@@ -1,0 +1,65 @@
+{
+  "alert_type": "identity_compromise",
+  "severity": "critical",
+  "timestamp_utc": "2026-04-23T09:12:44Z",
+  "user": {
+    "email": "ceo@company.com",
+    "user_id": "88421",
+    "display_name": "CEO, Global Ops",
+    "department": "Executive",
+    "role": "Privileged User",
+    "privileged_access": true
+  },
+  "event": {
+    "event_type": "mfa_fatigue_attack",
+    "description": "User received 17 MFA push prompts in 3 minutes. Spoofed IT support call reported.",
+    "source_ip": "185.221.102.44",
+    "asn": "AS20860",
+    "geo_location": "Bucharest, Romania",
+    "client_app": "Browser",
+    "auth_method": "MFA Push",
+    "risk_level": "high",
+    "risk_detections": [
+      "Repeated MFA prompts",
+      "Unusual ASN",
+      "Successful login after fatigue pattern"
+    ],
+    "correlation_id": "c0ffee-1234-5678-90ab-cafe12345678",
+    "session_id": "session-998877"
+  },
+  "technical_indicators": {
+    "mfa_fatigue_count": 17,
+    "legacy_protocol_used": false,
+    "oauth_app_detected": false,
+    "oauth_app_scopes": [],
+    "hidden_inbox_rules_detected": false,
+    "impossible_travel_detected": false,
+    "token_replay_detected": false,
+    "new_device_registration": false,
+    "unfamiliar_signin_properties": false
+  },
+  "recommended_actions": [
+    "Revoke all active sessions",
+    "Block the account",
+    "Reset password",
+    "Reset MFA bindings",
+    "Review OAuth grants",
+    "Check for hidden inbox rules"
+  ],
+  "investigation_links": {
+    "signin_logs": "https://entra.microsoft.com/#view/Microsoft_AAD_IAM/UsersSignIns",
+    "oauth_apps": "https://entra.microsoft.com/#view/Microsoft_AAD_IAM/Apps",
+    "inbox_rules": "https://admin.exchange.microsoft.com/#/mailboxes",
+    "sentinel_query": "https://portal.azure.com/#blade/Microsoft_Azure_Sentinel/Logs",
+    "user_profile": "https://entra.microsoft.com/#view/Microsoft_AAD_UsersProfile"
+  },
+  "assigned_to": {
+    "analyst": "@oncall_analyst",
+    "team": "Security Operations Center"
+  },
+  "metadata": {
+    "pipeline_version": "1.2.3",
+    "source_system": "Sentinel",
+    "environment": "production"
+  }
+}

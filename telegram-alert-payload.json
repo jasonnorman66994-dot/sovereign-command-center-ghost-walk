@@ -1,0 +1,31 @@
+{
+  "user": {
+    "email": "test_user_10@company.com",
+    "user_id": "USR_109",
+    "department": "CS-WS-109",
+    "role": "Target"
+  },
+  "event": {
+    "event_type": "Phishing Link Clicked",
+    "description": "User clicked phishing link from device CS-WS-109",
+    "source_ip": "::1",
+    "asn": "N/A",
+    "geo_location": "N/A",
+    "client_app": "Browser",
+    "auth_method": "N/A",
+    "risk_detections": [
+      "Phishing simulation click"
+    ]
+  },
+  "timestamp_utc": "2026-05-01T10:01:09Z",
+  "severity": "medium",
+  "recommended_actions": [
+    "Notify user and reset password",
+    "Review device activity",
+    "Check for lateral movement"
+  ],
+  "investigation_links": {},
+  "assigned_to": {
+    "analyst": "SOC Analyst"
+  }
+}

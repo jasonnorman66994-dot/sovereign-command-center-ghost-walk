@@ -1,0 +1,24 @@
+2026-05-01T03:27:35.558019 [DEBUG] TELEGRAM_BOT_TOKEN: 8486086452:AAFB2NUlC4Mc58tT0AXpX8FM7dMFMm-26pM
+2026-05-01T03:27:35.558800 [DEBUG] TELEGRAM_CHAT_ID: 8486086452
+2026-05-01T03:27:35.559550 [DEBUG] Telegram payload: {'chat_id': '8486086452', 'text': '*Whitelist Override Triggered*\nIncident: `INCIDENT3000`\nUser: `demo_user`\nReason: Telegram file log test\nIP: 127.0.0.1\nUser-Agent: TelegramTest/4.0', 'parse_mode': 'MarkdownV2', 'disable_web_page_preview': True}
+2026-05-01T03:27:37.171419 [DEBUG] Telegram response status: 400
+2026-05-01T03:27:37.172122 [DEBUG] Telegram response body: {"ok":false,"error_code":400,"description":"Bad Request: can't parse entities: Character '.' is reserved and must be escaped with the preceding '\\'"}
+2026-05-01T03:27:37.173582 [WARNING] Telegram error: {"ok":false,"error_code":400,"description":"Bad Request: can't parse entities: Character '.' is reserved and must be escaped with the preceding '\\'"}
+2026-05-01T03:29:40.410476 [DEBUG] TELEGRAM_BOT_TOKEN: 8486086452:AAFB2NUlC4Mc58tT0AXpX8FM7dMFMm-26pM
+2026-05-01T03:29:40.411000 [DEBUG] TELEGRAM_CHAT_ID: 8486086452
+2026-05-01T03:29:40.411523 [DEBUG] Telegram payload: {'chat_id': '8486086452', 'text': '\\*Whitelist Override Triggered\\*\nIncident: \\`INCIDENT4000\\`\nUser: \\`demo\\_user\\`\nReason: Telegram escape test\nIP: 127\\.0\\.0\\.1\nUser\\-Agent: TelegramTest/5\\.0', 'parse_mode': 'MarkdownV2', 'disable_web_page_preview': True}
+2026-05-01T03:29:41.920638 [DEBUG] Telegram response status: 403
+2026-05-01T03:29:41.921301 [DEBUG] Telegram response body: {"ok":false,"error_code":403,"description":"Forbidden: bots can't send messages to bots"}
+2026-05-01T03:29:41.921886 [WARNING] Telegram error: {"ok":false,"error_code":403,"description":"Forbidden: bots can't send messages to bots"}
+2026-05-01T03:38:44.515512 [DEBUG] TELEGRAM_BOT_TOKEN: 8486086452:AAFB2NUlC4Mc58tT0AXpX8FM7dMFMm-26pM
+2026-05-01T03:38:44.516785 [DEBUG] TELEGRAM_CHAT_ID: 8486086452
+2026-05-01T03:38:44.517244 [DEBUG] Telegram payload: {'chat_id': '8486086452', 'text': '\\*Whitelist Override Triggered\\*\nIncident: \\`INCIDENT5000\\`\nUser: \\`demo\\_user\\`\nReason: Telegram group test\nIP: 127\\.0\\.0\\.1\nUser\\-Agent: TelegramTest/6\\.0', 'parse_mode': 'MarkdownV2', 'disable_web_page_preview': True}
+2026-05-01T03:38:47.860256 [DEBUG] Telegram response status: 401
+2026-05-01T03:38:47.860788 [DEBUG] Telegram response body: {"ok":false,"error_code":401,"description":"Unauthorized"}
+2026-05-01T03:38:47.861210 [WARNING] Telegram error: {"ok":false,"error_code":401,"description":"Unauthorized"}
+2026-05-01T03:48:13.922328 [DEBUG] TELEGRAM_BOT_TOKEN: 8486086452:AAFB2NUlC4Mc58tT0AXpX8FM7dMFMm-26pM
+2026-05-01T03:48:13.923639 [DEBUG] TELEGRAM_CHAT_ID: 8486086452
+2026-05-01T03:48:13.925595 [DEBUG] Telegram payload: {'chat_id': '8486086452', 'text': '\\*Whitelist Override Triggered\\*\nIncident: \\`INCIDENT7000\\`\nUser: \\`demo\\_user\\`\nReason: Telegram group final test\nIP: 127\\.0\\.0\\.1\nUser\\-Agent: TelegramTest/8\\.0', 'parse_mode': 'MarkdownV2', 'disable_web_page_preview': True}
+2026-05-01T03:48:15.862160 [DEBUG] Telegram response status: 401
+2026-05-01T03:48:15.862679 [DEBUG] Telegram response body: {"ok":false,"error_code":401,"description":"Unauthorized"}
+2026-05-01T03:48:15.863123 [WARNING] Telegram error: {"ok":false,"error_code":401,"description":"Unauthorized"}

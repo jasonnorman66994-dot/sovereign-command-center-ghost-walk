@@ -1,0 +1,36 @@
+{
+  "name": "json-openapi-validation-docs",
+  "version": "1.0.0",
+  "description": "Validation and documentation environment for JSON Schema and OpenAPI.",
+  "main": "validate.js",
+  "scripts": {
+    "test:payloads": "node ./test_payloads/run_all_tests.js",
+    "validate": "node validate.js",
+    "start": "node server.js",
+    "start:redoc": "npx redoc-cli serve openapi.yaml",
+    "start:swagger": "npx http-server ./swagger-ui -o"
+  },
+  "dependencies": {
+    "@azure/identity": "^4.13.1",
+    "@microsoft/microsoft-graph-client": "^3.0.7",
+    "@types/three": "^0.184.0",
+    "ajv": "^8.12.0",
+    "ajv-formats": "^2.1.1",
+    "axios": "^1.15.2",
+    "better-sqlite3": "^12.9.0",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "form-data": "^4.0.5",
+    "isomorphic-fetch": "^3.0.0",
+    "mysql2": "^3.22.3",
+    "nodemailer": "^8.0.6",
+    "pdfkit": "^0.18.0",
+    "postgres": "^3.4.9",
+    "socket.io": "^4.8.3",
+    "three": "^0.184.0"
+  },
+  "devDependencies": {
+    "http-server": "^14.1.1",
+    "redoc-cli": "^0.13.11"
+  }
+}

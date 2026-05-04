@@ -1,0 +1,11 @@
+[
+  {
+    "event": "TOKEN_REVOCATION",
+    "user": "jason.n@omnicorp-cyber.com",
+    "timestamp": "2026-05-01T14:18:19.866091",
+    "reason": "Impossible Travel / Fingerprint Drift",
+    "location": "London",
+    "ip": "51.140.12.99",
+    "user_agent": "Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0"
+  }
+]

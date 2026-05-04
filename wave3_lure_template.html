@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Omnicorp Zero-Trust Notification</title>
+    <link rel="stylesheet" href="wave3_lure_template.css">
+</head>
+<body>
+    <div class="omnicorp-header">
+        <img src="https://omnicorp.example.com/assets/logo.png" alt="Omnicorp Logo" class="omnicorp-logo">
+        <h1>Omnicorp Zero-Trust Notification</h1>
+    </div>
+    <div class="notification">
+        <h2>Action Required: Identity Verification</h2>
+        <p>
+            As part of our ongoing security enhancements, please verify your identity using your assigned Wristband device. This ensures continued access to Omnicorp resources and protects your account from unauthorized activity.
+        </p>
+        <a href="#" class="cta">Verify Now</a>
+        <!-- Identity Pinning Logic Placeholder -->
+        <script>
+            // Omnicorp Wristband Authentication Simulation
+            // TODO: Integrate with real Wristband check
+            function simulateWristbandCheck() {
+                // Simulate a pass/fail for demo
+                return Math.random() > 0.1;
+            }
+            // Example usage:
+            // if (!simulateWristbandCheck()) { alert('Wristband authentication failed.'); }
+        </script>
+        <!-- Invisible Telemetry Pixel -->
+        <img src="https://yourdomain.com/api/phish/track?user_id={{USER_ID}}" width="1" height="1" class="telemetry-pixel" alt="">
+    </div>
+    <div class="footer">
+        &copy; 2026 Omnicorp. All rights reserved.
+    </div>
+</body>
+</html>

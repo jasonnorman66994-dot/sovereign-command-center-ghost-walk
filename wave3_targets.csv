@@ -1,0 +1,4 @@
+deviceId,email,phishUrl
+12345,user1@example.com,https://phish.example.com/track?id=12345
+67890,user2@example.com,https://phish.example.com/track?id=67890
+ABCDE,user3@example.com,https://phish.example.com/track?id=ABCDE

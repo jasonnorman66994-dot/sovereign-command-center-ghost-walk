@@ -1,0 +1,47 @@
+{
+  "alert_type": "identity_compromise",
+  "severity": "high",
+  "timestamp_utc": "2026-04-25T22:05:00Z",
+  "user": {
+    "email": "charlie@company.com",
+    "user_id": "charlie-003",
+    "display_name": "Charlie Lee",
+    "department": "IT",
+    "role": "IT Support",
+    "privileged_access": false
+  },
+  "event": {
+    "event_type": "legacy_protocol_exploitation",
+    "description": "Detected legacy IMAP4/POP3 traffic. Possible exploitation for password spray or bypass.",
+    "source_ip": "192.0.2.123",
+    "asn": "AS12389",
+    "geo_location": "Internal Network",
+    "client_app": "IMAP",
+    "auth_method": "Basic Auth",
+    "risk_level": "high",
+    "risk_detections": ["Legacy protocol use detected", "IMAP4/POP3 traffic", "Password spray attempt"],
+    "correlation_id": "legacy-charlie-003",
+    "session_id": "sess-charlie-003"
+  },
+  "technical_indicators": {
+    "mfa_fatigue_count": 0,
+    "legacy_protocol_used": true,
+    "oauth_app_detected": false,
+    "oauth_app_scopes": [],
+    "hidden_inbox_rules_detected": false,
+    "impossible_travel_detected": false,
+    "token_replay_detected": false,
+    "new_device_registration": false,
+    "unfamiliar_signin_properties": true
+  },
+  "recommended_actions": ["Disable legacy protocols", "Review sign-in logs", "Flag for Phishing-Resistant MFA (FIDO2) enrollment"],
+  "investigation_links": {
+    "signin_logs": "https://entra.microsoft.com/#view/signin",
+    "oauth_apps": "https://entra.microsoft.com/#view/apps",
+    "inbox_rules": "https://admin.exchange.microsoft.com/#/mailboxes",
+    "sentinel_query": "https://portal.azure.com/#blade/sentinel",
+    "user_profile": "https://entra.microsoft.com/#view/profile"
+  },
+  "assigned_to": {"analyst": "@legacy_team", "team": "Security Operations Center"},
+  "metadata": {"pipeline_version": "1.0.0", "source_system": "Sentinel", "environment": "test"}
+}

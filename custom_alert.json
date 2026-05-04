@@ -1,0 +1,83 @@
+{
+  "alert_type": "identity_compromise",
+  "severity": "high",
+  "timestamp_utc": "2026-04-25T22:30:00Z",
+  "user": {
+    "email": "alice.ciso@company.com",
+    "user_id": "ciso-001",
+    "display_name": "Alice CISO",
+    "department": "Security",
+    "role": "Chief Information Security Officer",
+    "privileged_access": true
+  },
+  "event": {
+    "event_type": "device_alert",
+    "description": "Device risk detected: Malware found on managed endpoint.",
+    "source_ip": "10.10.10.10",
+    "asn": "AS13335",
+    "geo_location": "San Francisco, USA",
+    "client_app": "Defender for Endpoint",
+    "auth_method": "Device Compliance",
+    "risk_level": "critical",
+    "risk_detections": [
+      "Malware detected on device",
+      "Device marked high risk",
+      "Conditional Access policy triggered"
+    ],
+    "correlation_id": "custom-uuid-001",
+    "session_id": "session-custom-001"
+  },
+  "technical_indicators": {
+    "mfa_fatigue_count": 0,
+    "legacy_protocol_used": false,
+    "oauth_app_detected": false,
+    "oauth_app_scopes": [],
+    "hidden_inbox_rules_detected": false,
+    "impossible_travel_detected": false,
+    "token_replay_detected": false,
+    "new_device_registration": false,
+    "unfamiliar_signin_properties": false
+  },
+  "recommended_actions": [
+    "Isolate device from network",
+    "Initiate malware scan",
+    "Reset user credentials",
+    "Review device compliance policies"
+  ],
+  "investigation_links": {
+    "signin_logs": "https://entra.microsoft.com/#view/signin",
+    "oauth_apps": "https://entra.microsoft.com/#view/apps",
+    "inbox_rules": "https://admin.exchange.microsoft.com/#/mailboxes",
+    "sentinel_query": "https://portal.azure.com/#blade/sentinel",
+    "user_profile": "https://entra.microsoft.com/#view/profile"
+  },
+  "assigned_to": {
+    "analyst": "@alice_ciso",
+    "team": "Security Leadership"
+  },
+  "metadata": {
+    "pipeline_version": "1.0.0",
+    "source_system": "Sentinel",
+    "environment": "prod"
+  },
+  "virustotal": {
+    "malicious": 5,
+    "suspicious": 2,
+    "harmless": 40
+  },
+  "abuseipdb": {
+    "confidence_score": 85,
+    "total_reports": 12
+  },
+  "entra_id": {
+    "last_password_change": "2026-04-01T12:00:00Z",
+    "risk_level": "medium",
+    "mfa_methods": ["Authenticator App", "SMS"]
+  },
+  "device": {
+    "device_id": "device-12345",
+    "device_name": "CISO-Laptop",
+    "device_risk": "high",
+    "device_alert": "Malware: Trojan.Generic"
+  }
+}

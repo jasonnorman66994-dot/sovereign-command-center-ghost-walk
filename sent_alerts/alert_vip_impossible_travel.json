@@ -1,0 +1,56 @@
+{
+  "alert_type": "identity_compromise",
+  "severity": "high",
+  "timestamp_utc": "2026-04-25T23:00:00Z",
+  "user": {
+    "email": "marcus@ventures.co",
+    "user_id": "U002",
+    "display_name": "Marcus Oduya",
+    "department": "Executive",
+    "role": "Chief Executive Officer",
+    "privileged_access": true
+  },
+  "event": {
+    "event_type": "impossible_travel",
+    "description": "Login from London, UK followed by login from Nairobi, Kenya within 3 minutes (impossible travel).",
+    "source_ip": "81.104.9.23",
+    "asn": "AS2856",
+    "geo_location": "London, UK",
+    "client_app": "Chrome 124",
+    "auth_method": "Password + MFA",
+    "risk_level": "high",
+    "risk_detections": [
+      "Impossible travel detected",
+      "VIP user",
+      "Multiple locations in short time"
+    ],
+    "correlation_id": "vip-travel-2026-04-25",
+    "session_id": "session-vip-002"
+  },
+  "technical_indicators": {
+    "impossible_travel_detected": true,
+    "new_device_registration": false,
+    "unfamiliar_signin_properties": true
+  },
+  "recommended_actions": [
+    "Revoke all active sessions",
+    "Force password reset",
+    "Contact user to verify activity"
+  ],
+  "investigation_links": {
+    "signin_logs": "https://entra.microsoft.com/#view/signin",
+    "oauth_apps": "https://entra.microsoft.com/#view/apps",
+    "inbox_rules": "https://admin.exchange.microsoft.com/#/mailboxes",
+    "sentinel_query": "https://portal.azure.com/#blade/sentinel",
+    "user_profile": "https://entra.microsoft.com/#view/profile"
+  },
+  "assigned_to": {
+    "analyst": "@soc_vip_team",
+    "team": "VIP Response"
+  },
+  "metadata": {
+    "pipeline_version": "1.0.0",
+    "source_system": "Sentinel",
+    "environment": "prod"
+  }
+}

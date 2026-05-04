@@ -1,0 +1,379 @@
+{
+  "mfa_fatigue": {
+    "alert_type": "identity_compromise",
+    "severity": "critical",
+    "timestamp_utc": "2026-04-25T21:44:15.519987Z",
+    "user": {
+      "email": "user@company.com",
+      "user_id": "25863a22-45d1-4b4d-9048-34420a9ea6d7",
+      "display_name": "CEO, Executive",
+      "department": "Engineering",
+      "role": "Software Engineer",
+      "privileged_access": true
+    },
+    "event": {
+      "event_type": "mfa_fatigue_attack",
+      "description": "User received 23 MFA push prompts in 4 minutes. Possible MFA fatigue attack.",
+      "source_ip": "185.220.100.44",
+      "asn": "AS20860",
+      "geo_location": "Bucharest, Romania",
+      "client_app": "Browser",
+      "auth_method": "MFA Push",
+      "risk_level": "high",
+      "risk_detections": [
+        "Repeated MFA prompts",
+        "Multiple failed authentications",
+        "Unusual geographic location",
+        "First time login from this region"
+      ],
+      "correlation_id": "fcf4f093-3a23-4792-9dc9-89f709dadaf3",
+      "session_id": "session-aee581c7"
+    },
+    "technical_indicators": {
+      "mfa_fatigue_count": 23,
+      "legacy_protocol_used": false,
+      "oauth_app_detected": false,
+      "oauth_app_scopes": [],
+      "hidden_inbox_rules_detected": false,
+      "impossible_travel_detected": false,
+      "token_replay_detected": false,
+      "new_device_registration": false,
+      "unfamiliar_signin_properties": true
+    },
+    "recommended_actions": [
+      "Revoke all active sessions",
+      "Block the account",
+      "Reset password"
+    ],
+    "investigation_links": {
+      "signin_logs": "https://entra.microsoft.com/#view/signin",
+      "oauth_apps": "https://entra.microsoft.com/#view/apps",
+      "inbox_rules": "https://admin.exchange.microsoft.com/#/mailboxes",
+      "sentinel_query": "https://portal.azure.com/#blade/sentinel",
+      "user_profile": "https://entra.microsoft.com/#view/profile"
+    },
+    "assigned_to": {
+      "analyst": "@test_analyst",
+      "team": "Security Operations Center"
+    },
+    "metadata": {
+      "pipeline_version": "1.0.0",
+      "source_system": "Sentinel",
+      "environment": "test"
+    }
+  },
+  "oauth_abuse": {
+    "alert_type": "identity_compromise",
+    "severity": "high",
+    "timestamp_utc": "2026-04-25T21:44:15.520187Z",
+    "user": {
+      "email": "user@company.com",
+      "user_id": "25863a22-45d1-4b4d-9048-34420a9ea6d7",
+      "display_name": "Test User",
+      "department": "Engineering",
+      "role": "Software Engineer",
+      "privileged_access": false
+    },
+    "event": {
+      "event_type": "oauth_abuse",
+      "description": "User granted consent to third-party app requesting Mail.ReadWrite and offline_access scopes.",
+      "source_ip": "203.0.113.50",
+      "asn": "AS15169",
+      "geo_location": "Mountain View, USA",
+      "client_app": "OAuth App - 'CloudSync Pro'",
+      "auth_method": "OAuth Consent",
+      "risk_level": "high",
+      "risk_detections": [
+        "OAuth app with risky scopes",
+        "Mail.ReadWrite permission",
+        "offline_access requested",
+        "Unknown publisher"
+      ],
+      "correlation_id": "fcf4f093-3a23-4792-9dc9-89f709dadaf3",
+      "session_id": "session-aee581c7"
+    },
+    "technical_indicators": {
+      "mfa_fatigue_count": 0,
+      "legacy_protocol_used": false,
+      "oauth_app_detected": true,
+      "oauth_app_scopes": [
+        "Mail.ReadWrite",
+        "offline_access",
+        "Calendar.ReadWrite"
+      ],
+      "hidden_inbox_rules_detected": false,
+      "impossible_travel_detected": false,
+      "token_replay_detected": false,
+      "new_device_registration": false,
+      "unfamiliar_signin_properties": false
+    },
+    "recommended_actions": [
+      "Revoke all active sessions",
+      "Block the account",
+      "Reset password"
+    ],
+    "investigation_links": {
+      "signin_logs": "https://entra.microsoft.com/#view/signin",
+      "oauth_apps": "https://entra.microsoft.com/#view/apps",
+      "inbox_rules": "https://admin.exchange.microsoft.com/#/mailboxes",
+      "sentinel_query": "https://portal.azure.com/#blade/sentinel",
+      "user_profile": "https://entra.microsoft.com/#view/profile"
+    },
+    "assigned_to": {
+      "analyst": "@test_analyst",
+      "team": "Security Operations Center"
+    },
+    "metadata": {
+      "pipeline_version": "1.0.0",
+      "source_system": "Sentinel",
+      "environment": "test"
+    }
+  },
+  "impossible_travel": {
+    "alert_type": "identity_compromise",
+    "severity": "critical",
+    "timestamp_utc": "2026-04-25T21:44:15.520371Z",
+    "user": {
+      "email": "user@company.com",
+      "user_id": "25863a22-45d1-4b4d-9048-34420a9ea6d7",
+      "display_name": "Global Manager",
+      "department": "Engineering",
+      "role": "Software Engineer",
+      "privileged_access": false
+    },
+    "event": {
+      "event_type": "impossible_travel",
+      "description": "Sign-in from Tokyo, Japan 30 minutes after login from London, UK (geographically impossible in that timeframe).",
+      "source_ip": "210.201.80.10",
+      "asn": "AS2914",
+      "geo_location": "Tokyo, Japan",
+      "client_app": "Browser",
+      "auth_method": "MFA Push",
+      "risk_level": "high",
+      "risk_detections": [
+        "Impossible travel detected",
+        "Geographic inconsistency",
+        "Login from 5400 miles away in 30 minutes"
+      ],
+      "correlation_id": "fcf4f093-3a23-4792-9dc9-89f709dadaf3",
+      "session_id": "session-aee581c7"
+    },
+    "technical_indicators": {
+      "mfa_fatigue_count": 0,
+      "legacy_protocol_used": false,
+      "oauth_app_detected": false,
+      "oauth_app_scopes": [],
+      "hidden_inbox_rules_detected": false,
+      "impossible_travel_detected": true,
+      "token_replay_detected": false,
+      "new_device_registration": false,
+      "unfamiliar_signin_properties": false
+    },
+    "recommended_actions": [
+      "Revoke all active sessions",
+      "Block the account",
+      "Reset password"
+    ],
+    "investigation_links": {
+      "signin_logs": "https://entra.microsoft.com/#view/signin",
+      "oauth_apps": "https://entra.microsoft.com/#view/apps",
+      "inbox_rules": "https://admin.exchange.microsoft.com/#/mailboxes",
+      "sentinel_query": "https://portal.azure.com/#blade/sentinel",
+      "user_profile": "https://entra.microsoft.com/#view/profile"
+    },
+    "assigned_to": {
+      "analyst": "@test_analyst",
+      "team": "Security Operations Center"
+    },
+    "metadata": {
+      "pipeline_version": "1.0.0",
+      "source_system": "Sentinel",
+      "environment": "test"
+    }
+  },
+  "legacy_protocol": {
+    "alert_type": "identity_compromise",
+    "severity": "medium",
+    "timestamp_utc": "2026-04-25T21:44:15.520522Z",
+    "user": {
+      "email": "user@company.com",
+      "user_id": "25863a22-45d1-4b4d-9048-34420a9ea6d7",
+      "display_name": "Test User",
+      "department": "Engineering",
+      "role": "Software Engineer",
+      "privileged_access": false
+    },
+    "event": {
+      "event_type": "legacy_protocol_login",
+      "description": "User authenticated using IMAP protocol. Legacy protocols should be disabled.",
+      "source_ip": "192.0.2.123",
+      "asn": "AS12389",
+      "geo_location": "Internal Network",
+      "client_app": "IMAP",
+      "auth_method": "Basic Auth",
+      "risk_level": "medium",
+      "risk_detections": [
+        "Legacy protocol use detected",
+        "IMAP protocol not disabled",
+        "Basic authentication"
+      ],
+      "correlation_id": "fcf4f093-3a23-4792-9dc9-89f709dadaf3",
+      "session_id": "session-aee581c7"
+    },
+    "technical_indicators": {
+      "mfa_fatigue_count": 0,
+      "legacy_protocol_used": true,
+      "oauth_app_detected": false,
+      "oauth_app_scopes": [],
+      "hidden_inbox_rules_detected": false,
+      "impossible_travel_detected": false,
+      "token_replay_detected": false,
+      "new_device_registration": false,
+      "unfamiliar_signin_properties": false
+    },
+    "recommended_actions": [
+      "Revoke all active sessions",
+      "Block the account",
+      "Reset password"
+    ],
+    "investigation_links": {
+      "signin_logs": "https://entra.microsoft.com/#view/signin",
+      "oauth_apps": "https://entra.microsoft.com/#view/apps",
+      "inbox_rules": "https://admin.exchange.microsoft.com/#/mailboxes",
+      "sentinel_query": "https://portal.azure.com/#blade/sentinel",
+      "user_profile": "https://entra.microsoft.com/#view/profile"
+    },
+    "assigned_to": {
+      "analyst": "@test_analyst",
+      "team": "Security Operations Center"
+    },
+    "metadata": {
+      "pipeline_version": "1.0.0",
+      "source_system": "Sentinel",
+      "environment": "test"
+    }
+  },
+  "token_replay": {
+    "alert_type": "identity_compromise",
+    "severity": "high",
+    "timestamp_utc": "2026-04-25T21:44:15.520671Z",
+    "user": {
+      "email": "user@company.com",
+      "user_id": "25863a22-45d1-4b4d-9048-34420a9ea6d7",
+      "display_name": "Test User",
+      "department": "Engineering",
+      "role": "Software Engineer",
+      "privileged_access": false
+    },
+    "event": {
+      "event_type": "token_replay",
+      "description": "Session token replayed from different IP and device. Possible AiTM or session hijacking attack.",
+      "source_ip": "198.51.100.89",
+      "asn": "AS54001",
+      "geo_location": "Sao Paulo, Brazil",
+      "client_app": "Browser",
+      "auth_method": "Token Replay",
+      "risk_level": "high",
+      "risk_detections": [
+        "Token replay pattern detected",
+        "Session from different device",
+        "Possible AiTM attack"
+      ],
+      "correlation_id": "fcf4f093-3a23-4792-9dc9-89f709dadaf3",
+      "session_id": "session-aee581c7"
+    },
+    "technical_indicators": {
+      "mfa_fatigue_count": 0,
+      "legacy_protocol_used": false,
+      "oauth_app_detected": false,
+      "oauth_app_scopes": [],
+      "hidden_inbox_rules_detected": false,
+      "impossible_travel_detected": false,
+      "token_replay_detected": true,
+      "new_device_registration": true,
+      "unfamiliar_signin_properties": false
+    },
+    "recommended_actions": [
+      "Revoke all active sessions",
+      "Block the account",
+      "Reset password"
+    ],
+    "investigation_links": {
+      "signin_logs": "https://entra.microsoft.com/#view/signin",
+      "oauth_apps": "https://entra.microsoft.com/#view/apps",
+      "inbox_rules": "https://admin.exchange.microsoft.com/#/mailboxes",
+      "sentinel_query": "https://portal.azure.com/#blade/sentinel",
+      "user_profile": "https://entra.microsoft.com/#view/profile"
+    },
+    "assigned_to": {
+      "analyst": "@test_analyst",
+      "team": "Security Operations Center"
+    },
+    "metadata": {
+      "pipeline_version": "1.0.0",
+      "source_system": "Sentinel",
+      "environment": "test"
+    }
+  },
+  "low_severity": {
+    "alert_type": "identity_compromise",
+    "severity": "low",
+    "timestamp_utc": "2026-04-25T21:44:15.520803Z",
+    "user": {
+      "email": "user@company.com",
+      "user_id": "25863a22-45d1-4b4d-9048-34420a9ea6d7",
+      "display_name": "Test User",
+      "department": "Engineering",
+      "role": "Software Engineer",
+      "privileged_access": false
+    },
+    "event": {
+      "event_type": "new_sign_in_property",
+      "description": "User signed in from a new device/location. This is the first sign-in from this device.",
+      "source_ip": "203.0.113.200",
+      "asn": "AS15169",
+      "geo_location": "San Francisco, USA",
+      "client_app": "Browser",
+      "auth_method": "MFA Push",
+      "risk_level": "low",
+      "risk_detections": [
+        "New device sign-in",
+        "First sign-in from this device"
+      ],
+      "correlation_id": "fcf4f093-3a23-4792-9dc9-89f709dadaf3",
+      "session_id": "session-aee581c7"
+    },
+    "technical_indicators": {
+      "mfa_fatigue_count": 0,
+      "legacy_protocol_used": false,
+      "oauth_app_detected": false,
+      "oauth_app_scopes": [],
+      "hidden_inbox_rules_detected": false,
+      "impossible_travel_detected": false,
+      "token_replay_detected": false,
+      "new_device_registration": true,
+      "unfamiliar_signin_properties": false
+    },
+    "recommended_actions": [
+      "Revoke all active sessions",
+      "Block the account",
+      "Reset password"
+    ],
+    "investigation_links": {
+      "signin_logs": "https://entra.microsoft.com/#view/signin",
+      "oauth_apps": "https://entra.microsoft.com/#view/apps",
+      "inbox_rules": "https://admin.exchange.microsoft.com/#/mailboxes",
+      "sentinel_query": "https://portal.azure.com/#blade/sentinel",
+      "user_profile": "https://entra.microsoft.com/#view/profile"
+    },
+    "assigned_to": {
+      "analyst": "@test_analyst",
+      "team": "Security Operations Center"
+    },
+    "metadata": {
+      "pipeline_version": "1.0.0",
+      "source_system": "Sentinel",
+      "environment": "test"
+    }
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "alert_type": "identity_compromise",
+  "severity": "critical",
+  "timestamp_utc": "2026-04-25T22:05:00Z",
+  "user": {
+    "email": "alice@company.com",
+    "user_id": "alice-001",
+    "display_name": "Alice Smith",
+    "department": "Legal",
+    "role": "Legal Counsel",
+    "privileged_access": true
+  },
+  "event": {
+    "event_type": "aitm_phishing",
+    "description": "Detected AiTM phishing via reverse proxy. Real-time OTP relay and session token theft observed.",
+    "source_ip": "185.220.101.1",
+    "asn": "AS20860",
+    "geo_location": "Bucharest, Romania",
+    "client_app": "Browser",
+    "auth_method": "MFA Push",
+    "risk_level": "critical",
+    "risk_detections": ["Reverse proxy interception", "Real-time OTP relay", "Session token theft"],
+    "correlation_id": "aitm-alice-001",
+    "session_id": "sess-alice-001"
+  },
+  "technical_indicators": {
+    "mfa_fatigue_count": 0,
+    "legacy_protocol_used": false,
+    "oauth_app_detected": false,
+    "oauth_app_scopes": [],
+    "hidden_inbox_rules_detected": true,
+    "impossible_travel_detected": false,
+    "token_replay_detected": true,
+    "new_device_registration": false,
+    "unfamiliar_signin_properties": true
+  },
+  "recommended_actions": ["Revoke all active sessions", "Purge suspicious OAuth grants", "Flag for Phishing-Resistant MFA (FIDO2) enrollment"],
+  "investigation_links": {
+    "signin_logs": "https://entra.microsoft.com/#view/signin",
+    "oauth_apps": "https://entra.microsoft.com/#view/apps",
+    "inbox_rules": "https://admin.exchange.microsoft.com/#/mailboxes",
+    "sentinel_query": "https://portal.azure.com/#blade/sentinel",
+    "user_profile": "https://entra.microsoft.com/#view/profile"
+  },
+  "assigned_to": {"analyst": "@phish_team", "team": "Security Operations Center"},
+  "metadata": {"pipeline_version": "1.0.0", "source_system": "Sentinel", "environment": "test"}
+}

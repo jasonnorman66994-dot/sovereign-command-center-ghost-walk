@@ -1,0 +1,41 @@
+{
+  "alert_id": "ALRT-2026-04-25-UMD001",
+  "timestamp": "2026-04-25T20:40:00Z",
+  "severity": "high",
+  "category": "Unmanaged Device Compromise",
+  "user": {
+    "email": "linda.sanders@examplecorp.com",
+    "display_name": "Linda Sanders",
+    "user_id": "USR-55291",
+    "role": "Marketing Specialist",
+    "privilege_level": "low"
+  },
+  "event": {
+    "device": {
+      "device_id": "UNMANAGED-9912",
+      "os": "Unknown Linux",
+      "is_managed": false,
+      "risk_state": "high"
+    },
+    "login": {
+      "ip": "185.221.44.77",
+      "geo": "Germany",
+      "device_fingerprint": "Unrecognized Browser"
+    },
+    "anomalies": [
+      "New device",
+      "Unmanaged endpoint",
+      "Suspicious sign-in properties"
+    ]
+  },
+  "enrichment": {
+    "abuseipdb": {
+      "score": 74,
+      "categories": ["Suspicious Activity"]
+    }
+  },
+  "recommendation": {
+    "action": "Block device, require managed enrollment, force MFA challenge",
+    "urgency": "high"
+  }
+}

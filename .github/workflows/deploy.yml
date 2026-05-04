@@ -1,0 +1,111 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt || true
+      - name: Lint and Test
+        run: |
+          echo "Add your lint/test commands here"
+
+  preflight:
+    runs-on: ubuntu-latest
+    outputs:
+      docker_ready: ${{ steps.check.outputs.docker_ready }}
+      k8s_ready: ${{ steps.check.outputs.k8s_ready }}
+    steps:
+      - name: Check required secrets
+        id: check
+        env:
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+          DOCKER_IMAGE: ${{ secrets.DOCKER_IMAGE }}
+          KUBECONFIG_DATA: ${{ secrets.KUBECONFIG_DATA }}
+        run: |
+          if [ -n "$DOCKERHUB_USERNAME" ] && [ -n "$DOCKERHUB_TOKEN" ] && [ -n "$DOCKER_IMAGE" ]; then
+            echo "docker_ready=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "docker_ready=false" >> "$GITHUB_OUTPUT"
+          fi
+
+          if [ -n "$KUBECONFIG_DATA" ]; then
+            echo "k8s_ready=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "k8s_ready=false" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Report preflight gate status
+        run: |
+          echo "docker_ready=${{ steps.check.outputs.docker_ready }}"
+          echo "k8s_ready=${{ steps.check.outputs.k8s_ready }}"
+
+          if [ "${{ steps.check.outputs.docker_ready }}" != "true" ]; then
+            echo "::notice::docker-build-push will be skipped (missing one or more of: DOCKERHUB_USERNAME, DOCKERHUB_TOKEN, DOCKER_IMAGE)."
+          fi
+
+          if [ "${{ steps.check.outputs.k8s_ready }}" != "true" ]; then
+            echo "::notice::deploy-to-k8s will be skipped (missing KUBECONFIG_DATA)."
+          fi
+
+  docker-build-pr:
+    if: github.event_name == 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build Docker image (PR validation only)
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: false
+          tags: local/pr-validation:latest
+
+  docker-build-push:
+    if: ${{ github.event_name == 'push' && needs.preflight.outputs.docker_ready == 'true' }}
+    needs: [build, preflight]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Log in to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ${{ secrets.DOCKER_IMAGE }}:latest
+
+  deploy-to-k8s:
+    if: ${{ github.event_name == 'push' && needs.preflight.outputs.docker_ready == 'true' && needs.preflight.outputs.k8s_ready == 'true' }}
+    needs: [docker-build-push, preflight]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up kubectl
+        uses: azure/setup-kubectl@v4
+        with:
+          version: 'latest'
+      - name: Set up Kubeconfig
+        run: echo "$KUBECONFIG_DATA" | base64 -d > $HOME/.kube/config
+        env:
+          KUBECONFIG_DATA: ${{ secrets.KUBECONFIG_DATA }}
+      - name: Deploy to Kubernetes
+        run: |
+          kubectl apply -f k8s/

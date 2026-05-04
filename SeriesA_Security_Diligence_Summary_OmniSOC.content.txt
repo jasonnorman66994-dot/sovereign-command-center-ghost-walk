@@ -1,0 +1,37 @@
+undefined | undefined | undefined | TID-0023 | f5ed8bace65821df57d703b7f239f454 | ::1 | 2026-04-28T16:38:56.644Z
+undefined | undefined | undefined | TID-0039 | db4ca9cf73657e76c2ed1dffe5bfb8f0 | ::1 | 2026-04-28T15:47:00.166Z
+2026-04-28T14:51:04.927Z
+undefined | undefined | undefined | TARGET_039 | 64c96d011892ccee8f0b95e9ffecad8c | ::1 | 
+undefined | undefined | undefined | TID-0016 | af04418a32e3f2574180e3d3204cc6fc | ::1 | 2026-04-28T14:50:27.278Z
+undefined | undefined | undefined | TID-0018 | caf4d1b50e081d428dbac110120321b0 | ::1 | 2026-04-28T14:50:18.670Z
+undefined | undefined | undefined | TID-0019 | 4e975f75caa20ed4e1badfb95fb00eda | ::1 | 2026-04-28T14:49:05.776Z
+undefined | undefined | undefined | TID-0026 | 5e88a32ae234cc48be8b5af625b6a12b | ::1 | 2026-04-28T14:48:41.168Z
+undefined | undefined | undefined | TID-0050 | c6b837725e4738ae181dfd26eb004b01 | ::1 | 2026-04-28T14:48:13.048Z
+undefined | undefined | undefined | TID-0046 | d63bd7205f9cfd798ab1827e8af42d05 | ::1 | 2026-04-28T14:47:44.028Z
+undefined | undefined | undefined | TID-0020 | 7d8015df04f18fd0a030e277c48fca42 | ::1 | 2026-04-28T14:47:18.095Z
+undefined | undefined | undefined | TID-0040 | e870cbf12fa25a82a9cdbf0bb659d307 | ::1 | 2026-04-28T14:47:02.844Z
+undefined | undefined | undefined | TID-0028 | 8afa6b643ba107363d89adb7e9409c7e | ::1 | 2026-04-28T14:46:40.810Z
+undefined | undefined | undefined | TID-0021 | 636962b52e55b219e882d69a9a0f98ec | ::1 | 2026-04-28T14:46:23.996Z
+undefined | undefined | undefined | TID-0048 | 24f994435ac629e92d0dea048d1c57eb | ::1 | 2026-04-28T14:46:11.902Z
+undefined | undefined | undefined | TID-0012 | 466943955cff9135d34d78e80f304772 | ::1 | 2026-04-28T14:45:59.574Z
+undefined | undefined | undefined | TID-0022 | 492af4e21d3ad63c8f01de26f12ee5c0 | ::1 | 2026-04-28T14:45:47.671Z
+undefined | undefined | undefined | TID-0044 | 972e19a35a7949c0fa8d6bec1fec9843 | ::1 | 2026-04-28T14:45:32.534Z
+undefined | undefined | undefined | TID-0034 | eef200a8d955ad497de4ba3c6e6005b2 | ::1 | 2026-04-28T14:45:14.192Z
+undefined | undefined | undefined | TID-0027 | bd31091dffec8ed12b7517d9cb184c49 | ::1 | 2026-04-28T14:45:05.469Z
+2026-04-28T13:59:36.855Z
+undefined | undefined | undefined | TEST_001\ | 5d56aea0a389af250a7a477c5d1a1d40 | ::1 | 
+undefined | undefined | undefined | TID-0030 | e4db50238022cb37d666ae3c10b9bf7a | ::1 | 2026-04-28T13:59:00.876Z
+undefined | undefined | undefined | TID-0010 | 2d0a795e9f62b16eb4c2a79897eda77c | ::1 | 2026-04-28T13:58:44.393Z
+undefined | undefined | undefined | TID-0049 | 520a8db45b776aec1768c701191ce2f1 | ::1 | 2026-04-28T13:52:18.940Z
+undefined | undefined | undefined | TID-0041 | 8b634aca850b7a442a22ff508cee599f | ::1 | 2026-04-28T13:21:53.294Z
+undefined | undefined | undefined | TID-0038 | cb5a9d6943731e1fd1cd864da6784da5 | ::1 | 2026-04-28T13:11:28.443Z
+2026-04-28T13:04:15.593Z
+undefined | undefined | undefined | DEBUG-001 | aed7824b6e42ac72b14c9bb59f80fa7a | ::1 | 
+TargetID | WorkstationID | Recipient | Session Token | Timestamp
+Red Team Credential Exfiltration Mapping:
+Infrastructure Resilience Score: 3.8%
+Mean Time to Detection (MTTD): 515.24 seconds
+Total Lures Dispatched: 50   Credentials Harvested: 26
+Omni-SOC Operations
+Series A Security Diligence Summary
+----------------Page (0) Break----------------

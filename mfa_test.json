@@ -1,0 +1,63 @@
+{
+  "alert_type": "identity_compromise",
+  "severity": "critical",
+  "timestamp_utc": "2026-04-25T21:51:56.005834Z",
+  "user": {
+    "email": "user@company.com",
+    "user_id": "8d27123d-da39-4b86-8e4c-2c402df5e201",
+    "display_name": "CEO, Executive",
+    "department": "Engineering",
+    "role": "Software Engineer",
+    "privileged_access": true
+  },
+  "event": {
+    "event_type": "mfa_fatigue_attack",
+    "description": "User received 23 MFA push prompts in 4 minutes. Possible MFA fatigue attack.",
+    "source_ip": "185.220.100.44",
+    "asn": "AS20860",
+    "geo_location": "Bucharest, Romania",
+    "client_app": "Browser",
+    "auth_method": "MFA Push",
+    "risk_level": "high",
+    "risk_detections": [
+      "Repeated MFA prompts",
+      "Multiple failed authentications",
+      "Unusual geographic location",
+      "First time login from this region"
+    ],
+    "correlation_id": "db6b46b6-9a03-4411-a98c-fdcbaab4b82a",
+    "session_id": "session-93619de1"
+  },
+  "technical_indicators": {
+    "mfa_fatigue_count": 23,
+    "legacy_protocol_used": false,
+    "oauth_app_detected": false,
+    "oauth_app_scopes": [],
+    "hidden_inbox_rules_detected": false,
+    "impossible_travel_detected": false,
+    "token_replay_detected": false,
+    "new_device_registration": false,
+    "unfamiliar_signin_properties": true
+  },
+  "recommended_actions": [
+    "Revoke all active sessions",
+    "Block the account",
+    "Reset password"
+  ],
+  "investigation_links": {
+    "signin_logs": "https://entra.microsoft.com/#view/signin",
+    "oauth_apps": "https://entra.microsoft.com/#view/apps",
+    "inbox_rules": "https://admin.exchange.microsoft.com/#/mailboxes",
+    "sentinel_query": "https://portal.azure.com/#blade/sentinel",
+    "user_profile": "https://entra.microsoft.com/#view/profile"
+  },
+  "assigned_to": {
+    "analyst": "@test_analyst",
+    "team": "Security Operations Center"
+  },
+  "metadata": {
+    "pipeline_version": "1.0.0",
+    "source_system": "Sentinel",
+    "environment": "test"
+  }
+}

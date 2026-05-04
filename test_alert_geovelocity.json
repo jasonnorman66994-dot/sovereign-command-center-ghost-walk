@@ -1,0 +1,14 @@
+{
+  "timestamp": "2026-04-26T13:10:00Z",
+  "alertType": "ImpossibleTravel",
+  "severity": "High",
+  "user": "dave@example.com",
+  "customType": "GeoVelocity",
+  "extraContext": {
+    "ip": "203.0.113.99",
+    "country": "Singapore",
+    "previousCountry": "USA",
+    "travelTimeMinutes": 10
+  },
+  "details": "User logged in from Singapore 10 minutes after logging in from USA."
+}

@@ -1,0 +1,10 @@
+{
+  "username": "testuser@contoso.com",
+  "landingUrl": "https://login.phish-portal.com/abc123",
+  "customType": "Credential_Harvest",
+  "remoteAddress": "203.0.113.55",
+  "extraContext": "dGVzdF90b2tlbl9kYXRhX2Zvcl9wYXlsaW5lIg==",
+  "campaign": "TestCampaign2026",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36",
+  "password": "TestPassword!2026"
+}

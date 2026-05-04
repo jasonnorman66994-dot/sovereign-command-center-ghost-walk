@@ -1,0 +1,47 @@
+{
+  "alert_type": "identity_compromise",
+  "severity": "critical",
+  "timestamp_utc": "2026-04-25T22:15:00Z",
+  "user": {
+    "email": "charlie@company.com",
+    "user_id": "charlie-003",
+    "display_name": "Charlie Lee",
+    "department": "IT",
+    "role": "IT Support",
+    "privileged_access": false
+  },
+  "event": {
+    "event_type": "social_engineering_impersonation",
+    "description": "User received a call from someone impersonating IT support, requesting MFA approval and password reset.",
+    "source_ip": "8.8.4.4",
+    "asn": "AS15169",
+    "geo_location": "Mountain View, USA",
+    "client_app": "Phone",
+    "auth_method": "Voice Call",
+    "risk_level": "critical",
+    "risk_detections": ["Impersonation attempt", "MFA approval request", "Password reset social engineering"],
+    "correlation_id": "soceng-charlie-003",
+    "session_id": "sess-soceng-charlie-003"
+  },
+  "technical_indicators": {
+    "mfa_fatigue_count": 1,
+    "legacy_protocol_used": false,
+    "oauth_app_detected": false,
+    "oauth_app_scopes": [],
+    "hidden_inbox_rules_detected": false,
+    "impossible_travel_detected": false,
+    "token_replay_detected": false,
+    "new_device_registration": false,
+    "unfamiliar_signin_properties": true
+  },
+  "recommended_actions": ["Educate user on social engineering", "Reset password", "Review sign-in logs"],
+  "investigation_links": {
+    "signin_logs": "https://entra.microsoft.com/#view/signin",
+    "oauth_apps": "https://entra.microsoft.com/#view/apps",
+    "inbox_rules": "https://admin.exchange.microsoft.com/#/mailboxes",
+    "sentinel_query": "https://portal.azure.com/#blade/sentinel",
+    "user_profile": "https://entra.microsoft.com/#view/profile"
+  },
+  "assigned_to": {"analyst": "@soceng_team", "team": "Security Operations Center"},
+  "metadata": {"pipeline_version": "1.0.0", "source_system": "Sentinel", "environment": "test"}
+}

@@ -1,0 +1,46 @@
+{
+  "alert_type": "identity_compromise",
+  "severity": "medium",
+  "timestamp_utc": "2026-04-25T12:00:00Z",
+  "user": {
+    "email": "user@company.com",
+    "user_id": "55555",
+    "display_name": "Regular User",
+    "department": "Sales",
+    "role": "Sales Rep",
+    "privileged_access": false
+  },
+  "event": {
+    "event_type": "legacy_protocol",
+    "description": "Legacy protocol (IMAP) used for authentication.",
+    "source_ip": "198.51.100.22",
+    "asn": "AS54321",
+    "geo_location": "Berlin, Germany",
+    "client_app": "IMAP",
+    "auth_method": "Basic Auth",
+    "risk_level": "medium",
+    "risk_detections": [
+      "Legacy protocol detected"
+    ],
+    "correlation_id": "beadfeed-1234-5678-90ab-cafe12345678",
+    "session_id": "session-445566"
+  },
+  "technical_indicators": {
+    "legacy_protocol_used": true
+  },
+  "recommended_actions": [
+    "Disable legacy protocols"
+  ],
+  "investigation_links": {
+    "signin_logs": "https://entra.microsoft.com/#view/Microsoft_AAD_IAM/UsersSignIns"
+  },
+  "assigned_to": {
+    "analyst": "@secops2",
+    "team": "Security Operations Center"
+  },
+  "metadata": {
+    "pipeline_version": "1.2.3",
+    "source_system": "Sentinel",
+    "environment": "production"
+  }
+}

@@ -1,0 +1,9 @@
+[
+  {
+    "user": "jason.n@omnicorp-cyber.com",
+    "session_token": "SESSION-FAKE-TOKEN-12345",
+    "timestamp": "2026-05-01T14:17:44.211459",
+    "source_ip": "34.201.10.22",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Edge/18.19041"
+  }
+]

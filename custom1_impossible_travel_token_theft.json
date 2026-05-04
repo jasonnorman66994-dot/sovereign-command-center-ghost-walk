@@ -1,0 +1,43 @@
+{
+  "alert_id": "ALRT-2026-04-25-IT001",
+  "timestamp": "2026-04-25T20:30:00Z",
+  "severity": "high",
+  "category": "Impossible Travel + Token Theft",
+  "user": {
+    "email": "maria.lopez@examplecorp.com",
+    "display_name": "Maria Lopez",
+    "user_id": "USR-55121",
+    "role": "Project Manager",
+    "privilege_level": "medium"
+  },
+  "event": {
+    "login_1": {
+      "timestamp": "2026-04-25T20:10:00Z",
+      "ip": "73.112.44.19",
+      "geo": "New York, USA",
+      "device": "Managed Windows 11 Laptop"
+    },
+    "login_2": {
+      "timestamp": "2026-04-25T20:12:00Z",
+      "ip": "102.44.19.221",
+      "geo": "Johannesburg, South Africa",
+      "device": "Unknown Linux Browser"
+    },
+    "token_theft": {
+      "method": "Session Replay",
+      "token_reuse_detected": true,
+      "mfa_bypass": "session_replay"
+    }
+  },
+  "enrichment": {
+    "entra_id": {
+      "risk_level": "high",
+      "risk_events": ["Atypical travel", "Token theft"],
+      "user_risk_score": 0.89
+    }
+  },
+  "recommendation": {
+    "action": "Revoke sessions, force password reset, require MFA challenge",
+    "urgency": "high"
+  }
+}

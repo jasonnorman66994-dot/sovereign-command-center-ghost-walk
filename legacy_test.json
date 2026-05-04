@@ -1,0 +1,62 @@
+{
+  "alert_type": "identity_compromise",
+  "severity": "medium",
+  "timestamp_utc": "2026-04-25T21:57:57.616882Z",
+  "user": {
+    "email": "user@company.com",
+    "user_id": "e6382c64-1fde-45b9-800a-43faf7820dbc",
+    "display_name": "Test User",
+    "department": "Engineering",
+    "role": "Software Engineer",
+    "privileged_access": false
+  },
+  "event": {
+    "event_type": "legacy_protocol_login",
+    "description": "User authenticated using IMAP protocol. Legacy protocols should be disabled.",
+    "source_ip": "192.0.2.123",
+    "asn": "AS12389",
+    "geo_location": "Internal Network",
+    "client_app": "IMAP",
+    "auth_method": "Basic Auth",
+    "risk_level": "medium",
+    "risk_detections": [
+      "Legacy protocol use detected",
+      "IMAP protocol not disabled",
+      "Basic authentication"
+    ],
+    "correlation_id": "4ee2e08e-a43e-4ff6-ac97-f2fe7fb0ff73",
+    "session_id": "session-dbe62854"
+  },
+  "technical_indicators": {
+    "mfa_fatigue_count": 0,
+    "legacy_protocol_used": true,
+    "oauth_app_detected": false,
+    "oauth_app_scopes": [],
+    "hidden_inbox_rules_detected": false,
+    "impossible_travel_detected": false,
+    "token_replay_detected": false,
+    "new_device_registration": false,
+    "unfamiliar_signin_properties": false
+  },
+  "recommended_actions": [
+    "Revoke all active sessions",
+    "Block the account",
+    "Reset password"
+  ],
+  "investigation_links": {
+    "signin_logs": "https://entra.microsoft.com/#view/signin",
+    "oauth_apps": "https://entra.microsoft.com/#view/apps",
+    "inbox_rules": "https://admin.exchange.microsoft.com/#/mailboxes",
+    "sentinel_query": "https://portal.azure.com/#blade/sentinel",
+    "user_profile": "https://entra.microsoft.com/#view/profile"
+  },
+  "assigned_to": {
+    "analyst": "@test_analyst",
+    "team": "Security Operations Center"
+  },
+  "metadata": {
+    "pipeline_version": "1.0.0",
+    "source_system": "Sentinel",
+    "environment": "test"
+  }
+}

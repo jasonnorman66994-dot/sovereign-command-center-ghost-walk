@@ -1,0 +1,147 @@
+openapi: 3.0.3
+info:
+  title: Identity Threat Alert API
+  version: 1.0.0
+  description: API for ingesting identity threat alert payloads (automation, SIEM, SOAR, bots)
+paths:
+  /alert:
+    post:
+      summary: Ingest an identity threat alert
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IdentityThreatAlert'
+      responses:
+        '200':
+          description: Alert received
+components:
+  schemas:
+    IdentityThreatAlert:
+      type: object
+      required:
+        - alert_type
+        - severity
+        - timestamp_utc
+        - user
+        - event
+        - recommended_actions
+        - assigned_to
+      properties:
+        alert_type:
+          type: string
+          enum: [identity_compromise, identity_endpoint_compromise]
+        severity:
+          type: string
+          enum: [low, medium, high, critical]
+        timestamp_utc:
+          type: string
+          format: date-time
+        user:
+          type: object
+          required: [email, user_id]
+          properties:
+            email:
+              type: string
+              format: email
+            user_id:
+              type: string
+            display_name:
+              type: string
+            department:
+              type: string
+            role:
+              type: string
+            privileged_access:
+              type: [string, boolean]
+        event:
+          type: object
+          required: [event_type, description, source_ip]
+          properties:
+            event_type:
+              type: string
+            description:
+              type: string
+            source_ip:
+              type: string
+            asn:
+              type: string
+            geo_location:
+              type: string
+            client_app:
+              type: string
+            auth_method:
+              type: string
+            risk_level:
+              type: string
+            risk_detections:
+              type: array
+              items:
+                type: string
+            correlation_id:
+              type: string
+            session_id:
+              type: string
+        technical_indicators:
+          type: object
+          properties:
+            mfa_fatigue_count:
+              type: [integer, string]
+            legacy_protocol_used:
+              type: [boolean, string]
+            oauth_app_detected:
+              type: [boolean, string]
+            oauth_app_scopes:
+              type: array
+              items:
+                type: string
+            hidden_inbox_rules_detected:
+              type: [boolean, string]
+            impossible_travel_detected:
+              type: [boolean, string]
+            token_replay_detected:
+              type: [boolean, string]
+            new_device_registration:
+              type: [boolean, string]
+            unfamiliar_signin_properties:
+              type: [boolean, string]
+        recommended_actions:
+          type: array
+          items:
+            type: string
+        investigation_links:
+          type: object
+          properties:
+            signin_logs:
+              type: string
+              format: uri
+            oauth_apps:
+              type: string
+              format: uri
+            inbox_rules:
+              type: string
+              format: uri
+            sentinel_query:
+              type: string
+              format: uri
+            user_profile:
+              type: string
+              format: uri
+        assigned_to:
+          type: object
+          required: [analyst]
+          properties:
+            analyst:
+              type: string
+            team:
+              type: string
+        metadata:
+          type: object
+          properties:
+            pipeline_version:
+              type: string
+            source_system:
+              type: string
+            environment:
+              type: string

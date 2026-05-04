@@ -1,0 +1,35 @@
+{
+  "alert_id": "ALRT-2026-04-25-INS001",
+  "timestamp": "2026-04-25T20:37:00Z",
+  "severity": "high",
+  "category": "Insider Threat",
+  "user": {
+    "email": "kevin.brooks@examplecorp.com",
+    "display_name": "Kevin Brooks",
+    "user_id": "USR-66112",
+    "role": "Data Analyst",
+    "privilege_level": "medium"
+  },
+  "event": {
+    "anomalous_behavior": [
+      "Mass download of sensitive files",
+      "Accessing HR data outside normal hours",
+      "Attempted upload to personal cloud storage"
+    ],
+    "device": "Managed Windows 11 Laptop",
+    "network": {
+      "ip": "10.44.19.221",
+      "location": "Corporate Office"
+    }
+  },
+  "enrichment": {
+    "behavioral_risk": {
+      "score": 0.82,
+      "indicators": ["Data exfiltration pattern", "Off-hours access"]
+    }
+  },
+  "recommendation": {
+    "action": "Suspend account, block outbound transfers, initiate insider threat review",
+    "urgency": "high"
+  }
+}

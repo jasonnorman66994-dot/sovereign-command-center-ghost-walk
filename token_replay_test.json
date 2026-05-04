@@ -1,0 +1,66 @@
+C:\Users\HomePC\OneDrive\mine2026\test_payloads.py:24: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+  "timestamp_utc": datetime.utcnow().isoformat() + "Z",
+C:\Users\HomePC\OneDrive\mine2026\test_payloads.py:205: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+  "timestamp_utc": datetime.utcnow().isoformat() + "Z"
+{
+  "alert_type": "identity_compromise",
+  "severity": "high",
+  "timestamp_utc": "2026-04-25T21:53:25.838991Z",
+  "user": {
+    "email": "user@company.com",
+    "user_id": "17d45139-bca7-45f9-bd2f-ca87fbc8e0ec",
+    "display_name": "Test User",
+    "department": "Engineering",
+    "role": "Software Engineer",
+    "privileged_access": false
+  },
+  "event": {
+    "event_type": "token_replay",
+    "description": "Session token replayed from different IP and device. Possible AiTM or session hijacking attack.",
+    "source_ip": "198.51.100.89",
+    "asn": "AS54001",
+    "geo_location": "Sao Paulo, Brazil",
+    "client_app": "Browser",
+    "auth_method": "Token Replay",
+    "risk_level": "high",
+    "risk_detections": [
+      "Token replay pattern detected",
+      "Session from different device",
+      "Possible AiTM attack"
+    ],
+    "correlation_id": "a610202f-2368-45da-af4b-1e9e76807f1e",
+    "session_id": "session-13e03e9e"
+  },
+  "technical_indicators": {
+    "mfa_fatigue_count": 0,
+    "legacy_protocol_used": false,
+    "oauth_app_detected": false,
+    "oauth_app_scopes": [],
+    "hidden_inbox_rules_detected": false,
+    "impossible_travel_detected": false,
+    "token_replay_detected": true,
+    "new_device_registration": true,
+    "unfamiliar_signin_properties": false
+  },
+  "recommended_actions": [
+    "Revoke all active sessions",
+    "Block the account",
+    "Reset password"
+  ],
+  "investigation_links": {
+    "signin_logs": "https://entra.microsoft.com/#view/signin",
+    "oauth_apps": "https://entra.microsoft.com/#view/apps",
+    "inbox_rules": "https://admin.exchange.microsoft.com/#/mailboxes",
+    "sentinel_query": "https://portal.azure.com/#blade/sentinel",
+    "user_profile": "https://entra.microsoft.com/#view/profile"
+  },
+  "assigned_to": {
+    "analyst": "@test_analyst",
+    "team": "Security Operations Center"
+  },
+  "metadata": {
+    "pipeline_version": "1.0.0",
+    "source_system": "Sentinel",
+    "environment": "test"
+  }
+}
