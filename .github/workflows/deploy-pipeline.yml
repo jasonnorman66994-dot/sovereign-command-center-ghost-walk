@@ -2,16 +2,88 @@ name: Deploy Identity Threat Pipeline
 on:
   push:
     branches: [ main ]
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+
       - name: Hardening & Linting
         run: |
           pwsh -Command "Test-Path ./auto_format_and_send_alerts.ps1"
-      - name: Deploy to Command Center
+
+      - name: Preflight SSH deployment readiness
+        id: preflight
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SOC_SERVER_KEY }}
+          SOC_SERVER_HOST: ${{ secrets.SOC_SERVER_HOST }}
+          SOC_SERVER_USER: ${{ secrets.SOC_SERVER_USER }}
+          SOC_DEPLOY_PATH: ${{ secrets.SOC_DEPLOY_PATH }}
+          SOC_DEPLOY_STRICT: ${{ vars.SOC_DEPLOY_STRICT }}
+        shell: bash
         run: |
-          scp -o StrictHostKeyChecking=no ./auto_format_and_send_alerts.ps1 user@soc-node:/opt/security/scripts/
+          can_deploy=true
+
+          if [ -z "$SSH_PRIVATE_KEY" ]; then
+            echo "::warning::SOC_SERVER_KEY is not configured. SSH deploy will be skipped."
+            can_deploy=false
+          fi
+
+          if [ -z "$SOC_SERVER_HOST" ]; then
+            echo "::warning::SOC_SERVER_HOST is not configured. SSH deploy will be skipped."
+            can_deploy=false
+          fi
+
+          if [ -z "$SOC_SERVER_USER" ]; then
+            echo "::warning::SOC_SERVER_USER is not configured. SSH deploy will be skipped."
+            can_deploy=false
+          fi
+
+          if [ -z "$SOC_DEPLOY_PATH" ]; then
+            echo "::warning::SOC_DEPLOY_PATH is not configured. SSH deploy will be skipped."
+            can_deploy=false
+          fi
+
+          if [ "$can_deploy" = "true" ]; then
+            if timeout 5 bash -c "</dev/tcp/$SOC_SERVER_HOST/22" 2>/dev/null; then
+              echo "::notice::SSH target reachable on port 22."
+            else
+              echo "::warning::SSH target $SOC_SERVER_HOST:22 is unreachable. SSH deploy will be skipped."
+              can_deploy=false
+            fi
+          fi
+
+          echo "can_deploy=$can_deploy" >> "$GITHUB_OUTPUT"
+
+          if [ "$can_deploy" != "true" ] && [ "$SOC_DEPLOY_STRICT" = "true" ]; then
+            echo "::error::SOC_DEPLOY_STRICT=true and SSH deployment prerequisites are not met."
+            exit 1
+          fi
+
+      - name: Prepare SSH key
+        if: steps.preflight.outputs.can_deploy == 'true'
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SOC_SERVER_KEY }}
+        shell: bash
+        run: |
+          install -m 700 -d ~/.ssh
+          printf "%s\n" "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+
+      - name: Deploy to Command Center
+        if: steps.preflight.outputs.can_deploy == 'true'
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SOC_SERVER_KEY }}
+          SOC_SERVER_HOST: ${{ secrets.SOC_SERVER_HOST }}
+          SOC_SERVER_USER: ${{ secrets.SOC_SERVER_USER }}
+          SOC_DEPLOY_PATH: ${{ secrets.SOC_DEPLOY_PATH }}
+        shell: bash
+        run: |
+          scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ./auto_format_and_send_alerts.ps1 "${SOC_SERVER_USER}@${SOC_SERVER_HOST}:${SOC_DEPLOY_PATH}"
+
+      - name: Deployment skipped summary
+        if: steps.preflight.outputs.can_deploy != 'true'
+        run: |
+          echo "::notice::Deploy Identity Threat Pipeline completed in safe-skip mode."
+          echo "::notice::Primary security gates remain unaffected (deploy.yml and opa-policy-enforce.yml)."
