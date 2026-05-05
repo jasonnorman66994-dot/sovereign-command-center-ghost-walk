@@ -5,6 +5,11 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
 
 jobs:
   build:
@@ -27,24 +32,30 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       docker_ready: ${{ steps.check.outputs.docker_ready }}
+      docker_provider: ${{ steps.check.outputs.docker_provider }}
       k8s_ready: ${{ steps.check.outputs.k8s_ready }}
       notify_ready: ${{ steps.check.outputs.notify_ready }}
     steps:
       - name: Check required secrets
         id: check
         env:
-          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          DOCKERHUB_USERNAME: ${{ vars.DOCKERHUB_USERNAME || secrets.DOCKERHUB_USERNAME }}
           DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
-          DOCKER_IMAGE: ${{ secrets.DOCKER_IMAGE }}
+          DOCKER_IMAGE: ${{ vars.DOCKER_IMAGE || format('ghcr.io/{0}/{1}', github.repository_owner, github.event.repository.name) }}
           KUBECONFIG_DATA: ${{ secrets.KUBECONFIG_DATA }}
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: |
-          if [ -n "$DOCKERHUB_USERNAME" ] && [ -n "$DOCKERHUB_TOKEN" ] && [ -n "$DOCKER_IMAGE" ]; then
+          if [[ "$DOCKER_IMAGE" == ghcr.io/* ]]; then
             echo "docker_ready=true" >> "$GITHUB_OUTPUT"
+            echo "docker_provider=ghcr" >> "$GITHUB_OUTPUT"
+          elif [ -n "$DOCKERHUB_USERNAME" ] && [ -n "$DOCKERHUB_TOKEN" ] && [ -n "$DOCKER_IMAGE" ]; then
+            echo "docker_ready=true" >> "$GITHUB_OUTPUT"
+            echo "docker_provider=dockerhub" >> "$GITHUB_OUTPUT"
           else
             echo "docker_ready=false" >> "$GITHUB_OUTPUT"
+            echo "docker_provider=unconfigured" >> "$GITHUB_OUTPUT"
           fi
 
           if [ -n "$KUBECONFIG_DATA" ]; then
@@ -78,11 +89,14 @@ jobs:
       - name: Report preflight gate status
         run: |
           echo "docker_ready=${{ steps.check.outputs.docker_ready }}"
+          echo "docker_provider=${{ steps.check.outputs.docker_provider }}"
           echo "k8s_ready=${{ steps.check.outputs.k8s_ready }}"
           echo "notify_ready=${{ steps.check.outputs.notify_ready }}"
 
           if [ "${{ steps.check.outputs.docker_ready }}" != "true" ]; then
             echo "::notice::docker-build-push will be skipped (missing one or more of: DOCKERHUB_USERNAME, DOCKERHUB_TOKEN, DOCKER_IMAGE)."
+          elif [ "${{ steps.check.outputs.docker_provider }}" = "ghcr" ]; then
+            echo "::notice::docker-build-push will publish to GHCR using the workflow token."
           fi
 
           if [ "${{ steps.check.outputs.k8s_ready }}" != "true" ]; then
@@ -91,6 +105,16 @@ jobs:
 
           if [ "${{ steps.check.outputs.notify_ready }}" != "true" ]; then
             echo "::error::deploy-to-k8s will be blocked until Slack/Telegram secrets are valid."
+          fi
+
+      - name: Diagnostic - KUBECONFIG_DATA availability
+        env:
+          KUBECONFIG_DATA: ${{ secrets.KUBECONFIG_DATA }}
+        run: |
+          if [ -n "$KUBECONFIG_DATA" ]; then
+            echo "::notice::KUBECONFIG_DATA present=true"
+          else
+            echo "::notice::KUBECONFIG_DATA present=false"
           fi
 
   docker-build-pr:
@@ -107,25 +131,35 @@ jobs:
           tags: local/pr-validation:latest
 
   docker-build-push:
-    if: ${{ github.event_name == 'push' && needs.preflight.outputs.docker_ready == 'true' }}
+    if: ${{ github.event_name != 'pull_request' && needs.preflight.outputs.docker_ready == 'true' }}
     needs: [build, preflight]
     runs-on: ubuntu-latest
+    env:
+      DOCKER_IMAGE: ${{ vars.DOCKER_IMAGE || format('ghcr.io/{0}/{1}', github.repository_owner, github.event.repository.name) }}
     steps:
       - uses: actions/checkout@v4
       - name: Log in to DockerHub
+        if: needs.preflight.outputs.docker_provider == 'dockerhub'
         uses: docker/login-action@v3
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          username: ${{ vars.DOCKERHUB_USERNAME || secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Log in to GHCR
+        if: needs.preflight.outputs.docker_provider == 'ghcr'
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ github.token }}
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
           context: .
           push: true
-          tags: ${{ secrets.DOCKER_IMAGE }}:latest
+          tags: ${{ env.DOCKER_IMAGE }}:latest
 
   deploy-to-k8s:
-    if: ${{ github.event_name == 'push' && needs.preflight.outputs.docker_ready == 'true' && needs.preflight.outputs.k8s_ready == 'true' && needs.preflight.outputs.notify_ready == 'true' }}
+    if: ${{ github.event_name != 'pull_request' && needs.preflight.outputs.docker_ready == 'true' && needs.preflight.outputs.k8s_ready == 'true' && needs.preflight.outputs.notify_ready == 'true' }}
     needs: [docker-build-push, preflight]
     runs-on: ubuntu-latest
     steps:
@@ -134,8 +168,19 @@ jobs:
         uses: azure/setup-kubectl@v4
         with:
           version: 'latest'
+      - name: Validate KUBECONFIG_DATA secret exists
+        env:
+          KUBECONFIG_DATA: ${{ secrets.KUBECONFIG_DATA }}
+        run: |
+          if [ -z "$KUBECONFIG_DATA" ]; then
+            echo "::error::KUBECONFIG_DATA is missing. Add it in Repository/Environment Secrets."
+            exit 1
+          fi
       - name: Set up Kubeconfig
-        run: echo "$KUBECONFIG_DATA" | base64 -d > $HOME/.kube/config
+        run: |
+          mkdir -p "$HOME/.kube"
+          # Expect base64-encoded kubeconfig in secret
+          echo "$KUBECONFIG_DATA" | base64 -d > "$HOME/.kube/config"
         env:
           KUBECONFIG_DATA: ${{ secrets.KUBECONFIG_DATA }}
       - name: Deploy to Kubernetes

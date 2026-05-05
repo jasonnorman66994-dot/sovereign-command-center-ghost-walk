@@ -8,6 +8,7 @@ const io = require('socket.io')(http, { cors: { origin: '*' } });
 const PORT = 3000;
 const fs = require('fs');
 const crypto = require('crypto');
+const argon2 = require('argon2');
 const remediation = require('./remediation_handler');
 
 // Root route for status
@@ -22,13 +23,19 @@ const capturedWsids = new Set();
 let totalDispatched = 50; // Set to your campaign size
 let sessionHarvestCount = 0;
 
-app.get('/auth', (req, res) => {
+app.get('/auth', async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   const { tid, wsid, user } = req.query;
-  // Simulate a JWT for session token, hash with Argon2-like string for demo
+  // Simulate a JWT for session token, then store only Argon2id and audit-safe forms.
   const jwtPayload = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.' + crypto.randomBytes(12).toString('hex') + '.signature';
-  // Fake Argon2 hash (for demo, not real Argon2)
-  const sessionToken = jwtPayload + '.argon2$' + crypto.randomBytes(8).toString('hex');
+  const sessionToken = jwtPayload + '.' + crypto.randomBytes(8).toString('hex');
+  const sessionTokenHash = await argon2.hash(sessionToken, {
+    type: argon2.argon2id,
+    memoryCost: 19456,
+    timeCost: 2,
+    parallelism: 1
+  });
+  const sessionTokenAudit = crypto.createHash('sha256').update(sessionToken).digest('hex');
   const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
   const userAgent = req.headers['user-agent'] || 'unknown';
   const timestamp = new Date().toISOString();
@@ -47,7 +54,8 @@ app.get('/auth', (req, res) => {
     WorkstationID: wsid || 'unknown',
     User: user || 'unknown',
     Segment: segment,
-    SessionToken: sessionToken,
+    SessionTokenHash: sessionTokenHash,
+    SessionTokenAudit: sessionTokenAudit,
     SourceIP: ip,
     UserAgent: userAgent,
     Timestamp: timestamp
@@ -66,9 +74,9 @@ app.get('/auth', (req, res) => {
   });
 
   // --- Automated Remediation Logic ---
-  remediation.revokeSessionToken(sessionToken);
+  remediation.revokeSessionToken(sessionTokenAudit);
   const wsStatus = remediation.isolateWorkstation(wsid);
-  const socMsg = remediation.notifySOC(user, wsid, sessionToken);
+  const socMsg = remediation.notifySOC(user, wsid, sessionTokenAudit);
 
   if (!isReentry) {
     // Emit to global namespace (Yellow Arc)

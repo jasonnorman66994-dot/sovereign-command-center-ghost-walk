@@ -1,9 +1,9 @@
 // remediation_handler.js
 // Simulates automated remediation actions for the SOC
 
-function revokeSessionToken(sessionToken) {
+function revokeSessionToken(sessionTokenAudit) {
   // Simulate call to IdP (Okta/Azure AD)
-  console.log(`[REMEDIATION] SessionToken ${sessionToken} revoked via IdP.`);
+  console.log(`[REMEDIATION] SessionToken audit=${sessionTokenAudit} revoked via IdP.`);
 }
 
 function isolateWorkstation(wsid) {
@@ -13,9 +13,9 @@ function isolateWorkstation(wsid) {
   return { wsid, status: 'Isolated', color: 'red' };
 }
 
-function notifySOC(user, wsid, sessionToken) {
+function notifySOC(user, wsid, sessionTokenAudit) {
   // Simulate alert to SOC operator
-  const msg = `[ALERT] Compromise neutralized for ${user} (${wsid}) [SessionToken: ${sessionToken}] <2s`;
+  const msg = `[ALERT] Compromise neutralized for ${user} (${wsid}) [SessionTokenAudit: ${sessionTokenAudit}] <2s`;
   console.log(msg);
   return msg;
 }
