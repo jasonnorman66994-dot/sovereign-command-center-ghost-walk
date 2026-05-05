@@ -68,6 +68,21 @@ AJV-based JSON Schema validation with strict mode and format checking.
 
 ## 🚀 Quick Start
 
+## CI/CD Deployment Targets
+
+- `production`: default path for GitHub-hosted runners and externally reachable Kubernetes clusters.
+- `lab-local`: manual-dispatch path for a self-hosted GitHub runner on the same Windows machine as Docker Desktop Kubernetes.
+
+### Self-Hosted Lab Runner
+
+Use `deploy_target=lab-local` only after registering a runner with these labels:
+
+- `self-hosted`
+- `Windows`
+- `lab-k8s`
+
+This path exists so GitHub Actions can reach a kubeconfig that points at `https://127.0.0.1:*`. The hosted runner path now blocks localhost kubeconfigs early and tells you to switch to `lab-local` instead.
+
 ### Setup
 
 ```bash
@@ -99,6 +114,48 @@ python telegram_formatter.py schema.json
 # JavaScript - same
 node telegram-formatter.js schema.json
 ```
+
+---
+
+## RF Identity Operations
+
+### Build Signature Library (Interactive)
+
+```bash
+.\.venv\Scripts\python.exe rf_command_listener.py --ingestion-mode --use-adapter --decode-ook --center-freq 433920000 --sample-rate 2048000 --bit-rate 1200 --preamble 01010101 --num-samples 262144
+```
+
+### One-Shot Gain Diagnostic
+
+```bash
+.\.venv\Scripts\python.exe signature_library_builder.py --check-gain --center-freq 433920000 --sample-rate 2.048e6 --gain auto --num-samples 1048576
+```
+
+### Gain Sweep + Recommendation
+
+```bash
+.\.venv\Scripts\python.exe signature_library_builder.py --sweep-gain --center-freq 433920000 --sample-rate 2.048e6 --num-samples 1048576 --gain-candidates "0,10,20,30,40,49" --target-peak 0.75 --write-env .env
+```
+
+### Dash Dual-Frequency Sweep (315 + 433.92)
+
+```bash
+.\.venv\Scripts\python.exe omni_soc_dash.py
+```
+
+- Open `http://localhost:8060`
+- Click `Run Sweep`
+- Review overlay curves for `315.00 MHz` and `433.92 MHz`
+- Historical rows are appended to `sweet_spot_summary.csv`
+
+### Calibration Guidance
+
+- Preferred peak headroom is 0.6 to 0.8.
+- Treat peak above 0.95 as clipping.
+- Peak below 0.1 is typically too weak for reliable OOK decoding.
+- Target SNR is 15 to 20 dB or better for stable burst classification.
+- Use sweep recommendations only when adapter mode is live.
+- If adapter mode is synthetic, keep `RF_GAIN=auto` and rerun calibration with physical SDR attached.
 
 ---
 

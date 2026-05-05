@@ -117,6 +117,10 @@ jobs:
             echo "::notice::deploy-to-k8s will be skipped (missing KUBECONFIG_DATA)."
           fi
 
+          if [ "$DEPLOY_TARGET" = "lab-local" ]; then
+            echo "::notice::lab-local deploy target selected; Kubernetes apply will run only on a self-hosted runner labeled self-hosted, Windows, lab-k8s."
+          fi
+
           if [ "${{ steps.check.outputs.notify_ready }}" != "true" ]; then
             echo "::error::deploy-to-k8s will be blocked until Slack/Telegram secrets are valid."
           fi
@@ -172,8 +176,8 @@ jobs:
           push: true
           tags: ${{ env.DOCKER_IMAGE }}:latest
 
-  deploy-to-k8s:
-    if: ${{ github.event_name != 'pull_request' && needs.preflight.outputs.docker_ready == 'true' && needs.preflight.outputs.k8s_ready == 'true' && needs.preflight.outputs.notify_ready == 'true' }}
+  deploy-to-k8s-remote:
+    if: ${{ github.event_name != 'pull_request' && needs.preflight.outputs.docker_ready == 'true' && needs.preflight.outputs.k8s_ready == 'true' && needs.preflight.outputs.notify_ready == 'true' && github.event.inputs.deploy_target != 'lab-local' }}
     needs: [docker-build-push, preflight]
     runs-on: ubuntu-latest
     env:
@@ -201,6 +205,14 @@ jobs:
           echo "$KUBECONFIG_DATA" | base64 -d > "$HOME/.kube/config"
         env:
           KUBECONFIG_DATA: ${{ secrets.KUBECONFIG_DATA }}
+      - name: Block local-only cluster on hosted runner
+        run: |
+          api_server="$(kubectl config view --minify -o jsonpath='{.clusters[0].cluster.server}')"
+          echo "api_server=$api_server"
+          if [[ "$api_server" =~ ^https://127\.0\.0\.1: || "$api_server" =~ ^https://localhost: ]]; then
+            echo "::error::KUBECONFIG_DATA targets a local Kubernetes API. Re-run with deploy_target=lab-local on a self-hosted runner or replace the kubeconfig with an externally reachable cluster."
+            exit 1
+          fi
       - name: Sync Telegram secret
         run: |
           kubectl create secret generic telegram-secrets \
@@ -210,6 +222,58 @@ jobs:
       - name: Deploy to Kubernetes
         run: |
           sed "s|<DOCKER_IMAGE>|$DOCKER_IMAGE|g" k8s/deployment.yaml | kubectl apply -f -
+          kubectl apply -f k8s/service.yaml
+          kubectl apply -f k8s/configmap.yaml
+          kubectl apply -f k8s/ingress.yaml
+
+  deploy-to-k8s-lab:
+    if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.deploy_target == 'lab-local' && needs.preflight.outputs.docker_ready == 'true' && needs.preflight.outputs.k8s_ready == 'true' && needs.preflight.outputs.notify_ready == 'true' }}
+    needs: [docker-build-push, preflight]
+    runs-on: [self-hosted, Windows, lab-k8s]
+    env:
+      DOCKER_IMAGE: ${{ vars.DOCKER_IMAGE || format('ghcr.io/{0}/{1}', github.repository_owner, github.event.repository.name) }}
+      TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up kubectl
+        uses: azure/setup-kubectl@v4
+        with:
+          version: 'latest'
+      - name: Validate KUBECONFIG_DATA secret exists
+        shell: pwsh
+        env:
+          KUBECONFIG_DATA: ${{ secrets.KUBECONFIG_DATA }}
+        run: |
+          if ([string]::IsNullOrWhiteSpace($env:KUBECONFIG_DATA)) {
+            Write-Error "KUBECONFIG_DATA is missing. Add it in Repository/Environment Secrets."
+          }
+      - name: Set up Kubeconfig
+        shell: pwsh
+        env:
+          KUBECONFIG_DATA: ${{ secrets.KUBECONFIG_DATA }}
+        run: |
+          New-Item -ItemType Directory -Force -Path "$HOME/.kube" | Out-Null
+          [IO.File]::WriteAllBytes("$HOME/.kube/config", [Convert]::FromBase64String($env:KUBECONFIG_DATA))
+      - name: Verify local lab cluster endpoint
+        shell: pwsh
+        run: |
+          $apiServer = kubectl config view --minify -o jsonpath='{.clusters[0].cluster.server}'
+          Write-Host "api_server=$apiServer"
+          if ($apiServer -notmatch '^https://(127\.0\.0\.1|localhost):') {
+            Write-Error "lab-local deploy expects a localhost Kubernetes API. Use production for a remote cluster."
+          }
+      - name: Sync Telegram secret
+        shell: pwsh
+        run: |
+          kubectl create secret generic telegram-secrets `
+            --from-literal=bot-token="$env:TELEGRAM_BOT_TOKEN" `
+            --from-literal=chat-id="$env:TELEGRAM_CHAT_ID" `
+            --dry-run=client -o yaml | kubectl apply -f -
+      - name: Deploy to Kubernetes
+        shell: pwsh
+        run: |
+          (Get-Content k8s/deployment.yaml -Raw).Replace('<DOCKER_IMAGE>', $env:DOCKER_IMAGE) | kubectl apply -f -
           kubectl apply -f k8s/service.yaml
           kubectl apply -f k8s/configmap.yaml
           kubectl apply -f k8s/ingress.yaml
