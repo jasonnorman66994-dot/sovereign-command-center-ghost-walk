@@ -112,6 +112,10 @@ jobs:
       - name: Deploy unified Omni-SOC stack
         shell: pwsh
         run: |
+          kubectl delete deployment app-deployment --ignore-not-found
+          kubectl delete service app-service --ignore-not-found
+          kubectl delete ingress app-ingress --ignore-not-found
+
           $deployment = Get-Content k8s/deployment.yaml -Raw
           $deployment = $deployment.Replace('<IDENTITY_ENGINE_IMAGE>', $env:IDENTITY_ENGINE_IMAGE)
           $deployment = $deployment.Replace('<PHISHING_DETECTOR_IMAGE>', $env:PHISHING_DETECTOR_IMAGE)
