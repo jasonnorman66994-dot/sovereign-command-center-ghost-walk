@@ -141,22 +141,22 @@ jobs:
             Write-Error 'omni-soc-dashboard service IP not found.'
           }
 
-          $pythonSmoke = @'
-import urllib.request
-
-targets = [
-    ("identity-engine", "http://127.0.0.1:8080/"),
-    ("phishing-detector", "http://127.0.0.1:8061/health"),
-    ("dashboard-service", "http://__SERVICE_IP__/")
-]
-
-for name, url in targets:
-    with urllib.request.urlopen(url, timeout=10) as response:
-        status = response.getcode()
-    print(f"{name}\tstatus={status}\turl={url}")
-    if status < 200 or status >= 400:
-        raise SystemExit(f"{name} returned unexpected status {status}")
-'@
+          $pythonSmoke = @(
+            'import urllib.request',
+            '',
+            'targets = [',
+            '    ("identity-engine", "http://127.0.0.1:8080/"),',
+            '    ("phishing-detector", "http://127.0.0.1:8061/health"),',
+            '    ("dashboard-service", "http://__SERVICE_IP__/")',
+            ']',
+            '',
+            'for name, url in targets:',
+            '    with urllib.request.urlopen(url, timeout=10) as response:',
+            '        status = response.getcode()',
+            '    print(f"{name}\tstatus={status}\turl={url}")',
+            '    if status < 200 or status >= 400:',
+            '        raise SystemExit(f"{name} returned unexpected status {status}")'
+          ) -join "`n"
 
           $pythonSmoke = $pythonSmoke.Replace('__SERVICE_IP__', $serviceIp)
           kubectl exec $pod -c phishing-detector -- python -c $pythonSmoke
