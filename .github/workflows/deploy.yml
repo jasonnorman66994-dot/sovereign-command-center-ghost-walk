@@ -54,6 +54,16 @@ jobs:
           New-Item -ItemType Directory -Force -Path "$HOME/.kube" | Out-Null
           [IO.File]::WriteAllBytes("$HOME/.kube/config", [Convert]::FromBase64String($env:KUBECONFIG_DATA))
 
+      - name: Configure Docker Desktop path
+        shell: pwsh
+        run: |
+          $dockerBin = 'C:\Program Files\Docker\Docker\resources\bin'
+          $dockerExe = Join-Path $dockerBin 'docker.exe'
+          if (-not (Test-Path $dockerExe)) {
+            Write-Error "docker.exe was not found at $dockerExe"
+          }
+          Add-Content -Path $env:GITHUB_PATH -Value $dockerBin
+
       - name: Verify local lab cluster endpoint
         shell: pwsh
         run: |
