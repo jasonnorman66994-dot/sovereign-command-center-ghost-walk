@@ -6,6 +6,15 @@ on:
   pull_request:
     branches: [ main ]
   workflow_dispatch:
+    inputs:
+      log_level:
+        description: Log level
+        required: true
+        default: info
+      deploy_target:
+        description: Target Environment
+        required: true
+        default: production
 
 permissions:
   contents: read
@@ -30,6 +39,9 @@ jobs:
 
   preflight:
     runs-on: ubuntu-latest
+    env:
+      LOG_LEVEL: ${{ github.event.inputs.log_level || 'info' }}
+      DEPLOY_TARGET: ${{ github.event.inputs.deploy_target || 'production' }}
     outputs:
       docker_ready: ${{ steps.check.outputs.docker_ready }}
       docker_provider: ${{ steps.check.outputs.docker_provider }}
@@ -88,6 +100,8 @@ jobs:
 
       - name: Report preflight gate status
         run: |
+          echo "log_level=$LOG_LEVEL"
+          echo "deploy_target=$DEPLOY_TARGET"
           echo "docker_ready=${{ steps.check.outputs.docker_ready }}"
           echo "docker_provider=${{ steps.check.outputs.docker_provider }}"
           echo "k8s_ready=${{ steps.check.outputs.k8s_ready }}"
