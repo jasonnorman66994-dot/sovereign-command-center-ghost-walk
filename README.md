@@ -73,6 +73,14 @@ AJV-based JSON Schema validation with strict mode and format checking.
 - `production`: default path for GitHub-hosted runners and externally reachable Kubernetes clusters.
 - `lab-local`: manual-dispatch path for a self-hosted GitHub runner on the same Windows machine as Docker Desktop Kubernetes.
 
+## Unified Omni-SOC Deployment
+
+- `identity-engine`: root Node.js app served by [server.js](c:/Users/HomePC/OneDrive/mine2026/server.js) on port `8080`.
+- `phishing-detector`: FastAPI service served by [rf_calibration_api.py](c:/Users/HomePC/OneDrive/mine2026/rf_calibration_api.py) on port `8061`.
+- `sovereign-dashboard`: SvelteKit dashboard under [scaffold-sveltekit/dashboard-sveltekit](c:/Users/HomePC/OneDrive/mine2026/scaffold-sveltekit/dashboard-sveltekit) on port `3000`.
+
+The lab deployment workflow now builds and pushes three GHCR images, then deploys them as a single multi-container pod in Kubernetes so the dashboard can reach the Python API over `127.0.0.1:8061` inside the pod.
+
 ### Self-Hosted Lab Runner
 
 Use `deploy_target=lab-local` only after registering a runner with these labels:

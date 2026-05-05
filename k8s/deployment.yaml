@@ -1,38 +1,80 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app-deployment
+  name: omni-soc-production
 spec:
-  replicas: 2
+  replicas: 3
   selector:
     matchLabels:
-      app: my-app
+      app: omni-soc
   template:
     metadata:
       labels:
-        app: my-app
+        app: omni-soc
     spec:
       containers:
-      - name: my-app
-        image: <DOCKER_IMAGE>:latest
-        ports:
-        - containerPort: 8080
-        env:
-        - name: TELEGRAM_BOT_TOKEN
-          valueFrom:
-            secretKeyRef:
-              name: telegram-secrets
-              key: bot-token
-        - name: TELEGRAM_CHAT_ID
-          valueFrom:
-            secretKeyRef:
-              name: telegram-secrets
-              key: chat-id
-        # Add other environment variables as needed
-        resources:
-          requests:
-            cpu: 100m
-            memory: 128Mi
-          limits:
-            cpu: 500m
-            memory: 512Mi
+        - name: identity-engine
+          image: <IDENTITY_ENGINE_IMAGE>
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          env:
+            - name: TELEGRAM_BOT_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: telegram-secrets
+                  key: bot-token
+            - name: TELEGRAM_CHAT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: telegram-secrets
+                  key: chat-id
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+        - name: phishing-detector
+          image: <PHISHING_DETECTOR_IMAGE>
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8061
+          env:
+            - name: VAULT_PATH
+              value: /mnt/sandisk/known_devices_library.json
+            - name: API_RATE_LIMIT_WINDOW_SEC
+              value: "60"
+            - name: API_RATE_LIMIT_MAX_REQUESTS
+              value: "45"
+          volumeMounts:
+            - name: sandisk-vault
+              mountPath: /mnt/sandisk
+          resources:
+            requests:
+              cpu: 200m
+              memory: 256Mi
+            limits:
+              cpu: 1000m
+              memory: 1Gi
+        - name: sovereign-dashboard
+          image: <SOVEREIGN_DASHBOARD_IMAGE>
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+          env:
+            - name: PORT
+              value: "3000"
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+      volumes:
+        - name: sandisk-vault
+          hostPath:
+            path: /run/desktop/mnt/host/d/sovereign_signatures
+            type: DirectoryOrCreate

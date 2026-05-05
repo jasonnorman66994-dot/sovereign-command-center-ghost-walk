@@ -1,18 +1,18 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: app-ingress
+  name: omni-soc-dashboard
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
-  - host: your-app.example.com
+  - host: omni-soc.local
     http:
       paths:
       - path: /
         pathType: Prefix
         backend:
           service:
-            name: app-service
+            name: omni-soc-dashboard
             port:
               number: 80

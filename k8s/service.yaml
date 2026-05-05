@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: app-service
+  name: omni-soc-dashboard
 spec:
   type: ClusterIP
   selector:
-    app: my-app
+    app: omni-soc
   ports:
     - protocol: TCP
       port: 80
-      targetPort: 8080
+      targetPort: 3000

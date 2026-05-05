@@ -1,10 +1,6 @@
-name: CI/CD Pipeline
+name: CI/CD Unified Omni-SOC
 
 on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
   workflow_dispatch:
     inputs:
       log_level:
@@ -14,255 +10,87 @@ on:
       deploy_target:
         description: Target Environment
         required: true
-        default: production
+        default: lab-local
 
 permissions:
   contents: read
   packages: write
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt || true
-      - name: Lint and Test
-        run: |
-          echo "Add your lint/test commands here"
-
-  preflight:
-    runs-on: ubuntu-latest
-    env:
-      LOG_LEVEL: ${{ github.event.inputs.log_level || 'info' }}
-      DEPLOY_TARGET: ${{ github.event.inputs.deploy_target || 'production' }}
-    outputs:
-      docker_ready: ${{ steps.check.outputs.docker_ready }}
-      docker_provider: ${{ steps.check.outputs.docker_provider }}
-      k8s_ready: ${{ steps.check.outputs.k8s_ready }}
-      notify_ready: ${{ steps.check.outputs.notify_ready }}
-    steps:
-      - name: Check required secrets
-        id: check
-        env:
-          DOCKERHUB_USERNAME: ${{ vars.DOCKERHUB_USERNAME || secrets.DOCKERHUB_USERNAME }}
-          DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
-          DOCKER_IMAGE: ${{ vars.DOCKER_IMAGE || format('ghcr.io/{0}/{1}', github.repository_owner, github.event.repository.name) }}
-          KUBECONFIG_DATA: ${{ secrets.KUBECONFIG_DATA }}
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-        run: |
-          if [[ "$DOCKER_IMAGE" == ghcr.io/* ]]; then
-            echo "docker_ready=true" >> "$GITHUB_OUTPUT"
-            echo "docker_provider=ghcr" >> "$GITHUB_OUTPUT"
-          elif [ -n "$DOCKERHUB_USERNAME" ] && [ -n "$DOCKERHUB_TOKEN" ] && [ -n "$DOCKER_IMAGE" ]; then
-            echo "docker_ready=true" >> "$GITHUB_OUTPUT"
-            echo "docker_provider=dockerhub" >> "$GITHUB_OUTPUT"
-          else
-            echo "docker_ready=false" >> "$GITHUB_OUTPUT"
-            echo "docker_provider=unconfigured" >> "$GITHUB_OUTPUT"
-          fi
-
-          if [ -n "$KUBECONFIG_DATA" ]; then
-            echo "k8s_ready=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "k8s_ready=false" >> "$GITHUB_OUTPUT"
-          fi
-
-          notify_ready=true
-          if [[ -z "$SLACK_WEBHOOK_URL" || ! "$SLACK_WEBHOOK_URL" =~ ^https://hooks.slack.com/services/ ]]; then
-            echo "::error::SLACK_WEBHOOK_URL is missing or invalid."
-            notify_ready=false
-          fi
-          if [[ -z "$TELEGRAM_BOT_TOKEN" || ! "$TELEGRAM_BOT_TOKEN" =~ ^[0-9]+:[A-Za-z0-9_-]+$ ]]; then
-            echo "::error::TELEGRAM_BOT_TOKEN is missing or invalid."
-            notify_ready=false
-          fi
-          if [[ -z "$TELEGRAM_CHAT_ID" || ! "$TELEGRAM_CHAT_ID" =~ ^-?[0-9]+$ ]]; then
-            echo "::error::TELEGRAM_CHAT_ID is missing or invalid."
-            notify_ready=false
-          fi
-          echo "notify_ready=$notify_ready" >> "$GITHUB_OUTPUT"
-
-      - name: Enforce alerting readiness
-        run: |
-          if [ "${{ steps.check.outputs.notify_ready }}" != "true" ]; then
-            echo "::error::Alerting readiness failed. Deployment is blocked until Slack and Telegram secrets are valid."
-            exit 1
-          fi
-
-      - name: Report preflight gate status
-        run: |
-          echo "log_level=$LOG_LEVEL"
-          echo "deploy_target=$DEPLOY_TARGET"
-          echo "docker_ready=${{ steps.check.outputs.docker_ready }}"
-          echo "docker_provider=${{ steps.check.outputs.docker_provider }}"
-          echo "k8s_ready=${{ steps.check.outputs.k8s_ready }}"
-          echo "notify_ready=${{ steps.check.outputs.notify_ready }}"
-
-          if [ "${{ steps.check.outputs.docker_ready }}" != "true" ]; then
-            echo "::notice::docker-build-push will be skipped (missing one or more of: DOCKERHUB_USERNAME, DOCKERHUB_TOKEN, DOCKER_IMAGE)."
-          elif [ "${{ steps.check.outputs.docker_provider }}" = "ghcr" ]; then
-            echo "::notice::docker-build-push will publish to GHCR using the workflow token."
-          fi
-
-          if [ "${{ steps.check.outputs.k8s_ready }}" != "true" ]; then
-            echo "::notice::deploy-to-k8s will be skipped (missing KUBECONFIG_DATA)."
-          fi
-
-          if [ "$DEPLOY_TARGET" = "lab-local" ]; then
-            echo "::notice::lab-local deploy target selected; Kubernetes apply will run only on a self-hosted runner labeled self-hosted, Windows, lab-k8s."
-          fi
-
-          if [ "${{ steps.check.outputs.notify_ready }}" != "true" ]; then
-            echo "::error::deploy-to-k8s will be blocked until Slack/Telegram secrets are valid."
-          fi
-
-      - name: Diagnostic - KUBECONFIG_DATA availability
-        env:
-          KUBECONFIG_DATA: ${{ secrets.KUBECONFIG_DATA }}
-        run: |
-          if [ -n "$KUBECONFIG_DATA" ]; then
-            echo "::notice::KUBECONFIG_DATA present=true"
-          else
-            echo "::notice::KUBECONFIG_DATA present=false"
-          fi
-
-  docker-build-pr:
-    if: github.event_name == 'pull_request'
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Build Docker image (PR validation only)
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          push: false
-          tags: local/pr-validation:latest
-
-  docker-build-push:
-    if: ${{ github.event_name != 'pull_request' && needs.preflight.outputs.docker_ready == 'true' }}
-    needs: [build, preflight]
-    runs-on: ubuntu-latest
-    env:
-      DOCKER_IMAGE: ${{ vars.DOCKER_IMAGE || format('ghcr.io/{0}/{1}', github.repository_owner, github.event.repository.name) }}
-    steps:
-      - uses: actions/checkout@v4
-      - name: Log in to DockerHub
-        if: needs.preflight.outputs.docker_provider == 'dockerhub'
-        uses: docker/login-action@v3
-        with:
-          username: ${{ vars.DOCKERHUB_USERNAME || secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Log in to GHCR
-        if: needs.preflight.outputs.docker_provider == 'ghcr'
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ github.token }}
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          push: true
-          tags: ${{ env.DOCKER_IMAGE }}:latest
-
-  deploy-to-k8s-remote:
-    if: ${{ github.event_name != 'pull_request' && needs.preflight.outputs.docker_ready == 'true' && needs.preflight.outputs.k8s_ready == 'true' && needs.preflight.outputs.notify_ready == 'true' && github.event.inputs.deploy_target != 'lab-local' }}
-    needs: [docker-build-push, preflight]
-    runs-on: ubuntu-latest
-    env:
-      DOCKER_IMAGE: ${{ vars.DOCKER_IMAGE || format('ghcr.io/{0}/{1}', github.repository_owner, github.event.repository.name) }}
-      TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-      TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-    steps:
-      - uses: actions/checkout@v4
-      - name: Set up kubectl
-        uses: azure/setup-kubectl@v4
-        with:
-          version: 'latest'
-      - name: Validate KUBECONFIG_DATA secret exists
-        env:
-          KUBECONFIG_DATA: ${{ secrets.KUBECONFIG_DATA }}
-        run: |
-          if [ -z "$KUBECONFIG_DATA" ]; then
-            echo "::error::KUBECONFIG_DATA is missing. Add it in Repository/Environment Secrets."
-            exit 1
-          fi
-      - name: Set up Kubeconfig
-        run: |
-          mkdir -p "$HOME/.kube"
-          # Expect base64-encoded kubeconfig in secret
-          echo "$KUBECONFIG_DATA" | base64 -d > "$HOME/.kube/config"
-        env:
-          KUBECONFIG_DATA: ${{ secrets.KUBECONFIG_DATA }}
-      - name: Block local-only cluster on hosted runner
-        run: |
-          api_server="$(kubectl config view --minify -o jsonpath='{.clusters[0].cluster.server}')"
-          echo "api_server=$api_server"
-          if [[ "$api_server" =~ ^https://127\.0\.0\.1: || "$api_server" =~ ^https://localhost: ]]; then
-            echo "::error::KUBECONFIG_DATA targets a local Kubernetes API. Re-run with deploy_target=lab-local on a self-hosted runner or replace the kubeconfig with an externally reachable cluster."
-            exit 1
-          fi
-      - name: Sync Telegram secret
-        run: |
-          kubectl create secret generic telegram-secrets \
-            --from-literal=bot-token="$TELEGRAM_BOT_TOKEN" \
-            --from-literal=chat-id="$TELEGRAM_CHAT_ID" \
-            --dry-run=client -o yaml | kubectl apply -f -
-      - name: Deploy to Kubernetes
-        run: |
-          sed "s|<DOCKER_IMAGE>|$DOCKER_IMAGE|g" k8s/deployment.yaml | kubectl apply -f -
-          kubectl apply -f k8s/service.yaml
-          kubectl apply -f k8s/configmap.yaml
-          kubectl apply -f k8s/ingress.yaml
-
-  deploy-to-k8s-lab:
-    if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.deploy_target == 'lab-local' && needs.preflight.outputs.docker_ready == 'true' && needs.preflight.outputs.k8s_ready == 'true' && needs.preflight.outputs.notify_ready == 'true' }}
-    needs: [docker-build-push, preflight]
+  build-and-deploy:
+    if: ${{ github.event.inputs.deploy_target == 'lab-local' }}
     runs-on: [self-hosted, Windows, lab-k8s]
     env:
-      DOCKER_IMAGE: ${{ vars.DOCKER_IMAGE || format('ghcr.io/{0}/{1}', github.repository_owner, github.event.repository.name) }}
+      IDENTITY_ENGINE_IMAGE: ghcr.io/${{ github.repository }}/identity-engine:latest
+      PHISHING_DETECTOR_IMAGE: ghcr.io/${{ github.repository }}/phishing-detector:latest
+      SOVEREIGN_DASHBOARD_IMAGE: ghcr.io/${{ github.repository }}/dashboard:latest
+      KUBECONFIG_DATA: ${{ secrets.KUBECONFIG_DATA }}
       TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
       TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
     steps:
       - uses: actions/checkout@v4
+
+      - name: Validate required secrets
+        shell: pwsh
+        run: |
+          if ([string]::IsNullOrWhiteSpace($env:KUBECONFIG_DATA)) {
+            Write-Error "KUBECONFIG_DATA is missing."
+          }
+          if ([string]::IsNullOrWhiteSpace($env:TELEGRAM_BOT_TOKEN)) {
+            Write-Error "TELEGRAM_BOT_TOKEN is missing."
+          }
+          if ([string]::IsNullOrWhiteSpace($env:TELEGRAM_CHAT_ID)) {
+            Write-Error "TELEGRAM_CHAT_ID is missing."
+          }
+
       - name: Set up kubectl
         uses: azure/setup-kubectl@v4
         with:
-          version: 'latest'
-      - name: Validate KUBECONFIG_DATA secret exists
-        shell: pwsh
-        env:
-          KUBECONFIG_DATA: ${{ secrets.KUBECONFIG_DATA }}
-        run: |
-          if ([string]::IsNullOrWhiteSpace($env:KUBECONFIG_DATA)) {
-            Write-Error "KUBECONFIG_DATA is missing. Add it in Repository/Environment Secrets."
-          }
+          version: latest
+
       - name: Set up Kubeconfig
         shell: pwsh
-        env:
-          KUBECONFIG_DATA: ${{ secrets.KUBECONFIG_DATA }}
         run: |
           New-Item -ItemType Directory -Force -Path "$HOME/.kube" | Out-Null
           [IO.File]::WriteAllBytes("$HOME/.kube/config", [Convert]::FromBase64String($env:KUBECONFIG_DATA))
+
       - name: Verify local lab cluster endpoint
         shell: pwsh
         run: |
           $apiServer = kubectl config view --minify -o jsonpath='{.clusters[0].cluster.server}'
           Write-Host "api_server=$apiServer"
           if ($apiServer -notmatch '^https://(127\.0\.0\.1|localhost):') {
-            Write-Error "lab-local deploy expects a localhost Kubernetes API. Use production for a remote cluster."
+            Write-Error "lab-local deploy expects a localhost Kubernetes API."
           }
+
+      - name: Verify Docker availability
+        shell: pwsh
+        run: docker version
+
+      - name: Log in to GHCR
+        shell: pwsh
+        run: |
+          $token = "${{ github.token }}"
+          $token | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
+
+      - name: Build and push identity engine
+        shell: pwsh
+        run: |
+          docker build -f deploy/docker/Dockerfile.identity-engine -t $env:IDENTITY_ENGINE_IMAGE .
+          docker push $env:IDENTITY_ENGINE_IMAGE
+
+      - name: Build and push phishing detector
+        shell: pwsh
+        run: |
+          docker build -f deploy/docker/Dockerfile.phishing-detector -t $env:PHISHING_DETECTOR_IMAGE .
+          docker push $env:PHISHING_DETECTOR_IMAGE
+
+      - name: Build and push sovereign dashboard
+        shell: pwsh
+        run: |
+          docker build -t $env:SOVEREIGN_DASHBOARD_IMAGE scaffold-sveltekit/dashboard-sveltekit
+          docker push $env:SOVEREIGN_DASHBOARD_IMAGE
+
       - name: Sync Telegram secret
         shell: pwsh
         run: |
@@ -270,10 +98,18 @@ jobs:
             --from-literal=bot-token="$env:TELEGRAM_BOT_TOKEN" `
             --from-literal=chat-id="$env:TELEGRAM_CHAT_ID" `
             --dry-run=client -o yaml | kubectl apply -f -
-      - name: Deploy to Kubernetes
+
+      - name: Deploy unified Omni-SOC stack
         shell: pwsh
         run: |
-          (Get-Content k8s/deployment.yaml -Raw).Replace('<DOCKER_IMAGE>', $env:DOCKER_IMAGE) | kubectl apply -f -
+          $deployment = Get-Content k8s/deployment.yaml -Raw
+          $deployment = $deployment.Replace('<IDENTITY_ENGINE_IMAGE>', $env:IDENTITY_ENGINE_IMAGE)
+          $deployment = $deployment.Replace('<PHISHING_DETECTOR_IMAGE>', $env:PHISHING_DETECTOR_IMAGE)
+          $deployment = $deployment.Replace('<SOVEREIGN_DASHBOARD_IMAGE>', $env:SOVEREIGN_DASHBOARD_IMAGE)
+          $deployment | kubectl apply -f -
           kubectl apply -f k8s/service.yaml
-          kubectl apply -f k8s/configmap.yaml
           kubectl apply -f k8s/ingress.yaml
+
+      - name: Wait for rollout
+        shell: pwsh
+        run: kubectl rollout status deployment/omni-soc-production --timeout=300s
