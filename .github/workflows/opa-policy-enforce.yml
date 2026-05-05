@@ -6,6 +6,7 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   policy-enforce:
@@ -73,8 +74,8 @@ jobs:
         id: notify_check
         if: always()
         env:
-          SMTP_SERVER: ${{ secrets.SMTP_SERVER }}
-          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+          SMTP_SERVER: ${{ vars.SMTP_SERVER || secrets.SMTP_SERVER }}
+          SMTP_PORT: ${{ vars.SMTP_PORT || '587' }}
           SMTP_USERNAME: ${{ secrets.SMTP_USERNAME }}
           SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
           NOTIFY_EMAIL: ${{ secrets.NOTIFY_EMAIL }}
@@ -104,8 +105,8 @@ jobs:
         if: always() && steps.notify_check.outputs.email_ready == 'true' && (steps.terraform_plan.outcome == 'failure' || steps.opa_check.outcome == 'failure' || steps.opa_check.outputs.violation == 'true')
         uses: dawidd6/action-send-mail@v3
         with:
-          server_address: ${{ secrets.SMTP_SERVER }}
-          server_port: ${{ secrets.SMTP_PORT }}
+          server_address: ${{ vars.SMTP_SERVER || secrets.SMTP_SERVER }}
+          server_port: ${{ vars.SMTP_PORT || '587' }}
           username: ${{ secrets.SMTP_USERNAME }}
           password: ${{ secrets.SMTP_PASSWORD }}
           subject: "OPA Policy Violations Detected"
