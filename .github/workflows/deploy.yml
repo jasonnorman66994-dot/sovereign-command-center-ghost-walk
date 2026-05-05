@@ -162,6 +162,10 @@ jobs:
     if: ${{ github.event_name != 'pull_request' && needs.preflight.outputs.docker_ready == 'true' && needs.preflight.outputs.k8s_ready == 'true' && needs.preflight.outputs.notify_ready == 'true' }}
     needs: [docker-build-push, preflight]
     runs-on: ubuntu-latest
+    env:
+      DOCKER_IMAGE: ${{ vars.DOCKER_IMAGE || format('ghcr.io/{0}/{1}', github.repository_owner, github.event.repository.name) }}
+      TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
     steps:
       - uses: actions/checkout@v4
       - name: Set up kubectl
@@ -183,6 +187,15 @@ jobs:
           echo "$KUBECONFIG_DATA" | base64 -d > "$HOME/.kube/config"
         env:
           KUBECONFIG_DATA: ${{ secrets.KUBECONFIG_DATA }}
+      - name: Sync Telegram secret
+        run: |
+          kubectl create secret generic telegram-secrets \
+            --from-literal=bot-token="$TELEGRAM_BOT_TOKEN" \
+            --from-literal=chat-id="$TELEGRAM_CHAT_ID" \
+            --dry-run=client -o yaml | kubectl apply -f -
       - name: Deploy to Kubernetes
         run: |
-          kubectl apply -f k8s/
+          sed "s|<DOCKER_IMAGE>|$DOCKER_IMAGE|g" k8s/deployment.yaml | kubectl apply -f -
+          kubectl apply -f k8s/service.yaml
+          kubectl apply -f k8s/configmap.yaml
+          kubectl apply -f k8s/ingress.yaml
