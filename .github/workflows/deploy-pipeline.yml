@@ -99,6 +99,7 @@ jobs:
 
       - name: Deployment skipped summary
         if: steps.preflight.outputs.can_deploy != 'true'
+        shell: cmd
         run: |
           echo "::notice::Deploy Identity Threat Pipeline completed in safe-skip mode."
           echo "::notice::Primary security gates remain unaffected (deploy.yml and opa-policy-enforce.yml)."
