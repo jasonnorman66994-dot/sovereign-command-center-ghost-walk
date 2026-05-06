@@ -100,7 +100,7 @@ jobs:
           ssh -v -o StrictHostKeyChecking=no -o ConnectTimeout=10 \
               -i ~/.ssh/id_rsa \
               "${SOC_SERVER_USER}@${SOC_SERVER_HOST}" \
-              "powershell -NoProfile -NonInteractive -Command \"\$dest='${SOC_DEPLOY_PATH}'; if (-not [System.IO.Path]::IsPathRooted(\$dest)) { \$dest = Join-Path \$env:USERPROFILE \$dest }; \$dir = Split-Path -Parent \$dest; if (\$dir) { New-Item -ItemType Directory -Force -Path \$dir | Out-Null }; \$content = [Console]::In.ReadToEnd(); [System.IO.File]::WriteAllText(\$dest, \$content, [System.Text.UTF8Encoding]::new(\$false)); Write-Host ('DEPLOYED ' + \$dest)\"" \
+              "\"C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe\" -NoProfile -NonInteractive -Command \"\$dest='${SOC_DEPLOY_PATH}'; if (-not [System.IO.Path]::IsPathRooted(\$dest)) { \$dest = Join-Path \$env:USERPROFILE \$dest }; \$dir = Split-Path -Parent \$dest; if (\$dir) { New-Item -ItemType Directory -Force -Path \$dir | Out-Null }; \$content = [Console]::In.ReadToEnd(); [System.IO.File]::WriteAllText(\$dest, \$content, [System.Text.UTF8Encoding]::new(\$false)); Write-Host ('DEPLOYED ' + \$dest)\"" \
               < ./auto_format_and_send_alerts.ps1
 
       - name: Deployment skipped summary
