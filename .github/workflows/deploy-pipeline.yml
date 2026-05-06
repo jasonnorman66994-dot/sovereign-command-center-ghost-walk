@@ -25,7 +25,7 @@ jobs:
           SOC_SERVER_USER: ${{ secrets.SOC_SERVER_USER }}
           SOC_DEPLOY_PATH: ${{ secrets.SOC_DEPLOY_PATH }}
           SOC_DEPLOY_STRICT: ${{ vars.SOC_DEPLOY_STRICT }}
-        shell: pwsh
+        shell: powershell
         run: |
           $canDeploy = $true
 
@@ -81,7 +81,7 @@ jobs:
         if: steps.preflight.outputs.can_deploy == 'true'
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SOC_SERVER_KEY }}
-        shell: pwsh
+        shell: powershell
         run: |
           $sshDir = Join-Path $HOME '.ssh'
           $null = New-Item -Path $sshDir -ItemType Directory -Force
@@ -95,7 +95,7 @@ jobs:
           SOC_SERVER_HOST: ${{ secrets.SOC_SERVER_HOST }}
           SOC_SERVER_USER: ${{ secrets.SOC_SERVER_USER }}
           SOC_DEPLOY_PATH: ${{ secrets.SOC_DEPLOY_PATH }}
-        shell: pwsh
+        shell: powershell
         run: |
           $keyPath = Join-Path (Join-Path $HOME '.ssh') 'id_rsa'
           $scp = (Get-Command scp -ErrorAction SilentlyContinue).Source
