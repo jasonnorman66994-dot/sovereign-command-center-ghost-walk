@@ -96,8 +96,8 @@ jobs:
               -o ConnectTimeout=10 -i ~/.ssh/id_rsa \
               "${SOC_SERVER_USER}@${SOC_SERVER_HOST}" echo 'SSH_OK' 2>&1 || true
           echo "::endgroup::"
-          # SCP file transfer
-          scp -v -o StrictHostKeyChecking=no -o ConnectTimeout=10 \
+          # SCP file transfer (force legacy SCP protocol; Windows OpenSSH SFTP can exit status 1)
+          scp -O -v -o StrictHostKeyChecking=no -o ConnectTimeout=10 \
               -i ~/.ssh/id_rsa \
               ./auto_format_and_send_alerts.ps1 \
               "${SOC_SERVER_USER}@${SOC_SERVER_HOST}:${SOC_DEPLOY_PATH}"
