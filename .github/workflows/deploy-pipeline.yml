@@ -25,68 +25,57 @@ jobs:
           SOC_SERVER_USER: ${{ secrets.SOC_SERVER_USER }}
           SOC_DEPLOY_PATH: ${{ secrets.SOC_DEPLOY_PATH }}
           SOC_DEPLOY_STRICT: ${{ vars.SOC_DEPLOY_STRICT }}
-        shell: powershell
+        shell: cmd
         run: |
-          $canDeploy = $true
+          @echo off
+          set "can_deploy=true"
 
-          if ([string]::IsNullOrWhiteSpace($env:SSH_PRIVATE_KEY)) {
-            Write-Host "::warning::SOC_SERVER_KEY is not configured. SSH deploy will be skipped."
-            $canDeploy = $false
-          }
+          if "%SSH_PRIVATE_KEY%"=="" (
+            echo ::warning::SOC_SERVER_KEY is not configured. SSH deploy will be skipped.
+            set "can_deploy=false"
+          )
 
-          if ([string]::IsNullOrWhiteSpace($env:SOC_SERVER_HOST)) {
-            Write-Host "::warning::SOC_SERVER_HOST is not configured. SSH deploy will be skipped."
-            $canDeploy = $false
-          }
+          if "%SOC_SERVER_HOST%"=="" (
+            echo ::warning::SOC_SERVER_HOST is not configured. SSH deploy will be skipped.
+            set "can_deploy=false"
+          )
 
-          if ([string]::IsNullOrWhiteSpace($env:SOC_SERVER_USER)) {
-            Write-Host "::warning::SOC_SERVER_USER is not configured. SSH deploy will be skipped."
-            $canDeploy = $false
-          }
+          if "%SOC_SERVER_USER%"=="" (
+            echo ::warning::SOC_SERVER_USER is not configured. SSH deploy will be skipped.
+            set "can_deploy=false"
+          )
 
-          if ([string]::IsNullOrWhiteSpace($env:SOC_DEPLOY_PATH)) {
-            Write-Host "::warning::SOC_DEPLOY_PATH is not configured. SSH deploy will be skipped."
-            $canDeploy = $false
-          }
+          if "%SOC_DEPLOY_PATH%"=="" (
+            echo ::warning::SOC_DEPLOY_PATH is not configured. SSH deploy will be skipped.
+            set "can_deploy=false"
+          )
 
-          if ($canDeploy) {
-            $client = New-Object System.Net.Sockets.TcpClient
-            try {
-              $async = $client.BeginConnect($env:SOC_SERVER_HOST, 22, $null, $null)
-              $reachable = $async.AsyncWaitHandle.WaitOne(5000)
-              if ($reachable) {
-                $client.EndConnect($async)
-              }
-            } catch {
-              $reachable = $false
-            } finally {
-              $client.Close()
-            }
+          if /I "%can_deploy%"=="true" (
+            powershell -NoLogo -NoProfile -NonInteractive -ExecutionPolicy Bypass -Command "$c=New-Object System.Net.Sockets.TcpClient; try { $a=$c.BeginConnect('%SOC_SERVER_HOST%',22,$null,$null); if($a.AsyncWaitHandle.WaitOne(5000)){ $c.EndConnect($a); exit 0 } else { exit 1 } } catch { exit 1 } finally { $c.Close() }"
+            if errorlevel 1 (
+              echo ::warning::SSH target %SOC_SERVER_HOST%:22 is unreachable. SSH deploy will be skipped.
+              set "can_deploy=false"
+            ) else (
+              echo ::notice::SSH target reachable on port 22.
+            )
+          )
 
-            if ($reachable) {
-              Write-Host "::notice::SSH target reachable on port 22."
-            } else {
-              Write-Host "::warning::SSH target $($env:SOC_SERVER_HOST):22 is unreachable. SSH deploy will be skipped."
-              $canDeploy = $false
-            }
-          }
+          echo can_deploy=%can_deploy%>> "%GITHUB_OUTPUT%"
 
-          "can_deploy=$($canDeploy.ToString().ToLower())" >> $env:GITHUB_OUTPUT
-
-          if ((-not $canDeploy) -and ($env:SOC_DEPLOY_STRICT -eq 'true')) {
-            Write-Error 'SOC_DEPLOY_STRICT=true and SSH deployment prerequisites are not met.'
-          }
+          if /I "%can_deploy%" NEQ "true" if /I "%SOC_DEPLOY_STRICT%"=="true" (
+            echo ::error::SOC_DEPLOY_STRICT=true and SSH deployment prerequisites are not met.
+            exit /b 1
+          )
 
       - name: Prepare SSH key
         if: steps.preflight.outputs.can_deploy == 'true'
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SOC_SERVER_KEY }}
-        shell: powershell
+        shell: cmd
         run: |
-          $sshDir = Join-Path $HOME '.ssh'
-          $null = New-Item -Path $sshDir -ItemType Directory -Force
-          $keyPath = Join-Path $sshDir 'id_rsa'
-          Set-Content -Path $keyPath -Value $env:SSH_PRIVATE_KEY -NoNewline
+          @echo off
+          if not exist "%USERPROFILE%\.ssh" mkdir "%USERPROFILE%\.ssh"
+          powershell -NoLogo -NoProfile -NonInteractive -ExecutionPolicy Bypass -Command "[System.IO.File]::WriteAllText($env:USERPROFILE + '\\.ssh\\id_rsa', $env:SSH_PRIVATE_KEY)"
 
       - name: Deploy to Command Center
         if: steps.preflight.outputs.can_deploy == 'true'
@@ -95,21 +84,18 @@ jobs:
           SOC_SERVER_HOST: ${{ secrets.SOC_SERVER_HOST }}
           SOC_SERVER_USER: ${{ secrets.SOC_SERVER_USER }}
           SOC_DEPLOY_PATH: ${{ secrets.SOC_DEPLOY_PATH }}
-        shell: powershell
+        shell: cmd
         run: |
-          $keyPath = Join-Path (Join-Path $HOME '.ssh') 'id_rsa'
-          $scp = (Get-Command scp -ErrorAction SilentlyContinue).Source
-          if (-not $scp) {
-            $scp = 'C:\Windows\System32\OpenSSH\scp.exe'
-          }
-          if (-not (Test-Path $scp)) {
-            throw 'scp executable not found on runner.'
-          }
+          @echo off
+          set "SCP_EXE=scp"
+          where scp >nul 2>nul || set "SCP_EXE=C:\Windows\System32\OpenSSH\scp.exe"
+          if not exist "%SCP_EXE%" (
+            echo scp executable not found on runner.
+            exit /b 1
+          )
 
-          & $scp -o StrictHostKeyChecking=no -i $keyPath ./auto_format_and_send_alerts.ps1 "$($env:SOC_SERVER_USER)@$($env:SOC_SERVER_HOST):$($env:SOC_DEPLOY_PATH)"
-          if ($LASTEXITCODE -ne 0) {
-            throw "scp failed with exit code $LASTEXITCODE"
-          }
+          "%SCP_EXE%" -o StrictHostKeyChecking=no -i "%USERPROFILE%\.ssh\id_rsa" .\auto_format_and_send_alerts.ps1 "%SOC_SERVER_USER%@%SOC_SERVER_HOST%:%SOC_DEPLOY_PATH%"
+          if errorlevel 1 exit /b 1
 
       - name: Deployment skipped summary
         if: steps.preflight.outputs.can_deploy != 'true'
