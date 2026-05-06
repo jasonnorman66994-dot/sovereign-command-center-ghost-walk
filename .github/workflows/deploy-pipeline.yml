@@ -72,19 +72,35 @@ jobs:
         shell: bash
         run: |
           install -m 700 -d ~/.ssh
-          printf "%s\n" "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+          # Write key ensuring proper PEM line endings
+          printf '%s' "$SSH_PRIVATE_KEY" | sed 's/\r//' > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
+          # Validate key is parseable
+          if ! ssh-keygen -y -f ~/.ssh/id_rsa > ~/.ssh/id_rsa.pub 2>/tmp/keygen_err; then
+            echo "::error::SSH private key is invalid or malformed: $(cat /tmp/keygen_err)"
+            exit 1
+          fi
+          echo "::notice::SSH key validated successfully ($(ssh-keygen -l -f ~/.ssh/id_rsa.pub 2>/dev/null | awk '{print $1,$4}'))"
 
       - name: Deploy to Command Center
         if: steps.preflight.outputs.can_deploy == 'true'
         env:
-          SSH_PRIVATE_KEY: ${{ secrets.SOC_SERVER_KEY }}
           SOC_SERVER_HOST: ${{ secrets.SOC_SERVER_HOST }}
           SOC_SERVER_USER: ${{ secrets.SOC_SERVER_USER }}
           SOC_DEPLOY_PATH: ${{ secrets.SOC_DEPLOY_PATH }}
         shell: bash
         run: |
-          scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ./auto_format_and_send_alerts.ps1 "${SOC_SERVER_USER}@${SOC_SERVER_HOST}:${SOC_DEPLOY_PATH}"
+          # Verbose SSH test to surface auth rejection details
+          echo "::group::SSH connectivity test (verbose)"
+          ssh -v -o StrictHostKeyChecking=no -o BatchMode=yes \
+              -o ConnectTimeout=10 -i ~/.ssh/id_rsa \
+              "${SOC_SERVER_USER}@${SOC_SERVER_HOST}" echo 'SSH_OK' 2>&1 || true
+          echo "::endgroup::"
+          # SCP file transfer
+          scp -v -o StrictHostKeyChecking=no -o ConnectTimeout=10 \
+              -i ~/.ssh/id_rsa \
+              ./auto_format_and_send_alerts.ps1 \
+              "${SOC_SERVER_USER}@${SOC_SERVER_HOST}:${SOC_DEPLOY_PATH}"
 
       - name: Deployment skipped summary
         if: steps.preflight.outputs.can_deploy != 'true'
