@@ -25,55 +25,56 @@ jobs:
           SOC_SERVER_USER: ${{ secrets.SOC_SERVER_USER }}
           SOC_DEPLOY_PATH: ${{ secrets.SOC_DEPLOY_PATH }}
           SOC_DEPLOY_STRICT: ${{ vars.SOC_DEPLOY_STRICT }}
-        shell: bash
+        shell: pwsh
         run: |
-          can_deploy=true
+          $canDeploy = $true
 
-          if [ -z "$SSH_PRIVATE_KEY" ]; then
-            echo "::warning::SOC_SERVER_KEY is not configured. SSH deploy will be skipped."
-            can_deploy=false
-          fi
+          if ([string]::IsNullOrWhiteSpace($env:SSH_PRIVATE_KEY)) {
+            Write-Host "::warning::SOC_SERVER_KEY is not configured. SSH deploy will be skipped."
+            $canDeploy = $false
+          }
 
-          if [ -z "$SOC_SERVER_HOST" ]; then
-            echo "::warning::SOC_SERVER_HOST is not configured. SSH deploy will be skipped."
-            can_deploy=false
-          fi
+          if ([string]::IsNullOrWhiteSpace($env:SOC_SERVER_HOST)) {
+            Write-Host "::warning::SOC_SERVER_HOST is not configured. SSH deploy will be skipped."
+            $canDeploy = $false
+          }
 
-          if [ -z "$SOC_SERVER_USER" ]; then
-            echo "::warning::SOC_SERVER_USER is not configured. SSH deploy will be skipped."
-            can_deploy=false
-          fi
+          if ([string]::IsNullOrWhiteSpace($env:SOC_SERVER_USER)) {
+            Write-Host "::warning::SOC_SERVER_USER is not configured. SSH deploy will be skipped."
+            $canDeploy = $false
+          }
 
-          if [ -z "$SOC_DEPLOY_PATH" ]; then
-            echo "::warning::SOC_DEPLOY_PATH is not configured. SSH deploy will be skipped."
-            can_deploy=false
-          fi
+          if ([string]::IsNullOrWhiteSpace($env:SOC_DEPLOY_PATH)) {
+            Write-Host "::warning::SOC_DEPLOY_PATH is not configured. SSH deploy will be skipped."
+            $canDeploy = $false
+          }
 
-          if [ "$can_deploy" = "true" ]; then
-            if timeout 5 bash -c "</dev/tcp/$SOC_SERVER_HOST/22" 2>/dev/null; then
-              echo "::notice::SSH target reachable on port 22."
-            else
-              echo "::warning::SSH target $SOC_SERVER_HOST:22 is unreachable. SSH deploy will be skipped."
-              can_deploy=false
-            fi
-          fi
+          if ($canDeploy) {
+            $reachable = Test-NetConnection -ComputerName $env:SOC_SERVER_HOST -Port 22 -InformationLevel Quiet
+            if ($reachable) {
+              Write-Host "::notice::SSH target reachable on port 22."
+            } else {
+              Write-Host "::warning::SSH target $($env:SOC_SERVER_HOST):22 is unreachable. SSH deploy will be skipped."
+              $canDeploy = $false
+            }
+          }
 
-          echo "can_deploy=$can_deploy" >> "$GITHUB_OUTPUT"
+          "can_deploy=$($canDeploy.ToString().ToLower())" >> $env:GITHUB_OUTPUT
 
-          if [ "$can_deploy" != "true" ] && [ "$SOC_DEPLOY_STRICT" = "true" ]; then
-            echo "::error::SOC_DEPLOY_STRICT=true and SSH deployment prerequisites are not met."
-            exit 1
-          fi
+          if ((-not $canDeploy) -and ($env:SOC_DEPLOY_STRICT -eq 'true')) {
+            Write-Error 'SOC_DEPLOY_STRICT=true and SSH deployment prerequisites are not met.'
+          }
 
       - name: Prepare SSH key
         if: steps.preflight.outputs.can_deploy == 'true'
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SOC_SERVER_KEY }}
-        shell: bash
+        shell: pwsh
         run: |
-          install -m 700 -d ~/.ssh
-          printf "%s\n" "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
+          $sshDir = Join-Path $HOME '.ssh'
+          $null = New-Item -Path $sshDir -ItemType Directory -Force
+          $keyPath = Join-Path $sshDir 'id_rsa'
+          Set-Content -Path $keyPath -Value $env:SSH_PRIVATE_KEY -NoNewline
 
       - name: Deploy to Command Center
         if: steps.preflight.outputs.can_deploy == 'true'
@@ -82,9 +83,21 @@ jobs:
           SOC_SERVER_HOST: ${{ secrets.SOC_SERVER_HOST }}
           SOC_SERVER_USER: ${{ secrets.SOC_SERVER_USER }}
           SOC_DEPLOY_PATH: ${{ secrets.SOC_DEPLOY_PATH }}
-        shell: bash
+        shell: pwsh
         run: |
-          scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ./auto_format_and_send_alerts.ps1 "${SOC_SERVER_USER}@${SOC_SERVER_HOST}:${SOC_DEPLOY_PATH}"
+          $keyPath = Join-Path (Join-Path $HOME '.ssh') 'id_rsa'
+          $scp = (Get-Command scp -ErrorAction SilentlyContinue).Source
+          if (-not $scp) {
+            $scp = 'C:\Windows\System32\OpenSSH\scp.exe'
+          }
+          if (-not (Test-Path $scp)) {
+            throw 'scp executable not found on runner.'
+          }
+
+          & $scp -o StrictHostKeyChecking=no -i $keyPath ./auto_format_and_send_alerts.ps1 "$($env:SOC_SERVER_USER)@$($env:SOC_SERVER_HOST):$($env:SOC_DEPLOY_PATH)"
+          if ($LASTEXITCODE -ne 0) {
+            throw "scp failed with exit code $LASTEXITCODE"
+          }
 
       - name: Deployment skipped summary
         if: steps.preflight.outputs.can_deploy != 'true'
