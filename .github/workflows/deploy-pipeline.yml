@@ -10,11 +10,12 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Hardening & Linting
-        shell: pwsh
+        shell: cmd
         run: |
-          if (-not (Test-Path './auto_format_and_send_alerts.ps1')) {
-            Write-Error 'auto_format_and_send_alerts.ps1 is missing.'
-          }
+          if not exist auto_format_and_send_alerts.ps1 (
+            echo auto_format_and_send_alerts.ps1 is missing.
+            exit /b 1
+          )
 
       - name: Preflight SSH deployment readiness
         id: preflight
