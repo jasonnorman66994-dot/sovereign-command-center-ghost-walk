@@ -72,8 +72,8 @@ jobs:
         shell: bash
         run: |
           install -m 700 -d ~/.ssh
-          # Write key ensuring proper PEM line endings
-          printf '%s' "$SSH_PRIVATE_KEY" | sed 's/\r//' > ~/.ssh/id_rsa
+          # Write key ensuring proper PEM line endings (echo adds required trailing newline)
+          printf '%s\n' "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           # Validate key is parseable
           if ! ssh-keygen -y -f ~/.ssh/id_rsa > ~/.ssh/id_rsa.pub 2>/tmp/keygen_err; then
