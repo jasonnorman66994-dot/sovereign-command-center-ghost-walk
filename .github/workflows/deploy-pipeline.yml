@@ -5,7 +5,7 @@ on:
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Windows, lab-k8s]
     steps:
       - uses: actions/checkout@v3
 
