@@ -96,11 +96,12 @@ jobs:
               -o ConnectTimeout=10 -i ~/.ssh/id_rsa \
               "${SOC_SERVER_USER}@${SOC_SERVER_HOST}" echo 'SSH_OK' 2>&1 || true
           echo "::endgroup::"
-          # SCP file transfer (force legacy SCP protocol; Windows OpenSSH SFTP can exit status 1)
-          scp -O -v -o StrictHostKeyChecking=no -o ConnectTimeout=10 \
+          # Upload file through SSH stdin to avoid Windows OpenSSH scp/sftp subsystem issues.
+          ssh -v -o StrictHostKeyChecking=no -o ConnectTimeout=10 \
               -i ~/.ssh/id_rsa \
-              ./auto_format_and_send_alerts.ps1 \
-              "${SOC_SERVER_USER}@${SOC_SERVER_HOST}:${SOC_DEPLOY_PATH}"
+              "${SOC_SERVER_USER}@${SOC_SERVER_HOST}" \
+              "powershell -NoProfile -NonInteractive -Command \"\$dest='${SOC_DEPLOY_PATH}'; if (-not [System.IO.Path]::IsPathRooted(\$dest)) { \$dest = Join-Path \$env:USERPROFILE \$dest }; \$dir = Split-Path -Parent \$dest; if (\$dir) { New-Item -ItemType Directory -Force -Path \$dir | Out-Null }; \$content = [Console]::In.ReadToEnd(); [System.IO.File]::WriteAllText(\$dest, \$content, [System.Text.UTF8Encoding]::new(\$false)); Write-Host ('DEPLOYED ' + \$dest)\"" \
+              < ./auto_format_and_send_alerts.ps1
 
       - name: Deployment skipped summary
         if: steps.preflight.outputs.can_deploy != 'true'
