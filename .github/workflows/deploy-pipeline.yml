@@ -50,7 +50,19 @@ jobs:
           }
 
           if ($canDeploy) {
-            $reachable = Test-NetConnection -ComputerName $env:SOC_SERVER_HOST -Port 22 -InformationLevel Quiet
+            $client = New-Object System.Net.Sockets.TcpClient
+            try {
+              $async = $client.BeginConnect($env:SOC_SERVER_HOST, 22, $null, $null)
+              $reachable = $async.AsyncWaitHandle.WaitOne(5000)
+              if ($reachable) {
+                $client.EndConnect($async)
+              }
+            } catch {
+              $reachable = $false
+            } finally {
+              $client.Close()
+            }
+
             if ($reachable) {
               Write-Host "::notice::SSH target reachable on port 22."
             } else {
